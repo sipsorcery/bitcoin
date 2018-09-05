@@ -21,6 +21,8 @@ install:
        }
 - cmd: git -C C:\Tools\vcpkg pull # This is a temporary fix, can be removed after appveyor update its image to include Microsoft/vcpkg#4046
 - cmd: vcpkg install %ALL_PACKAGES%
+- cmd: vcpkg upgrade --no-dry-run
+- cmd: del /s /q C:\Tools\vcpkg\installed\%PLATFORM%-windows-static\debug # Remove unused debug library
 before_build:
 - cmd: if not exist build_msvc\cache\ (del build_msvc\cache & mkdir build_msvc\cache)
 - cmd: if not exist build_msvc\%PLATFORM%\%CONFIGURATION%\ (mkdir build_msvc\%PLATFORM%\%CONFIGURATION%)
