@@ -750,11 +750,7 @@ static UniValue submitblock(const JSONRPCRequest& request)
     RegisterValidationInterface(&sc);
     bool accepted = ProcessNewBlock(Params(), blockptr, /* fForceProcessing */ true, /* fNewBlock */ &new_block);
     UnregisterValidationInterface(&sc);
-    if (!new_block) {
-        if (!accepted) {
-            // TODO Maybe pass down fNewBlock to AcceptBlockHeader, so it is properly set to true in this case?
-            return "invalid";
-        }
+    if (!new_block && accepted) {
         return "duplicate";
     }
     if (!sc.found) {
@@ -968,6 +964,7 @@ static UniValue estimaterawfee(const JSONRPCRequest& request)
     return result;
 }
 
+// clang-format off
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         argNames
   //  --------------------- ------------------------  -----------------------  ----------
@@ -986,6 +983,7 @@ static const CRPCCommand commands[] =
 
     { "hidden",             "estimaterawfee",         &estimaterawfee,         {"conf_target", "threshold"} },
 };
+// clang-format on
 
 void RegisterMiningRPCCommands(CRPCTable &t)
 {

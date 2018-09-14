@@ -687,6 +687,7 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
         {
             encrypted_batch->TxnAbort();
             delete encrypted_batch;
+            encrypted_batch = nullptr;
             // We now probably have half of our keys encrypted in memory, and half not...
             // die and let the user reload the unencrypted wallet.
             assert(false);
@@ -697,6 +698,7 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
 
         if (!encrypted_batch->TxnCommit()) {
             delete encrypted_batch;
+            encrypted_batch = nullptr;
             // We now have keys encrypted in memory, but not on disk...
             // die to avoid confusion and let the user reload the unencrypted wallet.
             assert(false);
@@ -719,6 +721,11 @@ bool CWallet::EncryptWallet(const SecureString& strWalletPassphrase)
         // Need to completely rewrite the wallet file; if we don't, bdb might keep
         // bits of the unencrypted private key in slack space in the database file.
         database->Rewrite();
+
+        // BDB seems to have a bad habit of writing old data into
+        // slack space in .dat files; that is bad if the old data is
+        // unencrypted private keys. So:
+        database->ReloadDbEnv();
 
     }
     NotifyStatusChanged(this);
@@ -2655,7 +2662,7 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CTransac
                 scriptChange = GetScriptForDestination(GetDestinationForKey(vchPubKey, change_type));
             }
             CTxOut change_prototype_txout(0, scriptChange);
-            coin_selection_params.change_output_size = GetSerializeSize(change_prototype_txout, SER_DISK, 0);
+            coin_selection_params.change_output_size = GetSerializeSize(change_prototype_txout);
 
             CFeeRate discard_rate = GetDiscardRate(*this, ::feeEstimator);
 
@@ -2699,7 +2706,7 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CTransac
                         }
                     }
                     // Include the fee cost for outputs. Note this is only used for BnB right now
-                    coin_selection_params.tx_noinputs_size += ::GetSerializeSize(txout, SER_NETWORK, PROTOCOL_VERSION);
+                    coin_selection_params.tx_noinputs_size += ::GetSerializeSize(txout, PROTOCOL_VERSION);
 
                     if (IsDust(txout, ::dustRelayFee))
                     {
@@ -3847,7 +3854,7 @@ bool CWallet::Verify(std::string wallet_file, bool salvage_wallet, std::string& 
             return false;
         }
     } catch (const fs::filesystem_error& e) {
-        error_string = strprintf("Error loading wallet %s. %s", wallet_file, e.what());
+        error_string = strprintf("Error loading wallet %s. %s", wallet_file, fsbridge::get_filesystem_error_message(e));
         return false;
     }
 

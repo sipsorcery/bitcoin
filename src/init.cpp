@@ -74,33 +74,6 @@ static const bool DEFAULT_STOPAFTERBLOCKIMPORT = false;
 std::unique_ptr<CConnman> g_connman;
 std::unique_ptr<PeerLogicValidation> peerLogic;
 
-#if !(ENABLE_WALLET)
-class DummyWalletInit : public WalletInitInterface {
-public:
-
-    void AddWalletOptions() const override;
-    bool ParameterInteraction() const override {return true;}
-    void RegisterRPC(CRPCTable &) const override {}
-    bool Verify() const override {return true;}
-    bool Open() const override {LogPrintf("No wallet support compiled in!\n"); return true;}
-    void Start(CScheduler& scheduler) const override {}
-    void Flush() const override {}
-    void Stop() const override {}
-    void Close() const override {}
-};
-
-void DummyWalletInit::AddWalletOptions() const
-{
-    std::vector<std::string> opts = {"-addresstype", "-changetype", "-disablewallet", "-discardfee=<amt>", "-fallbackfee=<amt>",
-        "-keypool=<n>", "-mintxfee=<amt>", "-paytxfee=<amt>", "-rescan", "-salvagewallet", "-spendzeroconfchange",  "-txconfirmtarget=<n>",
-        "-upgradewallet", "-wallet=<path>", "-walletbroadcast", "-walletdir=<dir>", "-walletnotify=<cmd>", "-walletrbf", "-zapwallettxes=<mode>",
-        "-dblogsize=<n>", "-flushwallet", "-privdb", "-walletrejectlongchains"};
-    gArgs.AddHiddenArgs(opts);
-}
-
-const WalletInitInterface& g_wallet_init_interface = DummyWalletInit();
-#endif
-
 #ifdef WIN32
 // Win32 LevelDB doesn't use filedescriptors, and the ones used for
 // accessing block files don't count towards the fd_set size limit
@@ -388,7 +361,7 @@ void SetupServerArgs()
             "Warning: Reverting this setting requires re-downloading the entire blockchain. "
             "(default: 0 = disable pruning blocks, 1 = allow manual pruning via RPC, >=%u = automatically prune block files to stay under the specified target size in MiB)", MIN_DISK_SPACE_FOR_BLOCK_FILES / 1024 / 1024), false, OptionsCategory::OPTIONS);
     gArgs.AddArg("-reindex", "Rebuild chain state and block index from the blk*.dat files on disk", false, OptionsCategory::OPTIONS);
-    gArgs.AddArg("-reindex-chainstate", "Rebuild chain state from the currently indexed blocks", false, OptionsCategory::OPTIONS);
+    gArgs.AddArg("-reindex-chainstate", "Rebuild chain state from the currently indexed blocks. When in pruning mode or if blocks on disk might be corrupted, use full -reindex instead.", false, OptionsCategory::OPTIONS);
 #ifndef WIN32
     gArgs.AddArg("-sysperms", "Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)", false, OptionsCategory::OPTIONS);
 #else
@@ -470,7 +443,7 @@ void SetupServerArgs()
     gArgs.AddArg("-debug=<category>", "Output debugging information (default: -nodebug, supplying <category> is optional). "
         "If <category> is not supplied or if <category> = 1, output all debugging information. <category> can be: " + ListLogCategories() + ".", false, OptionsCategory::DEBUG_TEST);
     gArgs.AddArg("-debugexclude=<category>", strprintf("Exclude debugging information for a category. Can be used in conjunction with -debug=1 to output debug logs for all categories except one or more specified categories."), false, OptionsCategory::DEBUG_TEST);
-    gArgs.AddArg("-help-debug", "Show all debugging options (usage: --help -help-debug)", false, OptionsCategory::DEBUG_TEST);
+    gArgs.AddArg("-help-debug", "Print help message with debugging options and exit", false, OptionsCategory::DEBUG_TEST);
     gArgs.AddArg("-logips", strprintf("Include IP addresses in debug output (default: %u)", DEFAULT_LOGIPS), false, OptionsCategory::DEBUG_TEST);
     gArgs.AddArg("-logtimestamps", strprintf("Prepend debug output with timestamp (default: %u)", DEFAULT_LOGTIMESTAMPS), false, OptionsCategory::DEBUG_TEST);
     gArgs.AddArg("-logtimemicros", strprintf("Add microsecond precision to debug timestamps (default: %u)", DEFAULT_LOGTIMEMICROS), true, OptionsCategory::DEBUG_TEST);
@@ -1245,7 +1218,19 @@ bool AppInitMain()
         LogPrintf("Startup time: %s\n", FormatISO8601DateTime(GetTime()));
     LogPrintf("Default data directory %s\n", GetDefaultDataDir().string());
     LogPrintf("Using data directory %s\n", GetDataDir().string());
-    LogPrintf("Using config file %s\n", GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME)).string());
+
+    // Only log conf file usage message if conf file actually exists.
+    fs::path config_file_path = GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME));
+    if (fs::exists(config_file_path)) {
+        LogPrintf("Config file: %s\n", config_file_path.string());
+    } else if (gArgs.IsArgSet("-conf")) {
+        // Warn if no conf file exists at path provided by user
+        InitWarning(strprintf(_("The specified config file %s does not exist\n"), config_file_path.string()));
+    } else {
+        // Not categorizing as "Warning" because it's the default behavior
+        LogPrintf("Config file: %s (not found, skipping)\n", config_file_path.string());
+    }
+
     LogPrintf("Using at most %i automatic connections (%i file descriptors available)\n", nMaxConnections, nFD);
 
     // Warn about relative -datadir path.
