@@ -83,8 +83,11 @@ if BUILD_BITCOIND
   bin_PROGRAMS += bitcoind
 endif
 
-if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += bitcoin-cli bitcoin-tx
+if BUILD_BITCOIN_CLI
+  bin_PROGRAMS += bitcoin-cli
+endif
+if BUILD_BITCOIN_TX
+  bin_PROGRAMS += bitcoin-tx
 endif
 
 .PHONY: FORCE check-symbols check-security
@@ -187,6 +190,7 @@ BITCOIN_CORE_H = \
   validation.h \
   validationinterface.h \
   versionbits.h \
+  versionbitsinfo.h \
   walletinitinterface.h \
   wallet/coincontrol.h \
   wallet/crypter.h \
@@ -400,6 +404,7 @@ libbitcoin_common_a_SOURCES = \
   script/ismine.cpp \
   script/sign.cpp \
   script/standard.cpp \
+  versionbitsinfo.cpp \
   warnings.cpp \
   $(BITCOIN_CORE_H)
 
