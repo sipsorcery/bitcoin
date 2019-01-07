@@ -3,12 +3,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <util.h>
+#include <util/system.h>
 
 #include <chainparamsbase.h>
 #include <random.h>
 #include <serialize.h>
-#include <utilstrencodings.h>
+#include <util/strencodings.h>
 
 #include <stdarg.h>
 
@@ -61,6 +61,7 @@
 #include <codecvt>
 
 #include <io.h> /* for _commit */
+#include <shellapi.h>
 #include <shlobj.h>
 #endif
 
@@ -72,7 +73,6 @@
 #include <malloc.h>
 #endif
 
-#include <boost/thread.hpp>
 #include <openssl/crypto.h>
 #include <openssl/rand.h>
 #include <openssl/conf.h>
@@ -371,15 +371,17 @@ ArgsManager::ArgsManager() :
     // nothing to do
 }
 
-void ArgsManager::WarnForSectionOnlyArgs()
+const std::set<std::string> ArgsManager::GetUnsuitableSectionOnlyArgs() const
 {
+    std::set<std::string> unsuitables;
+
     LOCK(cs_args);
 
     // if there's no section selected, don't worry
-    if (m_network.empty()) return;
+    if (m_network.empty()) return std::set<std::string> {};
 
     // if it's okay to use the default section for this network, don't worry
-    if (m_network == CBaseChainParams::MAIN) return;
+    if (m_network == CBaseChainParams::MAIN) return std::set<std::string> {};
 
     for (const auto& arg : m_network_only_args) {
         std::pair<bool, std::string> found_result;
@@ -397,8 +399,28 @@ void ArgsManager::WarnForSectionOnlyArgs()
         if (!found_result.first) continue;
 
         // otherwise, issue a warning
-        LogPrintf("Warning: Config setting for %s only applied on %s network when in [%s] section.\n", arg, m_network, m_network);
+        unsuitables.insert(arg);
     }
+    return unsuitables;
+}
+
+
+const std::set<std::string> ArgsManager::GetUnrecognizedSections() const
+{
+    // Section names to be recognized in the config file.
+    static const std::set<std::string> available_sections{
+        CBaseChainParams::REGTEST,
+        CBaseChainParams::TESTNET,
+        CBaseChainParams::MAIN
+    };
+    std::set<std::string> diff;
+
+    LOCK(cs_args);
+    std::set_difference(
+        m_config_sections.begin(), m_config_sections.end(),
+        available_sections.begin(), available_sections.end(),
+        std::inserter(diff, diff.end()));
+    return diff;
 }
 
 void ArgsManager::SelectConfigNetwork(const std::string& network)
@@ -660,7 +682,7 @@ std::string ArgsManager::GetHelpMessage() const
 
 bool HelpRequested(const ArgsManager& args)
 {
-    return args.IsArgSet("-?") || args.IsArgSet("-h") || args.IsArgSet("-help");
+    return args.IsArgSet("-?") || args.IsArgSet("-h") || args.IsArgSet("-help") || args.IsArgSet("-help-debug");
 }
 
 static const int screenWidth = 79;
@@ -819,27 +841,38 @@ static std::string TrimString(const std::string& str, const std::string& pattern
     return str.substr(front, end - front + 1);
 }
 
-static bool GetConfigOptions(std::istream& stream, std::string& error, std::vector<std::pair<std::string, std::string>> &options)
+static bool GetConfigOptions(std::istream& stream, std::string& error, std::vector<std::pair<std::string, std::string>>& options, std::set<std::string>& sections)
 {
     std::string str, prefix;
     std::string::size_type pos;
     int linenr = 1;
     while (std::getline(stream, str)) {
+        bool used_hash = false;
         if ((pos = str.find('#')) != std::string::npos) {
             str = str.substr(0, pos);
+            used_hash = true;
         }
         const static std::string pattern = " \t\r\n";
         str = TrimString(str, pattern);
         if (!str.empty()) {
             if (*str.begin() == '[' && *str.rbegin() == ']') {
-                prefix = str.substr(1, str.size() - 2) + '.';
+                const std::string section = str.substr(1, str.size() - 2);
+                sections.insert(section);
+                prefix = section + '.';
             } else if (*str.begin() == '-') {
                 error = strprintf("parse error on line %i: %s, options in configuration file must be specified without leading -", linenr, str);
                 return false;
             } else if ((pos = str.find('=')) != std::string::npos) {
                 std::string name = prefix + TrimString(str.substr(0, pos), pattern);
                 std::string value = TrimString(str.substr(pos + 1), pattern);
+                if (used_hash && name == "rpcpassword") {
+                    error = strprintf("parse error on line %i, using # in rpcpassword can be ambiguous and should be avoided", linenr);
+                    return false;
+                }
                 options.emplace_back(name, value);
+                if ((pos = name.rfind('.')) != std::string::npos) {
+                    sections.insert(name.substr(0, pos));
+                }
             } else {
                 error = strprintf("parse error on line %i: %s", linenr, str);
                 if (str.size() >= 2 && str.substr(0, 2) == "no") {
@@ -857,7 +890,8 @@ bool ArgsManager::ReadConfigStream(std::istream& stream, std::string& error, boo
 {
     LOCK(cs_args);
     std::vector<std::pair<std::string, std::string>> options;
-    if (!GetConfigOptions(stream, error, options)) {
+    m_config_sections.clear();
+    if (!GetConfigOptions(stream, error, options, m_config_sections)) {
         return false;
     }
     for (const std::pair<std::string, std::string>& option : options) {
@@ -891,7 +925,7 @@ bool ArgsManager::ReadConfigFiles(std::string& error, bool ignore_invalid_keys)
     }
 
     const std::string confPath = GetArg("-conf", BITCOIN_CONF_FILENAME);
-    fs::ifstream stream(GetConfigFile(confPath));
+    fsbridge::ifstream stream(GetConfigFile(confPath));
 
     // ok to not have a config file
     if (stream.good()) {
@@ -924,7 +958,7 @@ bool ArgsManager::ReadConfigFiles(std::string& error, bool ignore_invalid_keys)
             }
 
             for (const std::string& to_include : includeconf) {
-                fs::ifstream include_config(GetConfigFile(to_include));
+                fsbridge::ifstream include_config(GetConfigFile(to_include));
                 if (include_config.good()) {
                     if (!ReadConfigStream(include_config, error, ignore_invalid_keys)) {
                         return false;
@@ -998,7 +1032,7 @@ void CreatePidFile(const fs::path &path, pid_t pid)
 bool RenameOver(fs::path src, fs::path dest)
 {
 #ifdef WIN32
-    return MoveFileExA(src.string().c_str(), dest.string().c_str(),
+    return MoveFileExW(src.wstring().c_str(), dest.wstring().c_str(),
                        MOVEFILE_REPLACE_EXISTING) != 0;
 #else
     int rc = std::rename(src.string().c_str(), dest.string().c_str());
@@ -1200,13 +1234,21 @@ void SetupEnvironment()
     } catch (const std::runtime_error&) {
         setenv("LC_ALL", "C", 1);
     }
+#elif defined(WIN32)
+    // Set the default input/output charset is utf-8
+    SetConsoleCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
 #endif
     // The path locale is lazy initialized and to avoid deinitialization errors
     // in multithreading environments, it is set explicitly by the main thread.
     // A dummy locale is used to extract the internal default locale, used by
     // fs::path, which is then used to explicitly imbue the path.
     std::locale loc = fs::path::imbue(std::locale::classic());
+#ifndef WIN32
     fs::path::imbue(loc);
+#else
+    fs::path::imbue(std::locale(loc, new std::codecvt_utf8_utf16<wchar_t>()));
+#endif
 }
 
 bool SetupNetworking()
@@ -1248,7 +1290,7 @@ fs::path AbsPathForConfigVal(const fs::path& path, bool net_specific)
     return fs::absolute(path, GetDataDir(net_specific));
 }
 
-int ScheduleBatchPriority(void)
+int ScheduleBatchPriority()
 {
 #ifdef SCHED_BATCH
     const static sched_param param{0};
@@ -1261,3 +1303,30 @@ int ScheduleBatchPriority(void)
     return 1;
 #endif
 }
+
+namespace util {
+#ifdef WIN32
+WinCmdLineArgs::WinCmdLineArgs()
+{
+    wchar_t** wargv = CommandLineToArgvW(GetCommandLineW(), &argc);
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>, wchar_t> utf8_cvt;
+    argv = new char*[argc];
+    args.resize(argc);
+    for (int i = 0; i < argc; i++) {
+        args[i] = utf8_cvt.to_bytes(wargv[i]);
+        argv[i] = &*args[i].begin();
+    }
+    LocalFree(wargv);
+}
+
+WinCmdLineArgs::~WinCmdLineArgs()
+{
+    delete[] argv;
+}
+
+std::pair<int, char**> WinCmdLineArgs::get()
+{
+    return std::make_pair(argc, argv);
+}
+#endif
+} // namespace util

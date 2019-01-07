@@ -41,6 +41,8 @@ from .script import (
 from .util import assert_equal
 from io import BytesIO
 
+MAX_BLOCK_SIGOPS = 20000
+
 # From BIP141
 WITNESS_COMMITMENT_HEADER = b"\xaa\x21\xa9\xed"
 
@@ -169,7 +171,7 @@ def get_legacy_sigopcount_tx(tx, accurate=True):
     return count
 
 def witness_script(use_p2wsh, pubkey):
-    """Create a scriptPubKey for a pay-to-wtiness TxOut.
+    """Create a scriptPubKey for a pay-to-witness TxOut.
 
     This is either a P2WPKH output for the given pubkey, or a P2WSH output of a
     1-of-1 multisig for the given pubkey. Returns the hex encoding of the

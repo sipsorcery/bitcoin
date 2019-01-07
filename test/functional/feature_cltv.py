@@ -25,7 +25,6 @@ CLTV_HEIGHT = 1351
 
 # Reject codes that we might receive in this test
 REJECT_INVALID = 16
-REJECT_OBSOLETE = 17
 REJECT_NONSTANDARD = 64
 
 def cltv_invalidate(tx):
@@ -61,6 +60,9 @@ class BIP65Test(BitcoinTestFramework):
         self.num_nodes = 1
         self.extra_args = [['-whitelist=127.0.0.1', '-par=1']]  # Use only one script thread to get the exact reject reason for testing
         self.setup_clean_chain = True
+
+    def skip_test_if_missing_module(self):
+        self.skip_if_no_wallet()
 
     def run_test(self):
         self.nodes[0].add_p2p_connection(P2PInterface())

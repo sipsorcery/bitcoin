@@ -188,6 +188,9 @@ class SegWitTest(BitcoinTestFramework):
         # This test tests SegWit both pre and post-activation, so use the normal BIP9 activation.
         self.extra_args = [["-whitelist=127.0.0.1", "-vbparams=segwit:0:999999999999"], ["-whitelist=127.0.0.1", "-acceptnonstdtxn=0", "-vbparams=segwit:0:999999999999"], ["-whitelist=127.0.0.1", "-vbparams=segwit:0:0"]]
 
+    def skip_test_if_missing_module(self):
+        self.skip_if_no_wallet()
+
     def setup_network(self):
         self.setup_nodes()
         connect_nodes(self.nodes[0], 1)
@@ -202,7 +205,7 @@ class SegWitTest(BitcoinTestFramework):
         height = self.nodes[0].getblockcount() + 1
         block_time = self.nodes[0].getblockheader(tip)["mediantime"] + 1
         block = create_block(int(tip, 16), create_coinbase(height), block_time)
-        block.version = version
+        block.nVersion = version
         block.rehash()
         return block
 
@@ -542,31 +545,13 @@ class SegWitTest(BitcoinTestFramework):
 
     @subtest
     def test_getblocktemplate_before_lockin(self):
-        # Node0 is segwit aware, node2 is not.
-        for node in [self.nodes[0], self.nodes[2]]:
-            gbt_results = node.getblocktemplate()
-            block_version = gbt_results['version']
-            # If we're not indicating segwit support, we will still be
-            # signalling for segwit activation.
-            assert_equal((block_version & (1 << VB_WITNESS_BIT) != 0), node == self.nodes[0])
-            # If we don't specify the segwit rule, then we won't get a default
-            # commitment.
-            assert('default_witness_commitment' not in gbt_results)
-
-        # Workaround:
-        # Can either change the tip, or change the mempool and wait 5 seconds
-        # to trigger a recomputation of getblocktemplate.
         txid = int(self.nodes[0].sendtoaddress(self.nodes[0].getnewaddress(), 1), 16)
-        # Using mocktime lets us avoid sleep()
-        sync_mempools(self.nodes)
-        self.nodes[0].setmocktime(int(time.time()) + 10)
-        self.nodes[2].setmocktime(int(time.time()) + 10)
 
         for node in [self.nodes[0], self.nodes[2]]:
             gbt_results = node.getblocktemplate({"rules": ["segwit"]})
             block_version = gbt_results['version']
             if node == self.nodes[2]:
-                # If this is a non-segwit node, we should still not get a witness
+                # If this is a non-segwit node, we should not get a witness
                 # commitment, nor a version bit signalling segwit.
                 assert_equal(block_version & (1 << VB_WITNESS_BIT), 0)
                 assert('default_witness_commitment' not in gbt_results)
@@ -582,10 +567,6 @@ class SegWitTest(BitcoinTestFramework):
                                                        ser_uint256(txid)])
                 script = get_witness_script(witness_root, 0)
                 assert_equal(witness_commitment, bytes_to_hex_str(script))
-
-        # undo mocktime
-        self.nodes[0].setmocktime(0)
-        self.nodes[2].setmocktime(0)
 
     @subtest
     def advance_to_segwit_lockin(self):
@@ -766,12 +747,16 @@ class SegWitTest(BitcoinTestFramework):
         # will require a witness to spend a witness program regardless of
         # segwit activation.  Note that older bitcoind's that are not
         # segwit-aware would also reject this for failing CLEANSTACK.
-        test_transaction_acceptance(self.nodes[0], self.test_node, spend_tx, with_witness=False, accepted=False)
+        with self.nodes[0].assert_debug_log(
+                expected_msgs=(spend_tx.hash, 'was not accepted: non-mandatory-script-verify-flag (Witness program was passed an empty witness)')):
+            test_transaction_acceptance(self.nodes[0], self.test_node, spend_tx, with_witness=False, accepted=False)
 
-        # Try to put the witness script in the script_sig, should also fail.
-        spend_tx.vin[0].script_sig = CScript([p2wsh_pubkey, b'a'])
+        # Try to put the witness script in the scriptSig, should also fail.
+        spend_tx.vin[0].scriptSig = CScript([p2wsh_pubkey, b'a'])
         spend_tx.rehash()
-        test_transaction_acceptance(self.nodes[0], self.test_node, spend_tx, with_witness=False, accepted=False)
+        with self.nodes[0].assert_debug_log(
+                expected_msgs=('Not relaying invalid transaction {}'.format(spend_tx.hash), 'was not accepted: mandatory-script-verify-flag-failed (Script evaluated without error but finished with a false/empty top stack element)')):
+            test_transaction_acceptance(self.nodes[0], self.test_node, spend_tx, with_witness=False, accepted=False)
 
         # Now put the witness script in the witness, should succeed after
         # segwit activates.

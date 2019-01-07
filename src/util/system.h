@@ -7,20 +7,21 @@
  * Server/client environment: argument handling, config file parsing,
  * thread wrappers, startup time
  */
-#ifndef BITCOIN_UTIL_H
-#define BITCOIN_UTIL_H
+#ifndef BITCOIN_UTIL_SYSTEM_H
+#define BITCOIN_UTIL_SYSTEM_H
 
 #if defined(HAVE_CONFIG_H)
 #include <config/bitcoin-config.h>
 #endif
 
+#include <attributes.h>
 #include <compat.h>
 #include <fs.h>
 #include <logging.h>
 #include <sync.h>
 #include <tinyformat.h>
-#include <utilmemory.h>
-#include <utiltime.h>
+#include <util/memory.h>
+#include <util/time.h>
 
 #include <atomic>
 #include <exception>
@@ -29,6 +30,7 @@
 #include <stdint.h>
 #include <string>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include <boost/thread/condition_variable.hpp> // for boost::thread_interrupted
@@ -147,8 +149,9 @@ protected:
     std::string m_network GUARDED_BY(cs_args);
     std::set<std::string> m_network_only_args GUARDED_BY(cs_args);
     std::map<OptionsCategory, std::map<std::string, Arg>> m_available_args GUARDED_BY(cs_args);
+    std::set<std::string> m_config_sections GUARDED_BY(cs_args);
 
-    bool ReadConfigStream(std::istream& stream, std::string& error, bool ignore_invalid_keys = false);
+    NODISCARD bool ReadConfigStream(std::istream& stream, std::string& error, bool ignore_invalid_keys = false);
 
 public:
     ArgsManager();
@@ -158,8 +161,8 @@ public:
      */
     void SelectConfigNetwork(const std::string& network);
 
-    bool ParseParameters(int argc, const char* const argv[], std::string& error);
-    bool ReadConfigFiles(std::string& error, bool ignore_invalid_keys = false);
+    NODISCARD bool ParseParameters(int argc, const char* const argv[], std::string& error);
+    NODISCARD bool ReadConfigFiles(std::string& error, bool ignore_invalid_keys = false);
 
     /**
      * Log warnings for options in m_section_only_args when
@@ -167,7 +170,12 @@ public:
      * on the command line or in a network-specific section in the
      * config file.
      */
-    void WarnForSectionOnlyArgs();
+    const std::set<std::string> GetUnsuitableSectionOnlyArgs() const;
+
+    /**
+     * Log warnings for unrecognized section names in the config file.
+     */
+    const std::set<std::string> GetUnrecognizedSections() const;
 
     /**
      * Return a vector of strings of the given argument
@@ -347,7 +355,7 @@ std::string CopyrightHolders(const std::string& strPrefix);
  * @return The return value of sched_setschedule(), or 1 on systems without
  * sched_setschedule().
  */
-int ScheduleBatchPriority(void);
+int ScheduleBatchPriority();
 
 namespace util {
 
@@ -361,6 +369,21 @@ inline void insert(std::set<TsetT>& dst, const Tsrc& src) {
     dst.insert(src.begin(), src.end());
 }
 
+#ifdef WIN32
+class WinCmdLineArgs
+{
+public:
+    WinCmdLineArgs();
+    ~WinCmdLineArgs();
+    std::pair<int, char**> get();
+
+private:
+    int argc;
+    char** argv;
+    std::vector<std::string> args;
+};
+#endif
+
 } // namespace util
 
-#endif // BITCOIN_UTIL_H
+#endif // BITCOIN_UTIL_SYSTEM_H
