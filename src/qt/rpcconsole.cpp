@@ -18,6 +18,7 @@
 #include <netbase.h>
 #include <rpc/server.h>
 #include <rpc/client.h>
+#include <util/strencodings.h>
 #include <util/system.h>
 
 #include <openssl/crypto.h>
@@ -226,7 +227,7 @@ bool RPCConsole::RPCParseCommandLine(interfaces::Node* node, std::string &strRes
                                 if (lastResult.isArray())
                                 {
                                     for(char argch: curarg)
-                                        if (!std::isdigit(argch))
+                                        if (!IsDigit(argch))
                                             throw std::runtime_error("Invalid result query");
                                     subelement = lastResult[atoi(curarg.c_str())];
                                 }
@@ -395,13 +396,12 @@ void RPCExecutor::request(const QString &command, const WalletModel* wallet_mode
         std::string executableCommand = command.toStdString() + "\n";
 
         // Catch the console-only-help command before RPC call is executed and reply with help text as-if a RPC reply.
-        if(executableCommand == "help-console\n")
-        {
+        if(executableCommand == "help-console\n") {
             Q_EMIT reply(RPCConsole::CMD_REPLY, QString(("\n"
                 "This console accepts RPC commands using the standard syntax.\n"
                 "   example:    getblockhash 0\n\n"
 
-                "This console can also accept RPC commands using parenthesized syntax.\n"
+                "This console can also accept RPC commands using the parenthesized syntax.\n"
                 "   example:    getblockhash(0)\n\n"
 
                 "Commands may be nested when specified with the parenthesized syntax.\n"
@@ -411,11 +411,11 @@ void RPCExecutor::request(const QString &command, const WalletModel* wallet_mode
                 "   example:    getblockhash 0\n"
                 "               getblockhash,0\n\n"
 
-                "Named results can be queried with a non-quoted key string in brackets.\n"
-                "   example:    getblock(getblockhash(0) true)[tx]\n\n"
+                "Named results can be queried with a non-quoted key string in brackets using the parenthesized syntax.\n"
+                "   example:    getblock(getblockhash(0) 1)[tx]\n\n"
 
-                "Results without keys can be queried using an integer in brackets.\n"
-                "   example:    getblock(getblockhash(0),true)[tx][0]\n\n")));
+                "Results without keys can be queried with an integer in brackets using the parenthesized syntax.\n"
+                "   example:    getblock(getblockhash(0),1)[tx][0]\n\n")));
             return;
         }
         if (!RPCConsole::RPCExecuteCommandLine(m_node, result, executableCommand, nullptr, wallet_model)) {
@@ -484,7 +484,7 @@ RPCConsole::RPCConsole(interfaces::Node& node, const PlatformStyle *_platformSty
 
     // set library version labels
 #ifdef ENABLE_WALLET
-    ui->berkeleyDBVersion->setText(DbEnv::version(0, 0, 0));
+    ui->berkeleyDBVersion->setText(DbEnv::version(nullptr, nullptr, nullptr));
 #else
     ui->label_berkeleyDBVersion->hide();
     ui->berkeleyDBVersion->hide();
@@ -687,8 +687,7 @@ void RPCConsole::setClientModel(ClientModel *model)
     }
     if (!model) {
         // Client model is being set to 0, this means shutdown() is about to be called.
-        // Make sure we clean up the executor thread
-        Q_EMIT stopExecutor();
+        thread.quit();
         thread.wait();
     }
 }
@@ -974,11 +973,8 @@ void RPCConsole::startExecutor()
     // Requests from this object must go to executor
     connect(this, &RPCConsole::cmdRequest, executor, &RPCExecutor::request);
 
-    // On stopExecutor signal
-    // - quit the Qt event loop in the execution thread
-    connect(this, &RPCConsole::stopExecutor, &thread, &QThread::quit);
-    // - queue executor for deletion (in execution thread)
-    connect(&thread, &QThread::finished, executor, &RPCExecutor::deleteLater, Qt::DirectConnection);
+    // Make sure executor object is deleted in its own thread
+    connect(&thread, &QThread::finished, executor, &RPCExecutor::deleteLater);
 
     // Default implementation of QThread::run() simply spins up an event loop in the thread,
     // which is what we want.
@@ -987,10 +983,9 @@ void RPCConsole::startExecutor()
 
 void RPCConsole::on_tabWidget_currentChanged(int index)
 {
-    if (ui->tabWidget->widget(index) == ui->tab_console)
+    if (ui->tabWidget->widget(index) == ui->tab_console) {
         ui->lineEdit->setFocus();
-    else if (ui->tabWidget->widget(index) != ui->tab_peers)
-        clearSelectedNode();
+    }
 }
 
 void RPCConsole::on_openDebugLogfileButton_clicked()
@@ -1216,16 +1211,16 @@ void RPCConsole::banSelectedNode(int bantime)
         // Get currently selected peer address
         NodeId id = nodes.at(i).data().toLongLong();
 
-	// Get currently selected peer address
-	int detailNodeRow = clientModel->getPeerTableModel()->getRowByNodeId(id);
-	if(detailNodeRow < 0)
-	    return;
+        // Get currently selected peer address
+        int detailNodeRow = clientModel->getPeerTableModel()->getRowByNodeId(id);
+        if (detailNodeRow < 0) return;
 
-	// Find possible nodes, ban it and clear the selected node
-	const CNodeCombinedStats *stats = clientModel->getPeerTableModel()->getNodeStats(detailNodeRow);
-	if(stats) {
+        // Find possible nodes, ban it and clear the selected node
+        const CNodeCombinedStats *stats = clientModel->getPeerTableModel()->getNodeStats(detailNodeRow);
+        if (stats) {
             m_node.ban(stats->nodeStats.addr, BanReasonManuallyAdded, bantime);
-	}
+            m_node.disconnect(stats->nodeStats.addr);
+        }
     }
     clearSelectedNode();
     clientModel->getBanTableModel()->refresh();
