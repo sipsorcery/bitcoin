@@ -273,17 +273,17 @@ public:
     void SetMaxOutboundTimeframe(uint64_t timeframe);
     uint64_t GetMaxOutboundTimeframe();
 
-    //!check if the outbound target is reached
-    // if param historicalBlockServingLimit is set true, the function will
-    // response true if the limit for serving historical blocks has been reached
+    //! check if the outbound target is reached
+    //! if param historicalBlockServingLimit is set true, the function will
+    //! response true if the limit for serving historical blocks has been reached
     bool OutboundTargetReached(bool historicalBlockServingLimit);
 
-    //!response the bytes left in the current max outbound cycle
-    // in case of no limit, it will always response 0
+    //! response the bytes left in the current max outbound cycle
+    //! in case of no limit, it will always response 0
     uint64_t GetOutboundTargetBytesLeft();
 
-    //!response the time in second left in the current max outbound cycle
-    // in case of no limit, it will always response 0
+    //! response the time in second left in the current max outbound cycle
+    //! in case of no limit, it will always response 0
     uint64_t GetMaxOutboundTimeLeftInCycle();
 
     uint64_t GetTotalBytesRecv();
@@ -651,6 +651,7 @@ public:
     // the network or wire types and the cleaned string used when displayed or logged.
     std::string strSubVer GUARDED_BY(cs_SubVer), cleanSubVer GUARDED_BY(cs_SubVer);
     CCriticalSection cs_SubVer; // used for both cleanSubVer and strSubVer
+    bool m_prefer_evict{false}; // This peer is preferred for eviction.
     bool fWhitelisted{false}; // This peer can bypass DoS banning.
     bool fFeeler{false}; // If true this node is being used as a short lived feeler.
     bool fOneShot{false};

@@ -111,6 +111,14 @@ Configuration option changes
   ambiguous whether the hash character is meant for the password or as a
   comment.
 
+- The `whitelistforcerelay` option is used to relay transactions from
+  whitelisted peers even when not accepted to the mempool. This option now
+  defaults to being off, so that changes in policy and disconnect/ban behavior
+  will not cause a node that is whitelisting another to be dropped by peers.
+  Users can still explicitly enable this behavior with the command line option
+  (and may want to consider letting the Bitcoin Core project know about their
+  use-case, as this feature could be deprecated in the future).
+
 Documentation
 -------------
 
@@ -246,6 +254,12 @@ in the Low-level Changes section below.
 
 - See the [Mining](#mining) section for changes to `getblocktemplate`.
 
+- The `getrawtransaction` RPC no longer checks the unspent UTXO set for
+  a transaction. The remaining behaviors are as follows: 1. If a
+  blockhash is provided, check the corresponding block. 2. If no
+  blockhash is provided, check the mempool. 3. If no blockhash is
+  provided but txindex is enabled, also check txindex.
+
 Graphical User Interface (GUI)
 ------------------------------
 
@@ -261,6 +275,12 @@ Graphical User Interface (GUI)
 - In the Overview tab, the watch-only balance will be the only
   balance shown if the wallet was created using the `createwallet` RPC
   and the `disable_private_keys` parameter was set to true.
+
+- The launch-on-startup option is no longer available on macOS if
+  compiled with macosx min version greater than 10.11 (use
+  CXXFLAGS="-mmacosx-version-min=10.11"
+  CFLAGS="-mmacosx-version-min=10.11" for setting the deployment
+  sdk version)
 
 Low-level changes
 =================
