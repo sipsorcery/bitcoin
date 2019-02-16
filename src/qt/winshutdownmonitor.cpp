@@ -8,9 +8,9 @@
 #include <shutdown.h>
 #include <util/system.h>
 
-#include <windows.h>
-
 #include <QDebug>
+
+#include <windows.h>
 
 #include <openssl/rand.h>
 
