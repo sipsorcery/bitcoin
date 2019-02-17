@@ -185,6 +185,12 @@
     <ClCompile Include="GeneratedFiles\qt\moc_winshutdownmonitor.cpp">
       <Filter>moc</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin.cpp">
+      <Filter>rcc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin_locale.cpp">
+      <Filter>rcc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">
@@ -192,6 +198,9 @@
     </Filter>
     <Filter Include="moc">
       <UniqueIdentifier>{138c20b5-5874-4634-a9e5-9e3b3757f17a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rcc">
+      <UniqueIdentifier>{553f04a5-b4c8-4566-8efa-8179b76d05f4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

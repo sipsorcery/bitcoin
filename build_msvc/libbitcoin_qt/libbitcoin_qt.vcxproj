@@ -152,6 +152,11 @@
     <ClCompile Include="GeneratedFiles\qt\moc_walletmodel.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_walletview.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_winshutdownmonitor.cpp" />
+    <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\bitcoin_rcc.obj</ObjectFileName>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin_locale.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GeneratedFiles\qt\bitcoin.moc" />
@@ -284,8 +289,9 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_AMD64_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>N:\Qt\5.9.7\msvc2017_64\include\QtNetwork;C:\Dev\github\sipsorcery_bitcoin\build_msvc\libbitcoin_qt\GeneratedFiles;C:\Dev\github\sipsorcery_bitcoin\src;N:\Qt\5.9.7\msvc2017_64\include;N:\Qt\5.9.7\msvc2017_64\include\QtCore;N:\Qt\5.9.7\msvc2017_64\include\QtWidgets;N:\Qt\5.9.7\msvc2017_64\include\QtGui;.\GeneratedFiles;..\..\src;..\..\src\qt;..\..\src\univalue\include;.\QtGenerated\mocheaders</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Qt\Qtv5.9.7_64_VS2017\qtbase\include\QtNetwork;C:\Dev\github\sipsorcery_bitcoin\build_msvc\libbitcoin_qt\GeneratedFiles;C:\Dev\github\sipsorcery_bitcoin\src;C:\Qt\Qtv5.9.7_64_VS2017\qtbase\include;C:\Qt\Qtv5.9.7_64_VS2017\qtbase\include\QtCore;C:\Qt\Qtv5.9.7_64_VS2017\qtbase\include\QtWidgets;C:\Qt\Qtv5.9.7_64_VS2017\qtbase\include\QtGui;.\GeneratedFiles;..\..\src;..\..\src\qt;..\..\src\univalue\include;.\QtGenerated\mocheaders</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -338,6 +344,15 @@
       <QtLocaleFiles Include="..\..\src\qt\locale\*.ts" />
     </ItemGroup>
     <Exec Command="$(QTDIR)\bin\lrelease.exe &quot;%(QtLocaleFiles.Identity)&quot; -qm ..\..\src\qt\locale\%(Filename).qm" />
+  </Target>-->
+  <!--<Target Name="QtResourceCodeGeneration" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>There was an error executing the Qt resource code generation tasks.</ErrorText>
+    </PropertyGroup>
+    <ItemGroup>
+      <QtResourceFiles Include="..\..\src\qt\*.qrc" />
+    </ItemGroup>
+    <Exec Command="C:\Qt\Qtv5.9.7_64_VS2017\qtbase\bin\rcc.exe -name bitcoin &quot;%(QtResourceFiles.Identity)&quot; -o .\GeneratedFiles\qt\rcc\%(Filename).cpp" />
   </Target>-->
   <ImportGroup Label="ExtensionTargets">
     <!--<Import Label="berkleyDbTarget" Project="f:\deps\db-4.8.30\db.targets" />
