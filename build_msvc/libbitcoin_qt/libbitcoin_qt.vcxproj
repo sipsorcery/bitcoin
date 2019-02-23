@@ -24,80 +24,88 @@
     <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
     <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
     <ProjectGuid>{2B4ABFF8-D1FD-4845-88C9-1F3C0A6512BF}</ProjectGuid>
+    <QtIncludeDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\include</QtIncludeDir>
+    <QtToolsDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\bin</QtToolsDir>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\qt\addressbookpage.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\src\qt\addresstablemodel.cpp" />
+    <ClCompile Include="..\..\src\qt\askpassphrasedialog.cpp" />
     <ClCompile Include="..\..\src\qt\bantablemodel.cpp" />
     <ClCompile Include="..\..\src\qt\bitcoin.cpp" />
     <ClCompile Include="..\..\src\qt\bitcoinaddressvalidator.cpp" />
     <ClCompile Include="..\..\src\qt\bitcoinamountfield.cpp" />
     <ClCompile Include="..\..\src\qt\bitcoingui.cpp" />
     <ClCompile Include="..\..\src\qt\bitcoinstrings.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\bitcoinunits.cpp" />
     <ClCompile Include="..\..\src\qt\clientmodel.cpp" />
+    <ClCompile Include="..\..\src\qt\coincontroldialog.cpp" />
     <ClCompile Include="..\..\src\qt\coincontroltreewidget.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\csvmodelwriter.cpp" />
+    <ClCompile Include="..\..\src\qt\editaddressdialog.cpp" />
     <ClCompile Include="..\..\src\qt\guiutil.cpp" />
     <ClCompile Include="..\..\src\qt\intro.cpp" />
     <ClCompile Include="..\..\src\qt\modaloverlay.cpp" />
     <ClCompile Include="..\..\src\qt\networkstyle.cpp" />
     <ClCompile Include="..\..\src\qt\notificator.cpp" />
+    <ClCompile Include="..\..\src\qt\openuridialog.cpp" />
     <ClCompile Include="..\..\src\qt\optionsdialog.cpp" />
     <ClCompile Include="..\..\src\qt\optionsmodel.cpp" />
-    <ClCompile Include="..\..\src\qt\paymentrequestplus.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\..\src\qt\paymentserver.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="..\..\src\qt\overviewpage.cpp" />
+    <ClCompile Include="..\..\src\qt\paymentrequestplus.cpp" />
+    <ClCompile Include="..\..\src\qt\paymentserver.cpp" />
     <ClCompile Include="..\..\src\qt\peertablemodel.cpp" />
     <ClCompile Include="..\..\src\qt\platformstyle.cpp" />
     <ClCompile Include="..\..\src\qt\qvalidatedlineedit.cpp" />
     <ClCompile Include="..\..\src\qt\qvaluecombobox.cpp" />
-    <ClCompile Include="..\..\src\qt\recentrequeststablemodel.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="..\..\src\qt\receivecoinsdialog.cpp" />
+    <ClCompile Include="..\..\src\qt\receiverequestdialog.cpp" />
+    <ClCompile Include="..\..\src\qt\recentrequeststablemodel.cpp" />
     <ClCompile Include="..\..\src\qt\rpcconsole.cpp" />
+    <ClCompile Include="..\..\src\qt\sendcoinsdialog.cpp" />
+    <ClCompile Include="..\..\src\qt\sendcoinsentry.cpp" />
+    <ClCompile Include="..\..\src\qt\signverifymessagedialog.cpp" />
     <ClCompile Include="..\..\src\qt\splashscreen.cpp" />
     <ClCompile Include="..\..\src\qt\trafficgraphwidget.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\transactiondesc.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\..\src\qt\transactiondescdialog.cpp" />
     <ClCompile Include="..\..\src\qt\transactionfilterproxy.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\transactionrecord.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\transactiontablemodel.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\transactionview.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\utilitydialog.cpp" />
     <ClCompile Include="..\..\src\qt\walletcontroller.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\walletframe.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\walletmodel.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\walletmodeltransaction.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\walletview.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\src\qt\winshutdownmonitor.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_addressbookpage.cpp" />
@@ -123,12 +131,8 @@
     <ClCompile Include="GeneratedFiles\qt\moc_optionsdialog.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_optionsmodel.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_overviewpage.cpp" />
-    <ClCompile Include="GeneratedFiles\qt\moc_paymentrequestplus.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_paymentserver.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc_paymentrequestplus.cpp" />
+    <ClCompile Include="GeneratedFiles\qt\moc_paymentserver.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_peertablemodel.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_qvalidatedlineedit.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_qvaluecombobox.cpp" />
@@ -154,7 +158,7 @@
     <ClCompile Include="GeneratedFiles\qt\moc_winshutdownmonitor.cpp" />
     <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\bitcoin_rcc.obj</ObjectFileName>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin_locale.cpp" />
   </ItemGroup>
@@ -242,6 +246,7 @@
     <LinkIncremental>true</LinkIncremental>
     <Linkage-protobuf>static</Linkage-protobuf>
     <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -289,7 +294,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_AMD64_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Qt\Qtv5.9.7_64_VS2017\qtbase\include\QtNetwork;C:\Dev\github\sipsorcery_bitcoin\build_msvc\libbitcoin_qt\GeneratedFiles;C:\Dev\github\sipsorcery_bitcoin\src;C:\Qt\Qtv5.9.7_64_VS2017\qtbase\include;C:\Qt\Qtv5.9.7_64_VS2017\qtbase\include\QtCore;C:\Qt\Qtv5.9.7_64_VS2017\qtbase\include\QtWidgets;C:\Qt\Qtv5.9.7_64_VS2017\qtbase\include\QtGui;.\GeneratedFiles;..\..\src;..\..\src\qt;..\..\src\univalue\include;.\QtGenerated\mocheaders</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;.\GeneratedFiles;..\..\src;..\..\src\qt;..\..\src\univalue\include;.\QtGenerated\mocheaders</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
@@ -318,48 +323,51 @@
     </Link>
   </ItemDefinitionGroup>
   <Import Label="configTarget" Project="..\common.vcxproj" />
-  <!--<Target Name="QtHeadersMocCodeGeneration" BeforeTargets="PrepareForBuild">
+  <Target Name="QtHeadersMocCodeGeneration" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>There was an error executing the Qt headers moc code generation tasks.</ErrorText>
     </PropertyGroup>
     <ItemGroup>
       <QtMocHeaderFiles Include="..\..\src\qt\*.h" />
     </ItemGroup>
-    <Exec Command="$(QTDIR)\bin\moc.exe &quot;%(QtMocHeaderFiles.Identity)&quot; -o .\GeneratedFiles\qt\moc_%(Filename).cpp $(MOC_DEF)" />
+    <Exec Command="$(QtToolsDir)\moc.exe &quot;%(QtMocHeaderFiles.Identity)&quot; -o .\GeneratedFiles\qt\moc_%(Filename).cpp $(MOC_DEF)" />
   </Target>
-  <Target Name="QtFormsCodeGeneration" BeforeTargets="PrepareForBuild">
+  <Target Name="QtFormsHeaderGeneration" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>There was an error executing the Qt forms code generation tasks.</ErrorText>
+      <ErrorText>There was an error executing the Qt forms header generation tasks.</ErrorText>
     </PropertyGroup>
     <ItemGroup>
       <QtFormFiles Include="..\..\src\qt\forms\*.ui" />
     </ItemGroup>
-    <Exec Command="$(QTDIR)\bin\uic.exe &quot;%(QtFormFiles.Identity)&quot; -o .\GeneratedFiles\qt\forms\ui_%(Filename).h" />
-  </Target>-->
-  <!--<Target Name="QtLocaleCodeGeneration" BeforeTargets="PrepareForBuild">
+    <Exec Command="$(QtToolsDir)\uic.exe &quot;%(QtFormFiles.Identity)&quot; -o .\GeneratedFiles\qt\forms\ui_%(Filename).h" />
+  </Target>
+  <Target Name="QtLocaleCodeGeneration" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>There was an error executing the Qt local code generation tasks.</ErrorText>
     </PropertyGroup>
     <ItemGroup>
       <QtLocaleFiles Include="..\..\src\qt\locale\*.ts" />
     </ItemGroup>
-    <Exec Command="$(QTDIR)\bin\lrelease.exe &quot;%(QtLocaleFiles.Identity)&quot; -qm ..\..\src\qt\locale\%(Filename).qm" />
-  </Target>-->
-  <!--<Target Name="QtResourceCodeGeneration" BeforeTargets="PrepareForBuild">
+    <Exec Command="$(QtToolsDir)\lrelease.exe &quot;%(QtLocaleFiles.Identity)&quot; -qm ..\..\src\qt\locale\%(Filename).qm" />
+  </Target>
+  <Target Name="QtResourceCodeGeneration" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>There was an error executing the Qt resource code generation tasks.</ErrorText>
     </PropertyGroup>
     <ItemGroup>
       <QtResourceFiles Include="..\..\src\qt\*.qrc" />
     </ItemGroup>
-    <Exec Command="C:\Qt\Qtv5.9.7_64_VS2017\qtbase\bin\rcc.exe -name bitcoin &quot;%(QtResourceFiles.Identity)&quot; -o .\GeneratedFiles\qt\rcc\%(Filename).cpp" />
-  </Target>-->
-  <ImportGroup Label="ExtensionTargets">
-    <!--<Import Label="berkleyDbTarget" Project="f:\deps\db-4.8.30\db.targets" />
-    <Import Label="opensslTarget" Project="f:\deps\openssl\1.0.2\openssl.targets" />
-    <Import Label="qtTarget" Project="F:\deps\qt\5.9.2-git-ssl\vc141-x86elease\qt.targets" />
-    <Import Label="protobufTarget" Project="f:\deps\protobuf\protobuf.targets" />-->
-  </ImportGroup>
+    <Exec Command="$(QtToolsDir)\rcc.exe -name bitcoin &quot;%(QtResourceFiles.Identity)&quot; -o .\GeneratedFiles\qt\rcc\%(Filename).cpp" />
+  </Target>
+  <Target Name="ProtobufCodeGeneration" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>There was an error executing the Protobuf resource code generation tasks.</ErrorText>
+    </PropertyGroup>
+    <ItemGroup>
+      <ProtobufResourceFiles Include="..\..\src\qt\*.proto" />
+    </ItemGroup>
+    <Exec Command="C:\Dev\github\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -cpp_out=.\GeneratedFiles\qt -proto_path=..\..\src\qt &quot;%(ProtobufResourceFiles.Identity)&quot;" />
+  </Target>
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties MocDir=".\GeneratedFiles" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_Win32="5.9.1_vs140_x86" Qt5Version_x0020_x64="5.9.1_vs140_x86" MocOptions="DUNICODE -DWIN32 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB &quot;-I.\GeneratedFiles&quot; &quot;-I.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtWidgets&quot;" />

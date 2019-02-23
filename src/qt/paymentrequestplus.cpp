@@ -6,8 +6,14 @@
 // Wraps dumb protocol buffer paymentRequest
 // with some extra methods
 //
-
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4146)
+#endif
 #include <qt/paymentrequestplus.h>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 #include <util/system.h>
 

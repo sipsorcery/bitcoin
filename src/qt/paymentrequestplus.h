@@ -5,10 +5,19 @@
 #ifndef BITCOIN_QT_PAYMENTREQUESTPLUS_H
 #define BITCOIN_QT_PAYMENTREQUESTPLUS_H
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4146)
+#else
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 #include <qt/paymentrequest.pb.h>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#else
 #pragma GCC diagnostic pop
+#endif
 
 #include <amount.h>
 #include <script/script.h>
@@ -29,7 +38,7 @@ static const bool DEFAULT_SELFSIGNED_ROOTCERTS = false;
 class PaymentRequestPlus
 {
 public:
-    PaymentRequestPlus() { }
+    PaymentRequestPlus() {}
 
     bool parse(const QByteArray& data);
     bool SerializeToString(std::string* output) const;
@@ -40,7 +49,7 @@ public:
     bool getMerchant(X509_STORE* certStore, QString& merchant) const;
 
     // Returns list of outputs, amount
-    QList<std::pair<CScript,CAmount> > getPayTo() const;
+    QList<std::pair<CScript, CAmount>> getPayTo() const;
 
     const payments::PaymentDetails& getDetails() const { return details; }
 

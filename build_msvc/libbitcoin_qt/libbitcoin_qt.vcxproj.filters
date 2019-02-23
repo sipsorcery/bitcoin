@@ -191,6 +191,18 @@
     <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin_locale.cpp">
       <Filter>rcc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\qt\openuridialog.cpp" />
+    <ClCompile Include="..\..\src\qt\addresstablemodel.cpp" />
+    <ClCompile Include="..\..\src\qt\askpassphrasedialog.cpp" />
+    <ClCompile Include="..\..\src\qt\coincontroldialog.cpp" />
+    <ClCompile Include="..\..\src\qt\editaddressdialog.cpp" />
+    <ClCompile Include="..\..\src\qt\overviewpage.cpp" />
+    <ClCompile Include="..\..\src\qt\receivecoinsdialog.cpp" />
+    <ClCompile Include="..\..\src\qt\receiverequestdialog.cpp" />
+    <ClCompile Include="..\..\src\qt\sendcoinsdialog.cpp" />
+    <ClCompile Include="..\..\src\qt\sendcoinsentry.cpp" />
+    <ClCompile Include="..\..\src\qt\signverifymessagedialog.cpp" />
+    <ClCompile Include="..\..\src\qt\transactiondescdialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">
@@ -204,6 +216,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <None Include="GeneratedFiles\qt\bitcoin.moc" />
+    <None Include="GeneratedFiles\qt\bitcoinamountfield.moc" />
+    <None Include="GeneratedFiles\qt\overviewpage.moc" />
+    <None Include="GeneratedFiles\qt\rpcconsole.moc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\qt\forms\ui_transactiondescdialog.h">
+      <Filter>forms</Filter>
+    </ClInclude>
     <ClInclude Include="GeneratedFiles\qt\forms\ui_addressbookpage.h">
       <Filter>forms</Filter>
     </ClInclude>
@@ -252,14 +273,5 @@
     <ClInclude Include="GeneratedFiles\qt\forms\ui_signverifymessagedialog.h">
       <Filter>forms</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\qt\forms\ui_transactiondescdialog.h">
-      <Filter>forms</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="GeneratedFiles\qt\bitcoin.moc" />
-    <None Include="GeneratedFiles\qt\bitcoinamountfield.moc" />
-    <None Include="GeneratedFiles\qt\overviewpage.moc" />
-    <None Include="GeneratedFiles\qt\rpcconsole.moc" />
   </ItemGroup>
 </Project>
