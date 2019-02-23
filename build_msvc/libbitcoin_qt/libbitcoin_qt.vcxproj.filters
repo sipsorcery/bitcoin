@@ -203,6 +203,7 @@
     <ClCompile Include="..\..\src\qt\sendcoinsentry.cpp" />
     <ClCompile Include="..\..\src\qt\signverifymessagedialog.cpp" />
     <ClCompile Include="..\..\src\qt\transactiondescdialog.cpp" />
+    <ClCompile Include="GeneratedFiles\qt\paymentrequest.pb.cc" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

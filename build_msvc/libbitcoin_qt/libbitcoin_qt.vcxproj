@@ -58,7 +58,9 @@
     <ClCompile Include="..\..\src\qt\optionsdialog.cpp" />
     <ClCompile Include="..\..\src\qt\optionsmodel.cpp" />
     <ClCompile Include="..\..\src\qt\overviewpage.cpp" />
-    <ClCompile Include="..\..\src\qt\paymentrequestplus.cpp" />
+    <ClCompile Include="..\..\src\qt\paymentrequestplus.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\src\qt\paymentserver.cpp" />
     <ClCompile Include="..\..\src\qt\peertablemodel.cpp" />
     <ClCompile Include="..\..\src\qt\platformstyle.cpp" />
@@ -156,6 +158,7 @@
     <ClCompile Include="GeneratedFiles\qt\moc_walletmodel.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_walletview.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_winshutdownmonitor.cpp" />
+    <ClCompile Include="GeneratedFiles\qt\paymentrequest.pb.cc" />
     <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin.cpp">
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\bitcoin_rcc.obj</ObjectFileName>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -366,7 +369,7 @@
     <ItemGroup>
       <ProtobufResourceFiles Include="..\..\src\qt\*.proto" />
     </ItemGroup>
-    <Exec Command="C:\Dev\github\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe -cpp_out=.\GeneratedFiles\qt -proto_path=..\..\src\qt &quot;%(ProtobufResourceFiles.Identity)&quot;" />
+    <Exec Command="C:\Dev\github\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe --cpp_out=.\GeneratedFiles\qt --proto_path=..\..\src\qt &quot;%(ProtobufResourceFiles.Identity)&quot;" />
   </Target>
   <ProjectExtensions>
     <VisualStudio>
