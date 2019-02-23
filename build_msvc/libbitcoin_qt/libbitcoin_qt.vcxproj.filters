@@ -185,12 +185,6 @@
     <ClCompile Include="GeneratedFiles\qt\moc_winshutdownmonitor.cpp">
       <Filter>moc</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin.cpp">
-      <Filter>rcc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin_locale.cpp">
-      <Filter>rcc</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\qt\openuridialog.cpp" />
     <ClCompile Include="..\..\src\qt\addresstablemodel.cpp" />
     <ClCompile Include="..\..\src\qt\askpassphrasedialog.cpp" />
@@ -204,6 +198,12 @@
     <ClCompile Include="..\..\src\qt\signverifymessagedialog.cpp" />
     <ClCompile Include="..\..\src\qt\transactiondescdialog.cpp" />
     <ClCompile Include="GeneratedFiles\qt\paymentrequest.pb.cc" />
+    <ClCompile Include="GeneratedFiles\qt\rcc\qrc_bitcoin.cpp">
+      <Filter>rcc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\rcc\qrc_bitcoin_locale.cpp">
+      <Filter>rcc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="forms">

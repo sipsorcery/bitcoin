@@ -159,11 +159,8 @@
     <ClCompile Include="GeneratedFiles\qt\moc_walletview.cpp" />
     <ClCompile Include="GeneratedFiles\qt\moc_winshutdownmonitor.cpp" />
     <ClCompile Include="GeneratedFiles\qt\paymentrequest.pb.cc" />
-    <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin.cpp">
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\bitcoin_rcc.obj</ObjectFileName>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\rcc\bitcoin_locale.cpp" />
+    <ClCompile Include="GeneratedFiles\qt\rcc\qrc_bitcoin.cpp" />
+    <ClCompile Include="GeneratedFiles\qt\rcc\qrc_bitcoin_locale.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GeneratedFiles\qt\bitcoin.moc" />
@@ -326,7 +323,7 @@
     </Link>
   </ItemDefinitionGroup>
   <Import Label="configTarget" Project="..\common.vcxproj" />
-  <Target Name="QtHeadersMocCodeGeneration" BeforeTargets="PrepareForBuild">
+  <!--<Target Name="QtHeadersMocCodeGeneration" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>There was an error executing the Qt headers moc code generation tasks.</ErrorText>
     </PropertyGroup>
@@ -352,7 +349,7 @@
       <QtLocaleFiles Include="..\..\src\qt\locale\*.ts" />
     </ItemGroup>
     <Exec Command="$(QtToolsDir)\lrelease.exe &quot;%(QtLocaleFiles.Identity)&quot; -qm ..\..\src\qt\locale\%(Filename).qm" />
-  </Target>
+  </Target>-->
   <Target Name="QtResourceCodeGeneration" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>There was an error executing the Qt resource code generation tasks.</ErrorText>
@@ -360,7 +357,7 @@
     <ItemGroup>
       <QtResourceFiles Include="..\..\src\qt\*.qrc" />
     </ItemGroup>
-    <Exec Command="$(QtToolsDir)\rcc.exe -name bitcoin &quot;%(QtResourceFiles.Identity)&quot; -o .\GeneratedFiles\qt\rcc\%(Filename).cpp" />
+    <Exec Command="$(QtToolsDir)\rcc.exe -name bitcoin &quot;%(QtResourceFiles.Identity)&quot; -o .\GeneratedFiles\qt\rcc\qrc_%(Filename).cpp" />
   </Target>
   <Target Name="ProtobufCodeGeneration" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
