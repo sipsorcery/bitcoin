@@ -160,7 +160,9 @@
     <ClCompile Include="GeneratedFiles\qt\moc_winshutdownmonitor.cpp" />
     <ClCompile Include="GeneratedFiles\qt\paymentrequest.pb.cc" />
     <ClCompile Include="GeneratedFiles\qt\rcc\qrc_bitcoin.cpp" />
-    <ClCompile Include="GeneratedFiles\qt\rcc\qrc_bitcoin_locale.cpp" />
+    <ClCompile Include="GeneratedFiles\qt\rcc\qrc_bitcoin_locale.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="GeneratedFiles\qt\bitcoin.moc" />
@@ -348,18 +350,13 @@
     <ItemGroup>
       <QtLocaleFiles Include="..\..\src\qt\locale\*.ts" />
     </ItemGroup>
-    <Exec Command="$(QtToolsDir)\lrelease.exe &quot;%(QtLocaleFiles.Identity)&quot; -qm ..\..\src\qt\locale\%(Filename).qm" />
+    <Exec Command="$(QtToolsDir)\lrelease.exe &quot;%(QtLocaleFiles.Identity)&quot; -qm .\GeneratedFiles\qt\locale\%(Filename).qm" />
   </Target>-->
-  <Target Name="QtResourceCodeGeneration" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>There was an error executing the Qt resource code generation tasks.</ErrorText>
-    </PropertyGroup>
-    <ItemGroup>
-      <QtResourceFiles Include="..\..\src\qt\*.qrc" />
-    </ItemGroup>
-    <Exec Command="$(QtToolsDir)\rcc.exe -name bitcoin &quot;%(QtResourceFiles.Identity)&quot; -o .\GeneratedFiles\qt\rcc\qrc_%(Filename).cpp" />
-  </Target>
-  <Target Name="ProtobufCodeGeneration" BeforeTargets="PrepareForBuild">
+  <!--<ItemGroup>
+	<ProtobufTemplates Include="..\..\src\qt\*.proto" />
+	<ProtobufOutputs Include=".\GeneratedFiles\qt\protobuf\*.cpp" />
+  </ItemGroup>-->
+  <Target Name="ProtobufCodeGeneration" BeforeTargets="PrepareForBuild" Inputs="" Outputs="..\..\src\qt\*.proto -> '.\GeneratedFiles\qt\%(Filename).cpp'">
     <PropertyGroup>
       <ErrorText>There was an error executing the Protobuf resource code generation tasks.</ErrorText>
     </PropertyGroup>
@@ -368,9 +365,11 @@
     </ItemGroup>
     <Exec Command="C:\Dev\github\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe --cpp_out=.\GeneratedFiles\qt --proto_path=..\..\src\qt &quot;%(ProtobufResourceFiles.Identity)&quot;" />
   </Target>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties MocDir=".\GeneratedFiles" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_Win32="5.9.1_vs140_x86" Qt5Version_x0020_x64="5.9.1_vs140_x86" MocOptions="DUNICODE -DWIN32 -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB &quot;-I.\GeneratedFiles&quot; &quot;-I.&quot; &quot;-I$(QTDIR)\include&quot; &quot;-I$(QTDIR)\include\QtCore&quot; &quot;-I$(QTDIR)\include\QtGui&quot; &quot;-I$(QTDIR)\include\QtWidgets&quot;" />
-    </VisualStudio>
-  </ProjectExtensions>
+  <Target Name="QtResourceCodeGeneration" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>There was an error executing the Qt resource code generation tasks.</ErrorText>
+    </PropertyGroup>
+    <Exec Command="$(QtToolsDir)\rcc.exe -name bitcoin &quot;..\..\src\qt\bitcoin.qrc&quot; -o .\GeneratedFiles\qt\rcc\qrc_bitcoin.cpp" />
+    <Exec Command="$(QtToolsDir)\rcc.exe -name bitcoin_locale &quot;..\..\src\qt\bitcoin_locale.qrc&quot; -o .\GeneratedFiles\qt\rcc\qrc_bitcoin_locale.cpp" />
+  </Target>
 </Project>
