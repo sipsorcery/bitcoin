@@ -102,22 +102,6 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -142,13 +126,10 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;.\GeneratedFiles;..\..\src</AdditionalIncludeDirectories>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
       <AdditionalDependencies>	$(QtPluginsLibraryDir)\platforms\qwindowsd.lib;$(QtLibraryDir)\*d.lib;crypt32.lib;userenv.lib;netapi32.lib;imm32.lib;Dwmapi.lib;version.lib;winmm.lib;UxTheme.lib;gdi32.lib;user32.lib;Iphlpapi.lib;ws2_32.lib;Shlwapi.lib;kernel32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
@@ -203,17 +184,22 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+	  <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+	  <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;.\GeneratedFiles;..\..\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+	  <AdditionalDependencies>	$(QtPluginsLibraryDir)\platforms\qwindows.lib;$(QtLibraryDir)\Qt5AccessibilitySupport.lib;$(QtLibraryDir)\Qt5Core.lib;$(QtLibraryDir)\Qt5EventDispatcherSupport.lib;$(QtLibraryDir)\Qt5FontDatabaseSupport.lib;$(QtLibraryDir)\Qt5Gui.lib;$(QtLibraryDir)\Qt5Network.lib;$(QtLibraryDir)\Qt5PlatformCompositorSupport.lib;$(QtLibraryDir)\Qt5ThemeSupport.lib;$(QtLibraryDir)\Qt5Widgets.lib;$(QtLibraryDir)\qtmain.lib;crypt32.lib;userenv.lib;netapi32.lib;imm32.lib;Dwmapi.lib;version.lib;winmm.lib;UxTheme.lib;gdi32.lib;user32.lib;Iphlpapi.lib;ws2_32.lib;Shlwapi.lib;kernel32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+	<ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\src;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>HAVE_CONFIG_H;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
 </Project>

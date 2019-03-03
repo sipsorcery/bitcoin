@@ -41,150 +41,6 @@
     <ClCompile Include="..\..\src\qt\intro.cpp" />
     <ClCompile Include="..\..\src\qt\modaloverlay.cpp" />
     <ClCompile Include="..\..\src\qt\optionsdialog.cpp" />
-    <ClCompile Include="GeneratedFiles\qt\moc_addressbookpage.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_addresstablemodel.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_askpassphrasedialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_bantablemodel.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_bitcoin.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_bitcoinaddressvalidator.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_bitcoinamountfield.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_bitcoingui.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_bitcoinunits.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_clientmodel.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_coincontroldialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_coincontroltreewidget.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_csvmodelwriter.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_editaddressdialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_guiconstants.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_guiutil.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_intro.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_modaloverlay.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_notificator.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_openuridialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_optionsdialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_optionsmodel.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_overviewpage.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_paymentrequestplus.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_paymentserver.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_peertablemodel.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_qvalidatedlineedit.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_qvaluecombobox.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_receivecoinsdialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_receiverequestdialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_recentrequeststablemodel.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_rpcconsole.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_sendcoinsdialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_sendcoinsentry.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_signverifymessagedialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_splashscreen.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_trafficgraphwidget.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_transactiondesc.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_transactiondescdialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_transactionfilterproxy.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_transactiontablemodel.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_transactionview.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_utilitydialog.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_walletcontroller.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_walletframe.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_walletmodel.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_walletview.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qt\moc_winshutdownmonitor.cpp">
-      <Filter>moc</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\qt\openuridialog.cpp" />
     <ClCompile Include="..\..\src\qt\addresstablemodel.cpp" />
     <ClCompile Include="..\..\src\qt\askpassphrasedialog.cpp" />
@@ -197,12 +53,179 @@
     <ClCompile Include="..\..\src\qt\sendcoinsentry.cpp" />
     <ClCompile Include="..\..\src\qt\signverifymessagedialog.cpp" />
     <ClCompile Include="..\..\src\qt\transactiondescdialog.cpp" />
-    <ClCompile Include="GeneratedFiles\qt\paymentrequest.pb.cc" />
     <ClCompile Include="GeneratedFiles\qt\rcc\qrc_bitcoin.cpp">
       <Filter>rcc</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\qt\rcc\qrc_bitcoin_locale.cpp">
       <Filter>rcc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\protobuf\paymentrequest.pb.cc">
+      <Filter>protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_addressbookpage.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_addresstablemodel.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_askpassphrasedialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_bantablemodel.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_bitcoin.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_bitcoinaddressvalidator.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_bitcoinamountfield.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_bitcoingui.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_bitcoinunits.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_clientmodel.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_coincontroldialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_coincontroltreewidget.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_csvmodelwriter.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_editaddressdialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_guiconstants.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_guiutil.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_intro.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_macdockiconhandler.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_macnotificationhandler.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_macos_appnap.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_modaloverlay.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_networkstyle.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_notificator.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_openuridialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_optionsdialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_optionsmodel.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_overviewpage.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_paymentrequestplus.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_paymentserver.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_peertablemodel.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_platformstyle.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_qvalidatedlineedit.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_qvaluecombobox.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_receivecoinsdialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_receiverequestdialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_recentrequeststablemodel.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_rpcconsole.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_sendcoinsdialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_sendcoinsentry.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_signverifymessagedialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_splashscreen.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_trafficgraphwidget.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_transactiondesc.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_transactiondescdialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_transactionfilterproxy.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_transactionrecord.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_transactiontablemodel.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_transactionview.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_utilitydialog.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_walletcontroller.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_walletframe.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_walletmodel.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_walletmodeltransaction.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_walletview.cpp">
+      <Filter>moc</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qt\moc\moc_winshutdownmonitor.cpp">
+      <Filter>moc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -215,12 +238,9 @@
     <Filter Include="rcc">
       <UniqueIdentifier>{553f04a5-b4c8-4566-8efa-8179b76d05f4}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="GeneratedFiles\qt\bitcoin.moc" />
-    <None Include="GeneratedFiles\qt\bitcoinamountfield.moc" />
-    <None Include="GeneratedFiles\qt\overviewpage.moc" />
-    <None Include="GeneratedFiles\qt\rpcconsole.moc" />
+    <Filter Include="protobuf">
+      <UniqueIdentifier>{947774ad-ce01-4bc9-9927-b3e1bc4e51ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\qt\forms\ui_transactiondescdialog.h">
