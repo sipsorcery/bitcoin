@@ -68,11 +68,6 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>bitcoinqt</RootNamespace>
     <WindowsTargetPlatformVersion>$(WindowsTargetPlatformVersion_10)</WindowsTargetPlatformVersion>
-    <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
-    <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
-    <QtIncludeDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\include</QtIncludeDir>
-    <QtLibraryDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\lib</QtLibraryDir>
-    <QtPluginsLibraryDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\plugins</QtPluginsLibraryDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -125,7 +120,7 @@
       <PreprocessorDefinitions>WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;.\GeneratedFiles;..\..\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;..\..\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,13 +142,12 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>N:\Qt\5.9.7\msvc2017_64\include;N:\Qt\5.9.7\msvc2017_64\include\QtCore;N:\Qt\5.9.7\msvc2017_64\include\QtWidgets;N:\Qt\5.9.7\msvc2017_64\include\QtGui;.\GeneratedFiles;..\..\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\src;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>N:\Qt\5.9.7\msvc2017_64\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  <AdditionalDependencies>Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -187,14 +181,14 @@
       <PreprocessorDefinitions>WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;.\GeneratedFiles;..\..\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;..\..\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>	$(QtPluginsLibraryDir)\platforms\qwindows.lib;$(QtLibraryDir)\Qt5AccessibilitySupport.lib;$(QtLibraryDir)\Qt5Core.lib;$(QtLibraryDir)\Qt5EventDispatcherSupport.lib;$(QtLibraryDir)\Qt5FontDatabaseSupport.lib;$(QtLibraryDir)\Qt5Gui.lib;$(QtLibraryDir)\Qt5Network.lib;$(QtLibraryDir)\Qt5PlatformCompositorSupport.lib;$(QtLibraryDir)\Qt5ThemeSupport.lib;$(QtLibraryDir)\Qt5Widgets.lib;$(QtLibraryDir)\qtmain.lib;crypt32.lib;userenv.lib;netapi32.lib;imm32.lib;Dwmapi.lib;version.lib;winmm.lib;UxTheme.lib;gdi32.lib;user32.lib;Iphlpapi.lib;ws2_32.lib;Shlwapi.lib;kernel32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>	$(QtPluginsLibraryDir)\platforms\qminimal.lib;$(QtPluginsLibraryDir)\platforms\qwindows.lib;$(QtLibraryDir)\Qt5AccessibilitySupport.lib;$(QtLibraryDir)\Qt5Core.lib;$(QtLibraryDir)\Qt5EventDispatcherSupport.lib;$(QtLibraryDir)\Qt5FontDatabaseSupport.lib;$(QtLibraryDir)\Qt5Gui.lib;$(QtLibraryDir)\Qt5Network.lib;$(QtLibraryDir)\Qt5PlatformCompositorSupport.lib;$(QtLibraryDir)\Qt5ThemeSupport.lib;$(QtLibraryDir)\Qt5Widgets.lib;$(QtLibraryDir)\qtmain.lib;crypt32.lib;userenv.lib;netapi32.lib;imm32.lib;Dwmapi.lib;version.lib;winmm.lib;UxTheme.lib;gdi32.lib;user32.lib;Iphlpapi.lib;ws2_32.lib;Shlwapi.lib;kernel32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\src;</AdditionalIncludeDirectories>

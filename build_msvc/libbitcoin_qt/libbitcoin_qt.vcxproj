@@ -21,13 +21,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
-    <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
     <ProjectGuid>{2B4ABFF8-D1FD-4845-88C9-1F3C0A6512BF}</ProjectGuid>
-    <QtIncludeDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\include</QtIncludeDir>
-    <QtToolsDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\bin</QtToolsDir>
-    <ProtobufToolsDir>C:\Dev\github\vcpkg\installed\x64-windows-static\tools\protobuf</ProtobufToolsDir>
-	<GeneratedFilesOutDir>.\$(Platform)\$(Configuration)\qt</GeneratedFilesOutDir>
+    <GeneratedFilesOutDir>.\$(Platform)\$(Configuration)\qt</GeneratedFilesOutDir>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\qt\addressbookpage.cpp" />
@@ -54,9 +49,7 @@
     <ClCompile Include="..\..\src\qt\optionsdialog.cpp" />
     <ClCompile Include="..\..\src\qt\optionsmodel.cpp" />
     <ClCompile Include="..\..\src\qt\overviewpage.cpp" />
-    <ClCompile Include="..\..\src\qt\paymentrequestplus.cpp">
-      <ExcludedFromBuild>true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="..\..\src\qt\paymentrequestplus.cpp" />
     <ClCompile Include="..\..\src\qt\paymentserver.cpp" />
     <ClCompile Include="..\..\src\qt\peertablemodel.cpp" />
     <ClCompile Include="..\..\src\qt\platformstyle.cpp" />
@@ -84,10 +77,60 @@
     <ClCompile Include="..\..\src\qt\walletmodeltransaction.cpp" />
     <ClCompile Include="..\..\src\qt\walletview.cpp" />
     <ClCompile Include="..\..\src\qt\winshutdownmonitor.cpp" />
-    <ClCompile Include="$(GeneratedFilesOutDir)\moc\*.cpp" />
-    <ClCompile Include="$(GeneratedFilesOutDir)\protobuf\paymentrequest.pb.cc" />
-    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\*.cpp" />
-    <ClInclude Include="$(GeneratedFilesOutDir)\forms\*.h" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_addressbookpage.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_addresstablemodel.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_askpassphrasedialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_bantablemodel.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_bitcoin.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_bitcoinaddressvalidator.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_bitcoinamountfield.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_bitcoingui.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_bitcoinunits.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_clientmodel.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_coincontroldialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_coincontroltreewidget.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_csvmodelwriter.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_editaddressdialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_guiutil.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_intro.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_modaloverlay.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_networkstyle.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_notificator.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_openuridialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_optionsdialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_optionsmodel.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_overviewpage.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_paymentrequestplus.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_paymentserver.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_peertablemodel.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_platformstyle.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_qvalidatedlineedit.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_qvaluecombobox.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_receivecoinsdialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_receiverequestdialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_recentrequeststablemodel.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_rpcconsole.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_sendcoinsdialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_sendcoinsentry.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_signverifymessagedialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_splashscreen.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_trafficgraphwidget.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactiondesc.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactiondescdialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactionfilterproxy.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactionrecord.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactiontablemodel.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_transactionview.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_utilitydialog.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_walletcontroller.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_walletframe.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_walletmodel.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_walletmodeltransaction.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_walletview.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\moc\moc_winshutdownmonitor.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\paymentrequest.pb.cc" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\qrc_bitcoin.cpp" />
+    <ClCompile Include="$(GeneratedFilesOutDir)\rcc\qrc_bitcoin_locale.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -147,7 +190,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <PreprocessorDefinitions>_X86_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;..\..\src;..\..\src\univalue\include;.\QtGenerated\mocheaders</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;$(GeneratedFilesOutDir)\..\;..\..\src;..\..\src\qt;..\..\src\univalue\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -164,7 +207,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_X86_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>N:\Qt\5.9.7\msvc2017_64\include;N:\Qt\5.9.7\msvc2017_64\include\QtCore;N:\Qt\5.9.7\msvc2017_64\include\QtWidgets;N:\Qt\5.9.7\msvc2017_64\include\QtGui;$(GeneratedFilesOutDir);..\..\src;..\..\src\univalue\include;.\QtGenerated\mocheaders</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;$(GeneratedFilesOutDir)\..\;..\..\src;..\..\src\qt;..\..\src\univalue\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -218,47 +261,58 @@
     <UiFormFiles Include="..\..\src\qt\forms\*.ui" />
     <TranslationFiles Include="..\..\src\qt\locale\*.ts" />
   </ItemGroup>
-  <Target Name="QtMocCodeIncludeGeneration" BeforeTargets="PrepareForBuild" Inputs="@(QT_MOC)" Outputs="@(QT_MOC->'$(GeneratedFilesOutDir)\%(Filename).moc')">
+  <PropertyGroup>
+    <BuildDependsOn>
+        QtMocCodeIncludeGeneration;
+		QtMocHeaderGeneration;
+		QtFormsHeaderGeneration;
+		QtTranslationCodeGeneration;
+		ProtobufCodeGeneration;
+		QtResourceCodeGeneration;
+        $(BuildDependsOn);
+    </BuildDependsOn>
+  </PropertyGroup>
+  <Target Name="QtMocCodeIncludeGeneration" Inputs="@(QT_MOC)" Outputs="@(QT_MOC->'$(GeneratedFilesOutDir)\%(Filename).moc')">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt moc code include generation task.</ErrorText>
     </PropertyGroup>
     <MakeDir Directories="$(GeneratedFilesOutDir)" />
-	<Exec Command="echo Performing libbitcoin_qt moc code include generation task." />
+    <Exec Command="echo Performing libbitcoin_qt moc code include generation task, output path $(GeneratedFilesOutDir)." />
     <Exec Command="$(QtToolsDir)\moc.exe &quot;%(QT_MOC.Identity)&quot; -o $(GeneratedFilesOutDir)\%(Filename).moc" />
   </Target>
-  <Target Name="QtMocHeaderGeneration" BeforeTargets="PrepareForBuild" Inputs="@(MocHeaderFiles)" Outputs="@(MocHeaderFiles->'$(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp')">
+  <Target Name="QtMocHeaderGeneration" Inputs="@(MocHeaderFiles)" Outputs="@(MocHeaderFiles->'$(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp')">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt moc header generation task.</ErrorText>
     </PropertyGroup>
-	<Exec Command="echo Performing libbitcoin_qt moc header generation task, output path $(GeneratedFilesOutDir)\moc." />
+    <Exec Command="echo Performing libbitcoin_qt moc header generation task, output path $(GeneratedFilesOutDir)\moc." />
     <MakeDir Directories="$(GeneratedFilesOutDir)\moc\" />
     <Exec Command="$(QtToolsDir)\moc.exe &quot;%(MocHeaderFiles.Identity)&quot; -o $(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp" />
   </Target>
-  <Target Name="QtFormsHeaderGeneration" BeforeTargets="PrepareForBuild" Inputs="@(UiFormFiles)" Outputs="@(UiFormFiles->'$(GeneratedFilesOutDir)\forms\ui_%(Filename).h')">
+  <Target Name="QtFormsHeaderGeneration" Inputs="@(UiFormFiles)" Outputs="@(UiFormFiles->'$(GeneratedFilesOutDir)\forms\ui_%(Filename).h')">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt forms header generation task.</ErrorText>
     </PropertyGroup>
-	<Exec Command="echo Performing libbitcoin_qt forms header generation task, output path $(GeneratedFilesOutDir)\forms." />
+    <Exec Command="echo Performing libbitcoin_qt forms header generation task, output path $(GeneratedFilesOutDir)\forms." />
     <MakeDir Directories="$(GeneratedFilesOutDir)\forms\" />
     <Exec Command="$(QtToolsDir)\uic.exe &quot;%(UiFormFiles.Identity)&quot; -o $(GeneratedFilesOutDir)\forms\ui_%(Filename).h" />
   </Target>
-  <Target Name="QtTranslationCodeGeneration" BeforeTargets="PrepareForBuild" Inputs="@(TranslationFiles)" Outputs="@(TranslationFiles->'$(GeneratedFilesOutDir)\locale\%(Filename).qm')">
+  <Target Name="QtTranslationCodeGeneration" Inputs="@(TranslationFiles)" Outputs="@(TranslationFiles->'$(GeneratedFilesOutDir)\locale\%(Filename).qm')">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt translation file generation task.</ErrorText>
     </PropertyGroup>
-	<Exec Command="echo Performing libbitcoin_qt translation file generation task, output path $(GeneratedFilesOutDir)\locale." />
+    <Exec Command="echo Performing libbitcoin_qt translation file generation task, output path $(GeneratedFilesOutDir)\locale." />
     <MakeDir Directories="$(GeneratedFilesOutDir)\locale\" />
     <Exec Command="$(QtToolsDir)\lrelease.exe &quot;%(TranslationFiles.Identity)&quot; -qm $(GeneratedFilesOutDir)\locale\%(Filename).qm" />
   </Target>
-  <Target Name="ProtobufCodeGeneration" BeforeTargets="PrepareForBuild" Inputs="@(ProtobufTemplates)" Outputs="@(ProtobufTemplates -> '$(GeneratedFilesOutDir)\protobuf\%(Filename).pb.h','$(GeneratedFilesOutDir)\protobuf\%(Filename).pb.cc')">
+  <Target Name="ProtobufCodeGeneration" Inputs="@(ProtobufTemplates)" Outputs="@(ProtobufTemplates -> '$(GeneratedFilesOutDir)\%(Filename).pb.h','$(GeneratedFilesOutDir)\%(Filename).pb.cc')">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt protobuf code generation task.</ErrorText>
     </PropertyGroup>
-    <Exec Command="echo Performing libbitcoin_qt protobuf code generation task, output path $(GeneratedFilesOutDir)\protobuf." />
+    <Exec Command="echo Performing libbitcoin_qt protobuf code generation task, output path $(GeneratedFilesOutDir)." />
     <MakeDir Directories="$(GeneratedFilesOutDir)\protobuf\" />
-    <Exec Command="$(ProtobufToolsDir)\protoc.exe --cpp_out=$(GeneratedFilesOutDir)\protobuf --proto_path=..\..\src\qt &quot;%(ProtobufTemplates.Identity)&quot;" />
+    <Exec Command="$(ProtobufToolsDir)\protoc.exe --cpp_out=$(GeneratedFilesOutDir) --proto_path=..\..\src\qt &quot;%(ProtobufTemplates.Identity)&quot;" />
   </Target>
-  <Target Name="QtResourceCodeGeneration" BeforeTargets="PrepareForBuild" Inputs="@(ResourceTemplates)" Outputs="@(ResourceTemplates->'$(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp')">
+  <Target Name="QtResourceCodeGeneration" Inputs="@(ResourceTemplates)" Outputs="@(ResourceTemplates->'$(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp')">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt resource code generation task.</ErrorText>
     </PropertyGroup>
@@ -266,12 +320,18 @@
     <MakeDir Directories="$(GeneratedFilesOutDir)\rcc\" />
     <Exec Command="$(QtToolsDir)\rcc.exe -name %(Filename) &quot;%(ResourceTemplates.Identity)&quot; -o $(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp" />
   </Target>
-  <Target Name="Clean">
+  <PropertyGroup>
+    <CleanDependsOn>
+        QtCleanGeneratedFiles;
+        $(CleanDependsOn);
+    </CleanDependsOn>
+  </PropertyGroup>
+  <Target Name="QtCleanGeneratedFiles">
+    <Exec Command="echo Clean libbitcoin_qt generated files from $(GeneratedFilesOutDir)." />
     <RemoveDir Directories="$(GeneratedFilesOutDir)\forms\*" />
     <RemoveDir Directories="$(GeneratedFilesOutDir)\locale\*" />
     <RemoveDir Directories="$(GeneratedFilesOutDir)\moc\*" />
-    <RemoveDir Directories="$(GeneratedFilesOutDir)\protobuf\*" />
     <RemoveDir Directories="$(GeneratedFilesOutDir)\rcc\*" />
-    <RemoveDir Directories="$(GeneratedFilesOutDir)" />
+    <RemoveDir Directories="$(GeneratedFilesOutDir)\*" />
   </Target>
 </Project>

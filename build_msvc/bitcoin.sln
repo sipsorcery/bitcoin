@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28527.54
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbitcoin_consensus", "libbitcoinconsensus\libbitcoinconsensus.vcxproj", "{2B384FA8-9EE1-4544-93CB-0D733C25E8CE}"
 EndProject
@@ -43,6 +43,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbitcoin_qt", "libbitcoin_qt\libbitcoin_qt.vcxproj", "{2B4ABFF8-D1FD-4845-88C9-1F3C0A6512BF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bitcoin-qt", "bitcoin-qt\bitcoin-qt.vcxproj", "{7E99172D-7FF2-4CB6-B736-AC9B76ED412A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_bitcoin-qt", "test_bitcoin-qt\test_bitcoin-qt.vcxproj", "{51201D5E-D939-4854-AE9D-008F03FF518E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -220,15 +222,23 @@ Global
 		{7E99172D-7FF2-4CB6-B736-AC9B76ED412A}.Release|x64.Build.0 = Release|x64
 		{7E99172D-7FF2-4CB6-B736-AC9B76ED412A}.Release|x86.ActiveCfg = Release|Win32
 		{7E99172D-7FF2-4CB6-B736-AC9B76ED412A}.Release|x86.Build.0 = Release|Win32
+		{51201D5E-D939-4854-AE9D-008F03FF518E}.Debug|x64.ActiveCfg = Debug|x64
+		{51201D5E-D939-4854-AE9D-008F03FF518E}.Debug|x64.Build.0 = Debug|x64
+		{51201D5E-D939-4854-AE9D-008F03FF518E}.Debug|x86.ActiveCfg = Debug|Win32
+		{51201D5E-D939-4854-AE9D-008F03FF518E}.Debug|x86.Build.0 = Debug|Win32
+		{51201D5E-D939-4854-AE9D-008F03FF518E}.Release|x64.ActiveCfg = Release|x64
+		{51201D5E-D939-4854-AE9D-008F03FF518E}.Release|x64.Build.0 = Release|x64
+		{51201D5E-D939-4854-AE9D-008F03FF518E}.Release|x86.ActiveCfg = Release|Win32
+		{51201D5E-D939-4854-AE9D-008F03FF518E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E7F9C00D-AF91-482C-87BC-071BF9D17E8E}
-		                SolutionGuid = {4ABD1207-9A90-4EC9-A8EB-203638A2605D}
-		                        SolutionGuid = {2FB733C9-24CB-4BA5-A26B-F43DAD7996B7}
-		                                SolutionGuid = {D0CAE2D0-8DB1-4A0B-80EE-800AA6C64323}
 		        SolutionGuid = {DA7D16A6-E5F0-45B3-B194-C3FE64F1BFCD}
+		                                SolutionGuid = {D0CAE2D0-8DB1-4A0B-80EE-800AA6C64323}
+		                        SolutionGuid = {2FB733C9-24CB-4BA5-A26B-F43DAD7996B7}
+		                SolutionGuid = {4ABD1207-9A90-4EC9-A8EB-203638A2605D}
+		SolutionGuid = {E7F9C00D-AF91-482C-87BC-071BF9D17E8E}
 	EndGlobalSection
 EndGlobal

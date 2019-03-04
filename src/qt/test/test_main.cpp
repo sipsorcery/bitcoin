@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 
     SSL_library_init();
 
-    AppTests app_tests(app);
+	AppTests app_tests(app);
     if (QTest::qExec(&app_tests) != 0) {
         fInvalid = true;
     }

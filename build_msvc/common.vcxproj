@@ -25,4 +25,13 @@
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
   </ItemDefinitionGroup>
+  <PropertyGroup Label="BitcoinGlobals">
+    <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
+    <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
+    <QtIncludeDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\include</QtIncludeDir>
+	<QtLibraryDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\lib</QtLibraryDir>
+    <QtToolsDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\bin</QtToolsDir>
+    <QtPluginsLibraryDir>N:\Qt\Qtv5.9.7_64_VS2017\qtbase\plugins</QtPluginsLibraryDir>
+    <ProtobufToolsDir>C:\Dev\github\vcpkg\installed\x64-windows-static\tools\protobuf</ProtobufToolsDir>
+  </PropertyGroup>
 </Project>

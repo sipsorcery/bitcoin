@@ -1,0 +1,11 @@
+<Project>
+ <PropertyGroup>
+    <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
+    <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
+    <QtIncludeDir>C:\Qt\include</QtIncludeDir>
+	<QtLibraryDir>C:\Qt\lib</QtLibraryDir>
+    <QtToolsDir>C:\Qt\bin</QtToolsDir>
+    <QtPluginsLibraryDir>C:\Qt\plugins</QtPluginsLibraryDir>
+    <ProtobufToolsDir>C:\Dev\github\vcpkg\installed\x64-windows-static\tools\protobuf</ProtobufToolsDir>
+ </PropertyGroup>
+</Project>
