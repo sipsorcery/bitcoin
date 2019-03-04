@@ -7,12 +7,13 @@ clone_depth: 5
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
   CLCACHE_SERVER: 1
-  PACKAGES: berkeleydb boost-filesystem boost-signals2 boost-test libevent openssl rapidcheck zeromq
+  PACKAGES: berkeleydb boost-filesystem boost-signals2 boost-test libevent openssl rapidcheck zeromq protobuf
   PATH: 'C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%'
   PYTHONUTF8: 1
 cache:
 - C:\tools\vcpkg\installed -> .appveyor.yml
 - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
+- C:\Qt5.9.7_ssl_x64_static_vs2017
 install:
 - cmd: pip install --quiet git+https://github.com/frerich/clcache.git@v4.2.0
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
@@ -22,6 +23,16 @@ install:
 - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
 before_build:
 - ps:  clcache -M 536870912
+- ps: |
+      if(!(Test-Path -Path c:\Qt5.9.7_ssl_x64_static_vs2017)) { 
+        Write-Host "Downloading Qtv5.9.7 binaries."; 
+        Invoke-WebRequest -Uri https://github.com/sipsorcery/qt_win_binary/releases/download/Binary/Qt5.9.7_ssl_x64_static_vs2017.zip -Out qtdownload.zip;
+        Expand-Archive qtdownload.zip -DestinationPath c:\Qt5.9.7_ssl_x64_static_vs2017;
+        Write-Host "Qtv5.9.7 binaries successfully downloaded.";
+      }
+      else {
+         Write-Host "Qtv5.9.7 binaries already present.";
+       }
 - cmd: python build_msvc\msvc-autogen.py
 - ps:  $files = (Get-ChildItem -Recurse | where {$_.extension -eq ".vcxproj"}).FullName
 - ps:  for (${i} = 0; ${i} -lt ${files}.length; ${i}++) {
