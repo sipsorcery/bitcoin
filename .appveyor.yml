@@ -16,7 +16,7 @@ environment:
 cache:
 - C:\tools\vcpkg\installed -> .appveyor.yml
 - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
-- C:\Qt5.9.7_ssl_x64_static_vs2017
+- C:\Qt5.9.7_ssl_x64_static_vs2017 -> .appveyor.yml
 install:
 - cmd: pip install --quiet git+https://github.com/frerich/clcache.git@v4.2.0
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
