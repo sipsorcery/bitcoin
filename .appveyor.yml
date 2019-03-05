@@ -10,6 +10,9 @@ environment:
   PACKAGES: berkeleydb boost-filesystem boost-signals2 boost-test libevent openssl rapidcheck zeromq protobuf
   PATH: 'C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%'
   PYTHONUTF8: 1
+  QT_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/Binary/Qt5.9.7_ssl_x64_static_vs2017.zip'
+  QT_DOWNLOAD_HASH: 'D4D35B8112302B67E5610A03421BB3E43FE13F14D9A5F637C22AE60DCEC0E0F5'
+  QT_LOCAL_PATH: 'c:\Qt5.9.7_ssl_x64_static_vs2017'
 cache:
 - C:\tools\vcpkg\installed -> .appveyor.yml
 - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
@@ -24,15 +27,22 @@ install:
 before_build:
 - ps:  clcache -M 536870912
 - ps: |
-      if(!(Test-Path -Path c:\Qt5.9.7_ssl_x64_static_vs2017)) { 
+      if(!(Test-Path -Path %QT_LOCAL_PATH%)) { 
         Write-Host "Downloading Qtv5.9.7 binaries."; 
-        Invoke-WebRequest -Uri https://github.com/sipsorcery/qt_win_binary/releases/download/Binary/Qt5.9.7_ssl_x64_static_vs2017.zip -Out qtdownload.zip;
-        Expand-Archive qtdownload.zip -DestinationPath c:\Qt5.9.7_ssl_x64_static_vs2017;
+        Invoke-WebRequest -Uri %QT_DOWNLOAD_URL% -Out qtdownload.zip;
         Write-Host "Qtv5.9.7 binaries successfully downloaded.";
+        if((Get-FileHash qtdownload.zip).Hash == "%QT_DOWNLOAD_HASH%") {
+          Expand-Archive qtdownload.zip -DestinationPath %QT_LOCAL_PATH%;
+          Write-Host "Qt binary download matched the expected hash.";
+        }
+        else {
+          Write-Host "ERROR: Qt binary download did not match the expected hash.";
+          Exit-AppveyorBuild;
+        }
       }
       else {
-         Write-Host "Qtv5.9.7 binaries already present.";
-       }
+         Write-Host "Qt binaries already present.";
+      }
 - cmd: python build_msvc\msvc-autogen.py
 - ps:  $files = (Get-ChildItem -Recurse | where {$_.extension -eq ".vcxproj"}).FullName
 - ps:  for (${i} = 0; ${i} -lt ${files}.length; ${i}++) {
