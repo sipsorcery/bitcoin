@@ -27,12 +27,12 @@ install:
 before_build:
 - ps:  clcache -M 536870912
 - ps: |
-      if(!(Test-Path -Path %QT_LOCAL_PATH%)) { 
-        Write-Host "Downloading Qtv5.9.7 binaries."; 
-        Invoke-WebRequest -Uri %QT_DOWNLOAD_URL% -Out qtdownload.zip;
-        Write-Host "Qtv5.9.7 binaries successfully downloaded.";
-        if((Get-FileHash qtdownload.zip).Hash == "%QT_DOWNLOAD_HASH%") {
-          Expand-Archive qtdownload.zip -DestinationPath %QT_LOCAL_PATH%;
+      if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) { 
+        Write-Host "Downloading Qt binaries."; 
+        Invoke-WebRequest -Uri $env:QT_DOWNLOAD_URL -Out qtdownload.zip;
+        Write-Host "Qt binaries successfully downloaded, checking hash against $env:QT_DOWNLOAD_HASH...";
+        if((Get-FileHash qtdownload.zip).Hash -eq $env:QT_DOWNLOAD_HASH) {
+          Expand-Archive qtdownload.zip -DestinationPath $env:QT_LOCAL_PATH;
           Write-Host "Qt binary download matched the expected hash.";
         }
         else {
