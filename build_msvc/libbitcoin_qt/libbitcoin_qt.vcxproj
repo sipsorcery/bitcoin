@@ -313,7 +313,7 @@
     <Exec Command="echo Performing libbitcoin_qt protobuf code generation task, output path $(GeneratedFilesOutDir)." />
     <Exec Command="$(ProtobufToolsDir)\protoc.exe --cpp_out=$(GeneratedFilesOutDir) --proto_path=..\..\src\qt &quot;%(ProtobufTemplates.Identity)&quot;" />
   </Target>
-  <Target Name="QtResourceCodeGeneration" Inputs="@(ResourceTemplates)" Outputs="@(ResourceTemplates->'$(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp')">
+  <Target Name="QtResourceCodeGeneration" Inputs="@(ResourceTemplates)" Outputs="@(ResourceTemplates->'$(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp')" DependsOnTargets="QtTranslationCodeGeneration">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt resource code generation task.</ErrorText>
     </PropertyGroup>
