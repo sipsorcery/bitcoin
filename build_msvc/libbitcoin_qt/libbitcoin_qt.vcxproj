@@ -309,7 +309,6 @@
       <ErrorText>There was an error executing the libbitcoin_qt protobuf code generation task.</ErrorText>
     </PropertyGroup>
     <Exec Command="echo Performing libbitcoin_qt protobuf code generation task, output path $(GeneratedFilesOutDir)." />
-    <MakeDir Directories="$(GeneratedFilesOutDir)\protobuf\" />
     <Exec Command="$(ProtobufToolsDir)\protoc.exe --cpp_out=$(GeneratedFilesOutDir) --proto_path=..\..\src\qt &quot;%(ProtobufTemplates.Identity)&quot;" />
   </Target>
   <Target Name="QtResourceCodeGeneration" Inputs="@(ResourceTemplates)" Outputs="@(ResourceTemplates->'$(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp')">

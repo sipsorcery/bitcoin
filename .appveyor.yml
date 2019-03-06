@@ -14,9 +14,9 @@ environment:
   QT_DOWNLOAD_HASH: 'D4D35B8112302B67E5610A03421BB3E43FE13F14D9A5F637C22AE60DCEC0E0F5'
   QT_LOCAL_PATH: 'c:\Qt5.9.7_ssl_x64_static_vs2017'
 cache:
-- C:\tools\vcpkg\installed -> .appveyor.yml
-- C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
-- C:\Qt5.9.7_ssl_x64_static_vs2017 -> .appveyor.yml
+- C:\tools\vcpkg\installed
+- C:\Users\appveyor\clcache
+- C:\Qt5.9.7_ssl_x64_static_vs2017
 install:
 - cmd: pip install --quiet git+https://github.com/frerich/clcache.git@v4.2.0
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
@@ -54,7 +54,7 @@ before_build:
 - ps:  Start-Process clcache-server
 - ps:  fsutil behavior set disablelastaccess 0 # Enable Access time feature on Windows (for clcache)
 build_script:
-- cmd: msbuild /p:TrackFileAccess=false /p:CLToolExe=clcache.exe build_msvc\bitcoin.sln /m /v:q /nologo
+- cmd: msbuild /p:TrackFileAccess=false /p:CLToolExe=clcache.exe build_msvc\bitcoin.sln /m
 after_build:
 - ps:  fsutil behavior set disablelastaccess 1 # Disable Access time feature on Windows (better performance)
 - ps:  clcache -z
