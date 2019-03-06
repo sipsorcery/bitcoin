@@ -12,8 +12,11 @@ environment:
   PYTHONUTF8: 1
   QT_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/Binary/Qt5.9.7_ssl_x64_static_vs2017.zip'
   QT_DOWNLOAD_HASH: 'D4D35B8112302B67E5610A03421BB3E43FE13F14D9A5F637C22AE60DCEC0E0F5'
-  QT_LOCAL_PATH: 'c:\Qt5.9.7_ssl_x64_static_vs2017'
+  QT_LOCAL_PATH: 'C:\Qt5.9.7_ssl_x64_static_vs2017'
 cache:
+#- C:\tools\vcpkg\installed -> .appveyor.yml
+#- C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
+#- C:\Qt5.9.7_ssl_x64_static_vs2017 -> .appveyor.yml
 - C:\tools\vcpkg\installed
 - C:\Users\appveyor\clcache
 - C:\Qt5.9.7_ssl_x64_static_vs2017
@@ -24,6 +27,8 @@ install:
 - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
 - cmd: vcpkg remove --outdated --recurse
 - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
+# The libprotobuf-lite.lib has duplicate symbols to libprotobuf.lib and breaks bitcoin-qt and test_bitcoin-qt when ENABLE_BIP70 is set.
+- cmd: move c:\tools\vcpkg\installed\x64-windows-static\lib\libprotobuf-lite.lib C:\Tools\vcpkg\installed\x64-windows-static\lib\manual-link
 before_build:
 - ps:  clcache -M 536870912
 - ps: |
@@ -54,7 +59,8 @@ before_build:
 - ps:  Start-Process clcache-server
 - ps:  fsutil behavior set disablelastaccess 0 # Enable Access time feature on Windows (for clcache)
 build_script:
-- cmd: msbuild /p:TrackFileAccess=false /p:CLToolExe=clcache.exe build_msvc\bitcoin.sln /m
+#- cmd: msbuild /p:TrackFileAccess=false /p:CLToolExe=clcache.exe build_msvc\bitcoin.sln /m /v:q /nologo
+- cmd: msbuild /p:TrackFileAccess=false /p:CLToolExe=clcache.exe build_msvc\bitcoin.sln /m /nologo
 after_build:
 - ps:  fsutil behavior set disablelastaccess 1 # Disable Access time feature on Windows (better performance)
 - ps:  clcache -z

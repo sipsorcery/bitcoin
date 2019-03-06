@@ -237,7 +237,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_AMD64_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENABLE_BIP70;_AMD64_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;$(GeneratedFilesOutDir)\..\;..\..\src;..\..\src\qt;..\..\src\univalue\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -278,15 +278,17 @@
     </PropertyGroup>
     <MakeDir Directories="$(GeneratedFilesOutDir)" />
     <Exec Command="echo Performing libbitcoin_qt moc code include generation task, output path $(GeneratedFilesOutDir)." />
-    <Exec Command="$(QtToolsDir)\moc.exe &quot;%(QT_MOC.Identity)&quot; -o $(GeneratedFilesOutDir)\%(Filename).moc" />
+	<Exec Command="echo $(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(QT_MOC.Identity)&quot; -o $(GeneratedFilesOutDir)\%(Filename).moc." />
+    <Exec Command="$(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(QT_MOC.Identity)&quot; -o $(GeneratedFilesOutDir)\%(Filename).moc" />
   </Target>
   <Target Name="QtMocHeaderGeneration" Inputs="@(MocHeaderFiles)" Outputs="@(MocHeaderFiles->'$(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp')">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt moc header generation task.</ErrorText>
     </PropertyGroup>
     <Exec Command="echo Performing libbitcoin_qt moc header generation task, output path $(GeneratedFilesOutDir)\moc." />
+	<Exec Command="echo $(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(MocHeaderFiles.Identity)&quot; -o $(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp." />
     <MakeDir Directories="$(GeneratedFilesOutDir)\moc\" />
-    <Exec Command="$(QtToolsDir)\moc.exe &quot;%(MocHeaderFiles.Identity)&quot; -o $(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp" />
+    <Exec Command="$(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(MocHeaderFiles.Identity)&quot; -o $(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp" />
   </Target>
   <Target Name="QtFormsHeaderGeneration" Inputs="@(UiFormFiles)" Outputs="@(UiFormFiles->'$(GeneratedFilesOutDir)\forms\ui_%(Filename).h')">
     <PropertyGroup>
