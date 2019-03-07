@@ -188,7 +188,7 @@
       <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
-      <PreprocessorDefinitions>_X86_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENABLE_BIP70;_X86_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;$(GeneratedFilesOutDir)\..\;..\..\src;..\..\src\qt;..\..\src\univalue\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -205,7 +205,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_X86_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENABLE_BIP70;_X86_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;$(GeneratedFilesOutDir)\..\;..\..\src;..\..\src\qt;..\..\src\univalue\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -220,7 +220,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_AMD64_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ENABLE_BIP70;_AMD64_;WIN32;HAVE_CONFIG_H;_SCL_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(QtIncludeDir);$(QtIncludeDir)\QtNetwork;$(QtIncludeDir)\QtCore;$(QtIncludeDir)\QtWidgets;$(QtIncludeDir)\QtGui;$(GeneratedFilesOutDir)\..\;..\..\src;..\..\src\qt;..\..\src\univalue\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -298,13 +298,12 @@
     <MakeDir Directories="$(GeneratedFilesOutDir)\forms\" />
     <Exec Command="$(QtToolsDir)\uic.exe &quot;%(UiFormFiles.Identity)&quot; -o $(GeneratedFilesOutDir)\forms\ui_%(Filename).h" />
   </Target>
-  <Target Name="QtTranslationCodeGeneration" Inputs="@(TranslationFiles)" Outputs="@(TranslationFiles->'$(GeneratedFilesOutDir)\locale\%(Filename).qm')">
+  <Target Name="QtTranslationCodeGeneration" Inputs="@(TranslationFiles)" Outputs="@(TranslationFiles->'..\..\src\qt\locale\%(Filename).qm')">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt translation file generation task.</ErrorText>
     </PropertyGroup>
-    <Exec Command="echo Performing libbitcoin_qt translation file generation task, output path $(GeneratedFilesOutDir)\locale." />
-    <MakeDir Directories="$(GeneratedFilesOutDir)\locale\" />
-    <Exec Command="$(QtToolsDir)\lrelease.exe &quot;%(TranslationFiles.Identity)&quot; -qm $(GeneratedFilesOutDir)\locale\%(Filename).qm" />
+    <Exec Command="echo Performing libbitcoin_qt translation file generation task." />
+    <Exec Command="$(QtToolsDir)\lrelease.exe &quot;%(TranslationFiles.Identity)&quot; -qm ..\..\src\qt\locale\%(Filename).qm" />
   </Target>
   <Target Name="ProtobufCodeGeneration" Inputs="@(ProtobufTemplates)" Outputs="@(ProtobufTemplates -> '$(GeneratedFilesOutDir)\%(Filename).pb.h','$(GeneratedFilesOutDir)\%(Filename).pb.cc')">
     <PropertyGroup>
@@ -319,7 +318,7 @@
     </PropertyGroup>
     <Exec Command="echo Performing libbitcoin_qt resource code generation task, output path $(GeneratedFilesOutDir)\rcc." />
     <MakeDir Directories="$(GeneratedFilesOutDir)\rcc\" />
-    <Exec Command="$(QtToolsDir)\rcc.exe --verbose --name %(Filename) &quot;%(ResourceTemplates.Identity)&quot; -o $(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp" />
+     <Exec Command="$(QtToolsDir)\rcc.exe --verbose --name %(ResourceTemplates.Identity.Filename) &quot;%(ResourceTemplates.Identity)&quot; -o $(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp"/>
   </Target>
   <PropertyGroup>
     <CleanDependsOn>
@@ -330,7 +329,6 @@
   <Target Name="QtCleanGeneratedFiles">
     <Exec Command="echo Clean libbitcoin_qt generated files from $(GeneratedFilesOutDir)." />
     <RemoveDir Directories="$(GeneratedFilesOutDir)\forms\*" />
-    <RemoveDir Directories="$(GeneratedFilesOutDir)\locale\*" />
     <RemoveDir Directories="$(GeneratedFilesOutDir)\moc\*" />
     <RemoveDir Directories="$(GeneratedFilesOutDir)\rcc\*" />
     <RemoveDir Directories="$(GeneratedFilesOutDir)\*" />
