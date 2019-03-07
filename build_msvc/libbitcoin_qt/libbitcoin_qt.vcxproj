@@ -233,7 +233,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -278,7 +278,7 @@
     </PropertyGroup>
     <MakeDir Directories="$(GeneratedFilesOutDir)" />
     <Exec Command="echo Performing libbitcoin_qt moc code include generation task, output path $(GeneratedFilesOutDir)." />
-	<Exec Command="echo $(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(QT_MOC.Identity)&quot; -o $(GeneratedFilesOutDir)\%(Filename).moc." />
+    <Exec Command="echo $(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(QT_MOC.Identity)&quot; -o $(GeneratedFilesOutDir)\%(Filename).moc." />
     <Exec Command="$(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(QT_MOC.Identity)&quot; -o $(GeneratedFilesOutDir)\%(Filename).moc" />
   </Target>
   <Target Name="QtMocHeaderGeneration" Inputs="@(MocHeaderFiles)" Outputs="@(MocHeaderFiles->'$(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp')">
@@ -286,7 +286,7 @@
       <ErrorText>There was an error executing the libbitcoin_qt moc header generation task.</ErrorText>
     </PropertyGroup>
     <Exec Command="echo Performing libbitcoin_qt moc header generation task, output path $(GeneratedFilesOutDir)\moc." />
-	<Exec Command="echo $(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(MocHeaderFiles.Identity)&quot; -o $(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp." />
+    <Exec Command="echo $(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(MocHeaderFiles.Identity)&quot; -o $(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp." />
     <MakeDir Directories="$(GeneratedFilesOutDir)\moc\" />
     <Exec Command="$(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(MocHeaderFiles.Identity)&quot; -o $(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp" />
   </Target>
@@ -318,7 +318,7 @@
     </PropertyGroup>
     <Exec Command="echo Performing libbitcoin_qt resource code generation task, output path $(GeneratedFilesOutDir)\rcc." />
     <MakeDir Directories="$(GeneratedFilesOutDir)\rcc\" />
-     <Exec Command="$(QtToolsDir)\rcc.exe --verbose --name %(ResourceTemplates.Identity.Filename) &quot;%(ResourceTemplates.Identity)&quot; -o $(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp"/>
+    <Exec Command="$(QtToolsDir)\rcc.exe --verbose --name %(ResourceTemplates.Identity.Filename) &quot;%(ResourceTemplates.Identity)&quot; -o $(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp" />
   </Target>
   <PropertyGroup>
     <CleanDependsOn>
