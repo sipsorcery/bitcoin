@@ -16,12 +16,10 @@ environment:
   LIBPROTOBUFLITE_PATH: 'c:\tools\vcpkg\installed\x64-windows-static\lib\libprotobuf-lite.lib'
   LIBPROTOBUFLITE_DESTINATION_PATH: 'c:\tools\vcpkg\installed\x64-windows-static\lib\libprotobuf-lite.lib'
 cache:
-#- C:\tools\vcpkg\installed -> .appveyor.yml
-#- C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
-#- C:\Qt5.9.7_ssl_x64_static_vs2017 -> .appveyor.yml
-- C:\tools\vcpkg\installed
-- C:\Users\appveyor\clcache
-- C:\Qt5.9.7_ssl_x64_static_vs2017
+- C:\tools\vcpkg\installed -> .appveyor.yml
+- C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
+- C:\Qt5.9.7_ssl_x64_static_vs2017 -> .appveyor.yml
+
 install:
 - cmd: pip install --quiet git+https://github.com/frerich/clcache.git@v4.2.0
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
@@ -32,14 +30,14 @@ install:
 # The libprotobuf-lite.lib has duplicate symbols to libprotobuf.lib and breaks bitcoin-qt and test_bitcoin-qt when ENABLE_BIP70 is set.
 - ps: |
       if(Test-Path -Path ($env:LIBPROTOBUFLITE_PATH)) {
-         Write-Host "Moving libprotobuf-lite library to manual link directory."; 
+         Write-Host "Moving libprotobuf-lite library to manual link directory.";
          Move-Item -Path $env:LIBPROTOBUFLITE_PATH -Destination $env:LIBPROTOBUFLITE_DESTINATION_PATH
       }
 before_build:
 - ps:  clcache -M 536870912
 - ps: |
-      if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) { 
-        Write-Host "Downloading Qt binaries."; 
+      if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) {
+        Write-Host "Downloading Qt binaries.";
         Invoke-WebRequest -Uri $env:QT_DOWNLOAD_URL -Out qtdownload.zip;
         Write-Host "Qt binaries successfully downloaded, checking hash against $env:QT_DOWNLOAD_HASH...";
         if((Get-FileHash qtdownload.zip).Hash -eq $env:QT_DOWNLOAD_HASH) {
@@ -66,8 +64,6 @@ before_build:
 - ps:  fsutil behavior set disablelastaccess 0 # Enable Access time feature on Windows (for clcache)
 build_script:
 - cmd: msbuild /p:TrackFileAccess=false /p:CLToolExe=clcache.exe build_msvc\bitcoin.sln /m /v:q /nologo
-#- cmd: msbuild /p:TrackFileAccess=false /p:CLToolExe=clcache.exe build_msvc\bitcoin.sln /m /nologo
-#- cmd: msbuild /p:TrackFileAccess=false /p:CLToolExe=clcache.exe build_msvc\libbitcoin_qt\libbitcoin_qt.vcxproj
 after_build:
 - ps:  fsutil behavior set disablelastaccess 1 # Disable Access time feature on Windows (better performance)
 - ps:  clcache -z
