@@ -16,9 +16,9 @@ environment:
   LIBPROTOBUFLITE_PATH: 'c:\tools\vcpkg\installed\x64-windows-static\lib\libprotobuf-lite.lib'
   LIBPROTOBUFLITE_DESTINATION_PATH: 'c:\tools\vcpkg\installed\x64-windows-static\lib\libprotobuf-lite.lib'
 cache:
-- C:\tools\vcpkg\installed -> .appveyor.yml
-- C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
-- C:\Qt5.9.7_ssl_x64_static_vs2017 -> .appveyor.yml
+- C:\tools\vcpkg\installed
+- C:\Users\appveyor\clcache
+- C:\Qt5.9.7_ssl_x64_static_vs2017
 
 install:
 - cmd: pip install --quiet git+https://github.com/frerich/clcache.git@v4.2.0
@@ -85,4 +85,6 @@ test_script:
 - ps:  python test\util\bitcoin-util-test.py
 - cmd: python test\util\rpcauth-test.py
 - cmd: python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast
+artifacts:
+- path: 'build_msvc\%platform%\%configuration%\*.exe'
 deploy: off
