@@ -264,11 +264,11 @@
   <PropertyGroup>
     <BuildDependsOn>
         QtMocCodeIncludeGeneration;
-		QtMocHeaderGeneration;
-		QtFormsHeaderGeneration;
-		QtTranslationCodeGeneration;
-		ProtobufCodeGeneration;
-		QtResourceCodeGeneration;
+          QtMocHeaderGeneration;
+          QtFormsHeaderGeneration;
+          QtTranslationCodeGeneration;
+          ProtobufCodeGeneration;
+          QtResourceCodeGeneration;
         $(BuildDependsOn);
     </BuildDependsOn>
   </PropertyGroup>
