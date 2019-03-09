@@ -24,7 +24,10 @@
     <GeneratedFilesOutDir>.\$(Platform)\$(Configuration)\qt</GeneratedFilesOutDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\qt\addressbookpage.cpp" />
     <ClCompile Include="..\..\src\qt\addresstablemodel.cpp" />
@@ -286,6 +289,7 @@
     <RemoveDir Directories="$(GeneratedFilesOutDir)\forms;$(GeneratedFilesOutDir)\moc;$(GeneratedFilesOutDir)\rcc;" />
     <RemoveDir Directories="$(GeneratedFilesOutDir)" />
   </Target>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <PropertyGroup>
     <BuildDependsOn>

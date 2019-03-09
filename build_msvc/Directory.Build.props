@@ -3,26 +3,25 @@
  <PropertyGroup>
     <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
     <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
-	<QtBaseDir>C:\Qt5.9.7_ssl_x64_static_vs2017</QtBaseDir>
+    <QtBaseDir>C:\Qt5.9.7_ssl_x64_static_vs2017</QtBaseDir>
     <QtIncludeDir>$(QtBaseDir)\include</QtIncludeDir>
     <QtLibraryDir>$(QtBaseDir)\lib</QtLibraryDir>
     <QtToolsDir>$(QtBaseDir)\bin</QtToolsDir>
     <QtPluginsLibraryDir>$(QtBaseDir)\plugins</QtPluginsLibraryDir>
     <ProtobufToolsDir>C:\Tools\vcpkg\installed\x64-windows-static\tools\protobuf</ProtobufToolsDir>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <MOC_DEFINES>-DENABLE_BIP70</MOC_DEFINES>
  </PropertyGroup>
  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <LinkIncremental>true</LinkIncremental>
-	<WholeProgramOptimization>false</WholeProgramOptimization>
-	<ConfigurationType>StaticLibrary</ConfigurationType>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
     <LinkIncremental>false</LinkIncremental>
-	<WholeProgramOptimization>true</WholeProgramOptimization>
-	<ConfigurationType>StaticLibrary</ConfigurationType>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
