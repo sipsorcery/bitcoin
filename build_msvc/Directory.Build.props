@@ -2,7 +2,7 @@
  <PropertyGroup>
     <VcpkgTriplet Condition="'$(Platform)'=='Win32'">x86-windows-static</VcpkgTriplet>
     <VcpkgTriplet Condition="'$(Platform)'=='x64'">x64-windows-static</VcpkgTriplet>
-	<QtBaseDir>C:\Qt\5.9.7\msvc2017_64</QtBaseDir>
+	<QtBaseDir>C:\Qt5.9.7_ssl_x64_static_vs2017</QtBaseDir>
     <QtIncludeDir>$(QtBaseDir)\include</QtIncludeDir>
     <QtLibraryDir>$(QtBaseDir)\lib</QtLibraryDir>
     <QtToolsDir>$(QtBaseDir)\bin</QtToolsDir>
