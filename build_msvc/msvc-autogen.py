@@ -58,7 +58,8 @@ def main():
             with open(vcxproj_filename, 'w', encoding='utf-8') as vcxproj_file:
                 vcxproj_file.write(vcxproj_in_file.read().replace(
                     '@SOURCE_FILES@\n', content))
-
+    os.system('copy bitcoin_config.h ..\\src\\config\\bitcoin-config.h')
+    os.system('copy libsecp256k1_config.h ..\\src\\secp256k1\\src\\libsecp256k1-config.h')
 
 if __name__ == '__main__':
     main()

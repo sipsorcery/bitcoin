@@ -23,6 +23,8 @@
     <ProjectGuid>{2B4ABFF8-D1FD-4845-88C9-1F3C0A6512BF}</ProjectGuid>
     <GeneratedFilesOutDir>.\$(Platform)\$(Configuration)\qt</GeneratedFilesOutDir>
   </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ItemGroup>
     <ClCompile Include="..\..\src\qt\addressbookpage.cpp" />
     <ClCompile Include="..\..\src\qt\addresstablemodel.cpp" />
@@ -131,34 +133,6 @@
     <ClCompile Include="$(GeneratedFilesOutDir)\rcc\qrc_bitcoin.cpp" />
     <ClCompile Include="$(GeneratedFilesOutDir)\rcc\qrc_bitcoin_locale.cpp" />
   </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <Linkage-protobuf>static</Linkage-protobuf>
@@ -248,7 +222,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <Import Label="configTarget" Project="..\common.vcxproj" />
   <ItemGroup>
     <QT_MOC Include="..\..\src\qt\bitcoinamountfield.cpp" />
     <QT_MOC Include="..\..\src\qt\intro.cpp" />
@@ -260,17 +233,6 @@
     <UiFormFiles Include="..\..\src\qt\forms\*.ui" />
     <TranslationFiles Include="..\..\src\qt\locale\*.ts" />
   </ItemGroup>
-  <PropertyGroup>
-    <BuildDependsOn>
-        QtMocCodeIncludeGeneration;
-          QtMocHeaderGeneration;
-          QtFormsHeaderGeneration;
-          QtTranslationCodeGeneration;
-          ProtobufCodeGeneration;
-          QtResourceCodeGeneration;
-        $(BuildDependsOn);
-    </BuildDependsOn>
-  </PropertyGroup>
   <Target Name="QtMocCodeIncludeGeneration" Inputs="@(QT_MOC)" Outputs="@(QT_MOC->'$(GeneratedFilesOutDir)\%(Filename).moc')">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt moc code include generation task.</ErrorText>
@@ -319,17 +281,27 @@
     <MakeDir Directories="$(GeneratedFilesOutDir)\rcc\" />
     <Exec Command="$(QtToolsDir)\rcc.exe --verbose --name %(Filename) &quot;%(ResourceTemplates.Identity)&quot; -o $(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp" />
   </Target>
+  <Target Name="QtCleanGeneratedFiles">
+    <Exec Command="echo Clean libbitcoin_qt generated files from $(GeneratedFilesOutDir)." />
+    <RemoveDir Directories="$(GeneratedFilesOutDir)\forms;$(GeneratedFilesOutDir)\moc;$(GeneratedFilesOutDir)\rcc;" />
+    <RemoveDir Directories="$(GeneratedFilesOutDir)" />
+  </Target>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <PropertyGroup>
+    <BuildDependsOn>
+        QtMocCodeIncludeGeneration;
+          QtMocHeaderGeneration;
+          QtFormsHeaderGeneration;
+          QtTranslationCodeGeneration;
+          ProtobufCodeGeneration;
+          QtResourceCodeGeneration;
+        $(BuildDependsOn);
+    </BuildDependsOn>
+  </PropertyGroup>
   <PropertyGroup>
     <CleanDependsOn>
         QtCleanGeneratedFiles;
         $(CleanDependsOn);
     </CleanDependsOn>
   </PropertyGroup>
-  <Target Name="QtCleanGeneratedFiles">
-    <Exec Command="echo Clean libbitcoin_qt generated files from $(GeneratedFilesOutDir)." />
-    <RemoveDir Directories="$(GeneratedFilesOutDir)\forms\*" />
-    <RemoveDir Directories="$(GeneratedFilesOutDir)\moc\*" />
-    <RemoveDir Directories="$(GeneratedFilesOutDir)\rcc\*" />
-    <RemoveDir Directories="$(GeneratedFilesOutDir)\*" />
-  </Target>
 </Project>
