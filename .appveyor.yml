@@ -32,6 +32,7 @@ install:
          Write-Host "Moving libprotobuf-lite library to manual link directory.";
          Move-Item -Path $env:LIBPROTOBUFLITE_PATH -Destination $env:LIBPROTOBUFLITE_DESTINATION_PATH
       }
+ cmd: dir C:\Qt\5.9.7\msvc2017_64
 before_build:
 - ps:  clcache -M 536870912
 - ps: |
