@@ -77,7 +77,7 @@ before_test:
 - ps:  ${conf_ini} = ${conf_ini}.Replace("@ENABLE_ZMQ_TRUE@", "")
 - ps:  ${utf8} = New-Object System.Text.UTF8Encoding ${false}
 - ps:  '[IO.File]::WriteAllLines([IO.Path]::Combine(${env:APPVEYOR_BUILD_FOLDER}, "test", "config.ini"), ${conf_ini}, ${utf8})'
-- ps:  move "build_msvc\${env:PLATFORM}\${env:CONFIGURATION}\*.exe" src
+- ps:  copy "build_msvc\${env:PLATFORM}\${env:CONFIGURATION}\*.exe" src
 test_script:
 - cmd: src\test_bitcoin.exe -k stdout -e stdout 2> NUL
 - cmd: src\bench_bitcoin.exe -evals=1 -scaling=0 > NUL
@@ -85,5 +85,5 @@ test_script:
 - cmd: python test\util\rpcauth-test.py
 - cmd: python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast
 artifacts:
-- path: '%APPVEYOR_BUILD_FOLDER%\build_msvc\%platform%\%configuration%\*.exe'
+- path: 'build_msvc\%platform%\%configuration%\*.exe'
 deploy: off
