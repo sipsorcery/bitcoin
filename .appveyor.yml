@@ -20,7 +20,6 @@ cache:
 - C:\Users\appveyor\clcache
 - C:\Qt5.9.7_ssl_x64_static_vs2017
 install:
-#- cmd: dir C:\Qt\5.9.7\msvc2017_64
 - cmd: pip install --quiet git+https://github.com/frerich/clcache.git@v4.2.0
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
