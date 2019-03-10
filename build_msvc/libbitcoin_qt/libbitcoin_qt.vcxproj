@@ -269,12 +269,12 @@
     <Exec Command="echo Performing libbitcoin_qt translation file generation task." />
     <Exec Command="$(QtToolsDir)\lrelease.exe &quot;%(TranslationFiles.Identity)&quot; -qm ..\..\src\qt\locale\%(Filename).qm" />
   </Target>
-  <Target Name="ProtobufCodeGeneration" Inputs="@(ProtobufTemplates)" Outputs="@(ProtobufTemplates -> '$(GeneratedFilesOutDir)\%(Filename).pb.h','$(GeneratedFilesOutDir)\%(Filename).pb.cc')">
+  <Target Name="ProtobufCodeGeneration" Inputs="@(ProtobufTemplates)" Outputs="@(ProtobufTemplates -> '$(GeneratedFilesOutDir)\%(Filename).pb.cc','$(GeneratedFilesOutDir)\%(Filename).pb.h')">
     <PropertyGroup>
       <ErrorText>There was an error executing the libbitcoin_qt protobuf code generation task.</ErrorText>
     </PropertyGroup>
-    <Exec Command="echo Performing libbitcoin_qt protobuf code generation task, output path $(GeneratedFilesOutDir)." />
-    <Exec Command="$(ProtobufToolsDir)\protoc.exe --cpp_out=$(GeneratedFilesOutDir) --proto_path=..\..\src\qt &quot;%(ProtobufTemplates.Identity)&quot;" />
+    <Exec Command="echo Performing libbitcoin_qt protobuf code generation task, output path $(GeneratedFilesOutDir), protoc dir $(ProtocPath)." />
+    <Exec Command="$(ProtocPath) --cpp_out=$(GeneratedFilesOutDir) --proto_path=..\..\src\qt &quot;%(ProtobufTemplates.Identity)&quot;" />
   </Target>
   <Target Name="QtResourceCodeGeneration" Inputs="@(ResourceTemplates)" Outputs="@(ResourceTemplates->'$(GeneratedFilesOutDir)\rcc\qrc_%(Filename).cpp')" DependsOnTargets="QtTranslationCodeGeneration">
     <PropertyGroup>

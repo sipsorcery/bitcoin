@@ -17,7 +17,7 @@ environment:
   LIBPROTOBUFLITE_DESTINATION_PATH: 'c:\tools\vcpkg\installed\x64-windows-static\lib\libprotobuf-lite.lib'
 cache:
 - C:\tools\vcpkg\installed
-- C:\Users\appveyor\clcache
+- C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
 - C:\Qt5.9.7_ssl_x64_static_vs2017
 install:
 - cmd: pip install --quiet git+https://github.com/frerich/clcache.git@v4.2.0
@@ -51,7 +51,7 @@ before_build:
       else {
          Write-Host "Qt binaries already present.";
       }
-- cmd: python build_msvc\msvc-autogen.py
+- cmd: python build_msvc\msvc-autogen.py -qtdir "C:\\Qt5.9.7_ssl_x64_static_vs2017" -protocpath "C:\\Tools\\vcpkg\\installed\\x64-windows-static\\tools\\protobuf\\protoc.exe"
 - ps:  Start-Process clcache-server
 - ps:  fsutil behavior set disablelastaccess 0 # Enable Access time feature on Windows (for clcache)
 build_script:

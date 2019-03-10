@@ -2,6 +2,7 @@
 
 import os
 import re
+import argparse
 
 SOURCE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
@@ -42,8 +43,28 @@ def parse_makefile(makefile):
                     lib_sources[current_lib] = []
                     break
 
-
+def set_custom_paths(qtDir, protocPath):
+    print("qtDir ", qtDir)
+    print("protocPath ", protocPath)
+    with open('build_msvc\\Directory.build.props', 'r', encoding='utf-8') as rfile:
+        s = rfile.read()
+        if qtDir:
+            s = re.sub(r'(<QtBaseDir>)[^<]+', r'\1%s'%qtDir, s, re.M)
+        if protocPath:
+            s = re.sub(r'(<ProtocPath>)[^<]+', r'\1%s'%protocPath, s, re.M)
+    with open('build_msvc\\Directory.build.props', 'w', encoding='utf-8',newline='\n') as wfile:
+        wfile.write(s)
+                                                 
 def main():
+    parser = argparse.ArgumentParser(description='Bitcoin-core msbuild configuration initialiser.')
+    parser.add_argument('-qtdir', nargs='?',help='Optionally sets the directory to use for the static '\
+        'Qt5 binaries and include files, default is C:\Qt5.9.7_ssl_x64_static_vs2017.')
+    parser.add_argument('-protocpath', nargs='?',help='Optionally sets the path for the Protobuf compiler,'\
+         ' default is C:\Tools\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe.')
+    args = parser.parse_args()
+    if args.qtdir or args.protocpath:
+        set_custom_paths(args.qtdir, args.protocpath)
+
     for makefile_name in os.listdir(SOURCE_DIR):
         if 'Makefile' in makefile_name:
             parse_makefile(os.path.join(SOURCE_DIR, makefile_name))
