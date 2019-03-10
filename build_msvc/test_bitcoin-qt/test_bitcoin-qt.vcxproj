@@ -84,7 +84,6 @@
     <RootNamespace>test_bitcoinqt</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -166,12 +165,6 @@
     <MocTestFiles Include="..\..\src\qt\test\uritests.h" />
     <MocTestFiles Include="..\..\src\qt\test\wallettests.h" />
   </ItemGroup>
-  <PropertyGroup>
-    <BuildDependsOn>
-       QtMocGeneration;
-        $(BuildDependsOn);
-    </BuildDependsOn>
-  </PropertyGroup>
   <Target Name="QtMocGeneration" Inputs="@(MocTestFiles)" Outputs="@(MocTestFiles->'$(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp')">
     <PropertyGroup>
       <ErrorText>There was an error executing the test_bitcoin-qt moc generation task.</ErrorText>
@@ -180,16 +173,23 @@
     <MakeDir Directories="$(GeneratedFilesOutDir)\moc\" />
     <Exec Command="$(QtToolsDir)\moc.exe $(MOC_DEFINES) &quot;%(MocTestFiles.Identity)&quot; -o $(GeneratedFilesOutDir)\moc\moc_%(Filename).cpp" />
   </Target>
+  <Target Name="QtTestCleanGeneratedFiles">
+    <RemoveDir Directories="$(GeneratedFilesOutDir)\moc\*" />
+    <RemoveDir Directories="$(GeneratedFilesOutDir)\moc" />
+    <RemoveDir Directories="$(GeneratedFilesOutDir)\*" />
+  </Target>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <PropertyGroup>
+    <BuildDependsOn>
+       QtMocGeneration;
+       $(BuildDependsOn);
+    </BuildDependsOn>
+  </PropertyGroup>
   <PropertyGroup>
     <CleanDependsOn>
         QtTestCleanGeneratedFiles;
         $(CleanDependsOn);
     </CleanDependsOn>
   </PropertyGroup>
-  <Target Name="QtTestCleanGeneratedFiles">
-    <RemoveDir Directories="$(GeneratedFilesOutDir)\moc\*" />
-    <RemoveDir Directories="$(GeneratedFilesOutDir)\moc" />
-    <RemoveDir Directories="$(GeneratedFilesOutDir)\*" />
-  </Target>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
