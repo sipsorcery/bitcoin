@@ -2,8 +2,12 @@
 
 import os
 import re
+import argparse
+from shutil import copyfile
 
 SOURCE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src'))
+DEFAULT_QT_DIR = R'C:\Qt5.9.7_ssl_x64_static_vs2017'
+DEFAULT_PROTOC_PATH = R'C:\Tools\vcpkg\installed\x64-windows-static\tools\protobuf\protoc.exe'
 
 libs = [
     'libbitcoin_cli',
@@ -42,8 +46,28 @@ def parse_makefile(makefile):
                     lib_sources[current_lib] = []
                     break
 
+def set_custom_paths(qtDir, protocPath):
+    with open(os.path.join(SOURCE_DIR, '..\\build_msvc\\Directory.build.props.in'), 'r', encoding='utf-8') as rfile:
+        s = rfile.read()
+        if qtDir:
+            s = s.replace(DEFAULT_QT_DIR, qtDir)
+        if protocPath:
+            s = s.replace(DEFAULT_PROTOC_PATH, protocPath)
+    with open(os.path.join(SOURCE_DIR, '..\\build_msvc\\Directory.build.props'), 'w', encoding='utf-8',newline='\n') as wfile:
+        wfile.write(s)
 
 def main():
+    parser = argparse.ArgumentParser(description='Bitcoin-core msbuild configuration initialiser.')
+    parser.add_argument('-qtdir', nargs='?',help='Optionally sets the directory to use for the static '
+        'Qt5 binaries and include files, default is %s.'%DEFAULT_QT_DIR)
+    parser.add_argument('-protocpath', nargs='?',help='Optionally sets the path for the Protobuf compiler,'
+         ' default is %s.'%DEFAULT_PROTOC_PATH)
+    args = parser.parse_args()
+    if args.qtdir or args.protocpath:
+        set_custom_paths(args.qtdir, args.protocpath)
+    else:
+        copyfile(os.path.join(SOURCE_DIR,'..\\build_msvc\\Directory.build.props.in'), os.path.join(SOURCE_DIR, '..\\build_msvc\\Directory.build.props'))
+
     for makefile_name in os.listdir(SOURCE_DIR):
         if 'Makefile' in makefile_name:
             parse_makefile(os.path.join(SOURCE_DIR, makefile_name))
@@ -58,7 +82,8 @@ def main():
             with open(vcxproj_filename, 'w', encoding='utf-8') as vcxproj_file:
                 vcxproj_file.write(vcxproj_in_file.read().replace(
                     '@SOURCE_FILES@\n', content))
-
+    copyfile(os.path.join(SOURCE_DIR,'..\\build_msvc\\bitcoin_config.h'), os.path.join(SOURCE_DIR, 'config\\bitcoin-config.h'))
+    copyfile(os.path.join(SOURCE_DIR,'..\\build_msvc\\libsecp256k1_config.h'), os.path.join(SOURCE_DIR, 'secp256k1\\src\\libsecp256k1-config.h'))
 
 if __name__ == '__main__':
     main()

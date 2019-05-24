@@ -10,6 +10,7 @@
 #endif
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #if defined(HAVE_BYTESWAP_H)
 #include <byteswap.h>
@@ -28,6 +29,20 @@
 #define bswap_64(x) OSSwapInt64(x)
 
 #endif // !defined(bswap_16)
+
+#elif _MSC_VER
+
+#if HAVE_DECL_BSWAP_16 == 0
+#define bswap_16(x) _byteswap_ushort(x)
+#endif
+
+#if HAVE_DECL_BSWAP_32 == 0
+#define bswap_32(x) _byteswap_ulong(x)
+#endif
+
+#if HAVE_DECL_BSWAP_64 == 0
+#define bswap_64(x) _byteswap_uint64(x)
+#endif
 
 #else
 // Non-Mac OS X / non-Darwin

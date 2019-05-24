@@ -815,7 +815,7 @@ QString formatServicesStr(quint64 mask)
 
     // Just scan the last 8 bits for now.
     for (int i = 0; i < 8; i++) {
-        uint64_t check = 1 << i;
+        uint64_t check = (uint64_t)1 << i;
         if (mask & check)
         {
             switch (check)

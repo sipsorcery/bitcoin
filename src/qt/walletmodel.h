@@ -194,18 +194,24 @@ public:
 
         bool isValid() const { return valid; }
 
-        // Copy constructor is disabled.
-        UnlockContext(const UnlockContext&) = delete;
-        // Move operator and constructor transfer the context
-        UnlockContext(UnlockContext&& obj) { CopyFrom(std::move(obj)); }
-        UnlockContext& operator=(UnlockContext&& rhs) { CopyFrom(std::move(rhs)); return *this; }
+        // Copy operator and constructor transfer the context
+        UnlockContext(const UnlockContext& obj) {
+            // Transfer context; old object no longer relocks wallet
+            *this = obj;
+            this->relock = false;
+        }
+		
+        UnlockContext& operator=(const UnlockContext& rhs) {
+            // Transfer context; old object no longer relocks wallet
+            *this = rhs;
+            rhs.relock = false;
+            return *this;
+        }
+
     private:
         WalletModel *wallet;
         bool valid;
         mutable bool relock; // mutable, as it can be set to false by copying
-
-        UnlockContext& operator=(const UnlockContext&) = default;
-        void CopyFrom(UnlockContext&& rhs);
     };
 
     UnlockContext requestUnlock();
