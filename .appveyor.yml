@@ -14,7 +14,6 @@ environment:
   QT_DOWNLOAD_HASH: 'D4D35B8112302B67E5610A03421BB3E43FE13F14D9A5F637C22AE60DCEC0E0F5'
   QT_LOCAL_PATH: 'C:\Qt5.9.7_ssl_x64_static_vs2017'
 cache:
-#- C:\tools\vcpkg\installed -> .appveyor.yml
 - C:\tools\vcpkg\installed
 - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
 - C:\Qt5.9.7_ssl_x64_static_vs2017
@@ -56,11 +55,10 @@ before_build:
 - ps:  fsutil behavior set disablelastaccess 0 # Enable Access time feature on Windows (for clcache)
 build_script:
 - cmd: msbuild /p:TrackFileAccess=false /p:CLToolExe=clcache.exe build_msvc\bitcoin.sln /m /v:q /nologo
-#- cmd: msbuild build_msvc\bitcoin.sln /m
 after_build:
 - ps:  fsutil behavior set disablelastaccess 1 # Disable Access time feature on Windows (better performance)
 - ps:  clcache -z
-- 7z a bitcoin-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\build_msvc\%platform%\%configuration%\*.exe
+#- 7z a bitcoin-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\build_msvc\%platform%\%configuration%\*.exe
 before_test:
 - ps:  ${conf_ini} = (Get-Content([IO.Path]::Combine(${env:APPVEYOR_BUILD_FOLDER}, "test", "config.ini.in")))
 - ps:  ${conf_ini} = ${conf_ini}.Replace("@PACKAGE_NAME@", "Bitcoin Core")
@@ -81,5 +79,5 @@ test_script:
 - cmd: python test\util\rpcauth-test.py
 - cmd: python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast
 artifacts:
-- path: bitcoin-%APPVEYOR_BUILD_VERSION%.zip
-deploy: on
+#- path: bitcoin-%APPVEYOR_BUILD_VERSION%.zip
+deploy: off
