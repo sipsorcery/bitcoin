@@ -11,13 +11,13 @@ environment:
   PATH: 'C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%'
   PYTHONUTF8: 1
 cache:
-- C:\tools\vcpkg\installed -> .appveyor.yml
-- C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
+- C:\tools\vcpkg\installed
+- C:\Users\appveyor\clcache
 install:
 - cmd: pip install --quiet git+https://github.com/frerich/clcache.git@v4.2.0
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
-- cmd: echo set(VCPKG_BUILD_TYPE debug) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
+#- cmd: echo set(VCPKG_BUILD_TYPE debug) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
 - cmd: vcpkg remove --outdated --recurse
 - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
 before_build:
