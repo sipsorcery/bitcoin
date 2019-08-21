@@ -1,7 +1,7 @@
 version: '{branch}.{build}'
 skip_tags: true
 image: Visual Studio 2017
-configuration: Release
+configuration: debug
 platform: x64
 clone_depth: 5
 environment:
@@ -17,7 +17,7 @@ install:
 - cmd: pip install --quiet git+https://github.com/frerich/clcache.git@v4.2.0
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
-- cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
+- cmd: echo set(VCPKG_BUILD_TYPE debug) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
 - cmd: vcpkg remove --outdated --recurse
 - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
 before_build:
