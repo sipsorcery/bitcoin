@@ -18,6 +18,7 @@ cache:
 install:
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
+- cmd: IF EXIST C:\tools\vcpkg\installed\ GOTO SKIPVCPKG
 - cmd: echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
 - cmd: cd c:\tools\vcpkg
 - cmd: git pull
@@ -26,6 +27,7 @@ install:
 - cmd: vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
 - cmd: vcpkg integrate install
 - cmd: cd %APPVEYOR_BUILD_FOLDER%
+- cmd: :SKIPVCPKG
 before_build:
 - ps: |
       if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) {
@@ -46,7 +48,7 @@ before_build:
       }
 - cmd: python build_msvc\msvc-autogen.py
 build_script:
-- cmd: msbuild build_msvc\bitcoin.sln /m /v:n /nologo
+- cmd: msbuild build_msvc\bitcoin.sln /m /v:q /nologo
 after_build:
 - ps:  fsutil behavior set disablelastaccess 1 # Disable Access time feature on Windows (better performance)
 #- 7z a bitcoin-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\build_msvc\%platform%\%configuration%\*.exe
