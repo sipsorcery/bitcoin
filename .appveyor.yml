@@ -18,19 +18,22 @@ cache:
 install:
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
-- cmd: IF NOT EXIST "C:\tools\vcpkg\installed\*" (
-- cmd:   ECHO "updating vcpkg and installing required packages..."
-- cmd:   ECHO set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
-- cmd:   cd c:\tools\vcpkg
-- cmd:   git pull
-- cmd:   bootstrap-vcpkg.bat
-- cmd:   vcpkg remove --outdated --recurse
-- cmd:   vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
-- cmd:   vcpkg integrate install
-- cmd:   cd %APPVEYOR_BUILD_FOLDER%
-- cmd:   ) ELSE (  
-- cmd:   ECHO "vcpkg install directory exists no action taken (purge appveyor job cache to force a reinstall)." 
-- cmd: )
+- ps: |
+      if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) {
+          $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
+          Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
+          cd c:\tools\vcpkg
+          git status
+          git pull origin master
+          .\bootstrap-vcpkg.bat
+          # An incompatibility between powershell and vcpkg means the vcpkg install needs to be done from dos.
+          cmd.exe /c "vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES"
+          .\vcpkg integrate install
+          cd "$env:APPVEYOR_BUILD_FOLDER"
+      }
+      else {
+        Write-Host "vcpkg packages already installed (to reinstall purge appveyor job's cache)."
+      }
 before_build:
 - ps: |
       if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) {
