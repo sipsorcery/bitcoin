@@ -18,7 +18,7 @@ cache:
 install:
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
-- cmd: |
+- cmd: >-
  IF EXIST C:\tools\vcpkg\installed\ GOTO SKIPVCPKG
  echo set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
  cd c:\tools\vcpkg
