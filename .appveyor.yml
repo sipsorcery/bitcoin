@@ -43,6 +43,7 @@ install:
       .\vcpkg integrate install
       cd "$env:APPVEYOR_BUILD_FOLDER"
 before_build:
+- ps:  clcache -M 536870912
 # Powershell block below is to download and extract the Qt static libraries. The pseudo code is:
 # 1. If the Qt destination directory exists assume it is correct and do nothing. To
 #    force a fresh install of the packages delete the job's appveyor cache.
