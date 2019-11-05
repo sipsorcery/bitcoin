@@ -18,20 +18,19 @@ cache:
 install:
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
-- cmd: >-
-    IF NOT EXIST "C:\tools\vcpkg\installed\*" (
-        ECHO "updating vcpkg and installing required packages..."
-        ECHO set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
-        cd c:\tools\vcpkg
-        git pull
-        bootstrap-vcpkg.bat
-        vcpkg remove --outdated --recurse
-        vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
-        vcpkg integrate install
-        cd %APPVEYOR_BUILD_FOLDER%
-    ) ELSE (  
-       ECHO "vcpkg install directory exists no action taken (purge appveyor job cache to force a reinstall)." 
-    )
+- cmd: IF NOT EXIST "C:\tools\vcpkg\installed\*" (
+- cmd:   ECHO "updating vcpkg and installing required packages..."
+- cmd:   ECHO set(VCPKG_BUILD_TYPE release) >> C:\tools\vcpkg\triplets\%PLATFORM%-windows-static.cmake
+- cmd:   cd c:\tools\vcpkg
+- cmd:   git pull
+- cmd:   bootstrap-vcpkg.bat
+- cmd:   vcpkg remove --outdated --recurse
+- cmd:   vcpkg install --triplet %PLATFORM%-windows-static %PACKAGES% > NUL
+- cmd:   vcpkg integrate install
+- cmd:   cd %APPVEYOR_BUILD_FOLDER%
+- cmd:   ) ELSE (  
+- cmd:   ECHO "vcpkg install directory exists no action taken (purge appveyor job cache to force a reinstall)." 
+- cmd: )
 before_build:
 - ps: |
       if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) {
