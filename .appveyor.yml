@@ -14,7 +14,7 @@ environment:
   QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
   VCPKG_INSTALL_PATH: 'C:\tools\vcpkg\installed'
 cache:
-- C:\tools\vcpkg\installed
+- C:\tools\vcpkg\installed -> build_msvc\vcpkg-packages.txt
 - C:\Users\appveyor\clcache -> .appveyor.yml, build_msvc\**, **\Makefile.am, **\*.vcxproj.in
 - C:\Qt5.9.8_x64_static_vs2019
 install:
