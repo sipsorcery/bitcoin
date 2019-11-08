@@ -23,14 +23,25 @@ install:
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
 # Powershell block below is to install the c++ dependencies via vcpkg. The pseudo code is:
-# 1. If the vcpkg install directory exists assume dependencies are installed and do nothing. To
-#    force a fresh install of the packages delete the job's appveyor cache.
-# 2. Otherwise:
+# 1. Check whether all the required vcpkg packages are installed.
+# 2. If all packages are installed continue with the build (if a fresh install
+#    of any package is required delete the job's appveyor cache).
+# 3. Otherwise:
 #    a. Update the vcpkg source (including port files) and build the vcpkg binary,
-#    b. Install the required packages.
+#    b. Install the missing packages.
 - ps: |
       cd c:\tools\vcpkg
-      if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) {
+      $isPackageMissing = $false
+      Foreach($reqdPackage in $env:PACKAGES.split()) {
+        $checkPackage = "$reqdPackage" + ":" + "$env:PLATFORM-windows-static"
+        $checkResult = .\vcpkg list "$checkPackage"
+        if([string]::IsNullOrEmpty($checkResult)) {
+            $isPackageMissing = $true
+            Write-Host "package $checkPackage is missing"
+            break;
+        }
+      }
+      if($isPackageMissing) {
           $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
           Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
           git pull origin master
@@ -38,7 +49,7 @@ install:
           .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
       }
       else {
-        Write-Host "vcpkg packages already installed (to reinstall purge appveyor job's cache)."
+        Write-Host "required vcpkg packages already installed (to reinstall purge appveyor job's cache)."
       }
       .\vcpkg integrate install
       cd "$env:APPVEYOR_BUILD_FOLDER"
