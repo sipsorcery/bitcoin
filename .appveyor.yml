@@ -30,11 +30,13 @@ install:
 #    b. Install the missing packages.
 - ps: |
       $env:PACKAGES = Get-Content -Path build_msvc\vcpkg-packages.txt
+      Write-Host "vcpkg list: $env:PACKAGES"
       cd c:\tools\vcpkg
       $isPackageMissing = $false
       Foreach($reqdPackage in $env:PACKAGES.split()) {
         $checkPackage = "$reqdPackage" + ":" + "$env:PLATFORM-windows-static"
         $checkResult = .\vcpkg list "$checkPackage"
+        Write-Host $checkResult
         if([string]::IsNullOrEmpty($checkResult)) {
             $isPackageMissing = $true
             Write-Host "package $checkPackage is missing"
