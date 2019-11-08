@@ -6,8 +6,7 @@ platform: x64
 clone_depth: 5
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  CLCACHE_SERVER: 1
-  PACKAGES: berkeleydb boost-filesystem boost-multi-index boost-signals2 boost-test boost-thread libevent openssl rapidcheck zeromq double-conversion
+  CLCACHE_SERVER: 1 
   PATH: 'C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%'
   PYTHONUTF8: 1
   QT_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/v1.4/Qt5.9.8_x64_static_vs2019.zip'
@@ -30,6 +29,7 @@ install:
 #    a. Update the vcpkg source (including port files) and build the vcpkg binary,
 #    b. Install the missing packages.
 - ps: |
+      $env:PACKAGES = Get-Content -Path build_msvc\vcpkg-packages.txt
       cd c:\tools\vcpkg
       $isPackageMissing = $false
       Foreach($reqdPackage in $env:PACKAGES.split()) {
