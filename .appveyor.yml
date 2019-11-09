@@ -6,7 +6,7 @@ platform: x64
 clone_depth: 5
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  CLCACHE_SERVER: 1 
+  CLCACHE_SERVER: 1
   PATH: 'C:\Python37-x64;C:\Python37-x64\Scripts;%PATH%'
   PYTHONUTF8: 1
   QT_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/v1.4/Qt5.9.8_x64_static_vs2019.zip'
@@ -22,28 +22,30 @@ install:
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
 # Powershell block below is to install the c++ dependencies via vcpkg. The pseudo code is:
-# 1. Check whether all the required vcpkg packages are installed.
-# 2. If all packages are installed continue with the build (if a fresh install
-#    of any package is required delete the job's appveyor cache).
-# 3. Otherwise:
+# 1. Check whether the vcpkg version is new enough to support the "list" option.
+# 2. Check whether all the required vcpkg packages are installed.
+# 3. If either check fails:
 #    a. Update the vcpkg source (including port files) and build the vcpkg binary,
 #    b. Install the missing packages.
 - ps: |
       $env:PACKAGES = Get-Content -Path build_msvc\vcpkg-packages.txt
       Write-Host "vcpkg list: $env:PACKAGES"
       cd c:\tools\vcpkg
+      $vcpkgListHasError = Invoke-Expression ".\vcpkg list" | Select-String -Pattern "invalid command"
       $isPackageMissing = $false
-      Foreach($reqdPackage in $env:PACKAGES.split()) {
-        $checkPackage = "$reqdPackage" + ":" + "$env:PLATFORM-windows-static"
-        $checkResult = .\vcpkg list "$checkPackage"
-        Write-Host $checkResult
-        if([string]::IsNullOrEmpty($checkResult)) {
+      if(-Not($vcpkgListHasError)) {
+        Foreach($reqdPackage in $env:PACKAGES.split()) {
+          $checkPackage = "$reqdPackage" + ":" + "$env:PLATFORM-windows-static"
+          $checkResult = .\vcpkg list "$checkPackage"
+          Write-Host $checkResult
+          if([string]::IsNullOrEmpty($checkResult)) {
             $isPackageMissing = $true
             Write-Host "package $checkPackage is missing"
             break;
+          }
         }
       }
-      if($isPackageMissing) {
+      if($vcpkgListHasError -or $isPackageMissing) {
           $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
           Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
           git pull origin master
