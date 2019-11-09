@@ -31,7 +31,7 @@ install:
       $env:PACKAGES = Get-Content -Path build_msvc\vcpkg-packages.txt
       Write-Host "vcpkg list: $env:PACKAGES"
       cd c:\tools\vcpkg
-      if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) { {
+      if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) {
           $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
           Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
           git pull origin master
