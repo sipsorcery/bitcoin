@@ -43,6 +43,7 @@ install:
       }
       else {
         Write-Host "required vcpkg packages already installed."
+        c:\tools\vcpkg\vcpkg integrate install
       }
 before_build:
 - ps:  clcache -M 536870912
