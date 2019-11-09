@@ -32,20 +32,18 @@ install:
 - ps: |
       $env:PACKAGES = Get-Content -Path build_msvc\vcpkg-packages.txt
       Write-Host "vcpkg list: $env:PACKAGES"
-      cd c:\tools\vcpkg
       if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) {
+          cd c:\tools\vcpkg
           $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
           Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
           git pull origin master
           .\bootstrap-vcpkg.bat
           .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
-          Exit-AppveyorBuild
+          Exit-AppveyorBuild;
       }
       else {
         Write-Host "required vcpkg packages already installed."
       }
-      .\vcpkg integrate install
-      cd "$env:APPVEYOR_BUILD_FOLDER"
 before_build:
 - ps:  clcache -M 536870912
 # Powershell block below is to download and extract the Qt static libraries. The pseudo code is:
