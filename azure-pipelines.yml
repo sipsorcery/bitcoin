@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 steps:
 - script: echo Hello, world!
@@ -17,3 +17,13 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+
+
+- task: VSBuild@1
+  inputs:
+    solution: 'build_msvc\Bitcoin.sln'
+    vsVersion: '16.0'
+    platform: 'x64'
+    configuration: 'Release'
+    maximumCpuCount: true
+    msbuildArchitecture: 'x64'
