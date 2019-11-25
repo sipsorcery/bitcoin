@@ -18,6 +18,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      $env:VCPKG_INSTALL_PATH = 'C:\tools\vcpkg\installed'
       $env:PACKAGES = Get-Content -Path build_msvc\vcpkg-packages.txt
             Write-Host "vcpkg list: $env:PACKAGES"
             if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) {
