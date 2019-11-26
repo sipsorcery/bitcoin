@@ -9,7 +9,7 @@ steps:
   displayName: 'Run a one-line script'
 
 - task: Cache@2
-  displayName: 'Cache vcpkg's artifacts'
+  displayName: 'Cache vcpkgs artifacts'
   inputs:
     key: $(Build.SourcesDirectory)/build_msvc/vcpkg-packages.txt | "$(Agent.OS)"
     path: '$(VCPKG_INSTALL_PATH)'
