@@ -15,24 +15,28 @@ jobs:
         PLATFORM: x64
     steps:
     - uses: actions/checkout@v1 
+      
+    - uses: actions/cache@v1
+      id: vcpkgcache
+      with:
+        path: $env:VCPKG_INSTALL_PATH
+        key: ${{ runner.os }}-vcpkg
+        
     - name: Update vcpkg and install packages
+      if: steps.vcpkgcache.outputs.cache-hit != 'true'
       run: |
         $env:PACKAGES = Get-Content -Path "$env:GITHUB_WORKSPACE/build_msvc/vcpkg-packages.txt"
         Write-Host "vcpkg list: $env:PACKAGES"
-        if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) {
-          cd $env:VCPKG_INSTALLATION_ROOT
-          #$env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
-          git pull origin master
-          .\bootstrap-vcpkg.bat
-          #Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
-          #.\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
-          .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split()
-          #cd "$env:APPVEYOR_BUILD_FOLDER"
-          cd $env:GITHUB_WORKSPACE
-        }
-        else {
-          Write-Host "required vcpkg packages already installed."
-        }
+        cd $env:VCPKG_INSTALLATION_ROOT
+        #$env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
+        git pull origin master
+        .\bootstrap-vcpkg.bat
+        #Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
+        #.\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
+        .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split()
+        #cd "$env:APPVEYOR_BUILD_FOLDER"
+        cd $env:GITHUB_WORKSPACE
+        "$env:VCPKG_INSTALL_PATH/vcpkg.exe" integrate install
     - name: Install prebuilt Qt libraries
       run: |
        if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) {
