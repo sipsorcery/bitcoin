@@ -71,4 +71,4 @@ jobs:
 #    - name: test_runner
 #      shell: cmd
 #      run: python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation
-# bump7
+# bump8
