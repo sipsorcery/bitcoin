@@ -14,20 +14,27 @@ jobs:
       run: echo Bitcoin Core build starting...
     - name: Update vcpkg and dependencies
       env:
-        VCPKG_INSTALL_PATH: 'C:\tools\vcpkg\installed'
+        VCPKG_INSTALL_PATH: "$env:VCPKG_INSTALLATION_ROOT\installed"
+        PLATFORM: x64
       run: |
         $env:PACKAGES = Get-Content -Path build_msvc\vcpkg-packages.txt
         Write-Host "vcpkg list: $env:PACKAGES"
-        if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) {
+        if(!(Test-Path -Path ("$env:VCPKG_INSTALL_PATH))) {
           cd c:\tools\vcpkg
-          $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
+          #$env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
           git pull origin master
           .\bootstrap-vcpkg.bat
           Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
-          .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
-          cd "$env:APPVEYOR_BUILD_FOLDER"
+          #.\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
+          .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split()
+          #cd "$env:APPVEYOR_BUILD_FOLDER"
+          cd $env:GITHUB_WORKSPACE
         }
         else {
           Write-Host "required vcpkg packages already installed."
         }
-        c:\tools\vcpkg\vcpkg integrate install
+    - name: Generate project files
+      run: python build_msvc\msvc-autogen.py
+    - name: Build
+      run: msbuild build_msvc\bitcoin.sln /m /v:n
+      
