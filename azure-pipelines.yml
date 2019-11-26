@@ -12,7 +12,7 @@ steps:
   displayName: 'Cache vcpkg's artifacts'
   inputs:
     key: $(Build.SourcesDirectory)/build_msvc/vcpkg-packages.txt | "$(Agent.OS)"
-    path: '$(Build.BinariesDirectory)/vcpkg'
+    path: '$(VCPKG_INSTALL_PATH)'
 
 - task: run-vcpkg@0
   displayName: 'Run vcpkg'
@@ -20,16 +20,15 @@ steps:
     # Response file stored in source control, it provides the list of ports and triplet(s).
     vcpkgArguments: --triplet x64-windows-static @$(Build.SourcesDirectory)/build_msvc/vcpkg-packages.txt
     # Location of the vcpkg as submodule of the repository.
-    vcpkgDirectory: $(Build.SourcesDirectory)/vcpkg
+    vcpkgDirectory: $(VCPKG_DIRECTORY)
   
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      $env:VCPKG_INSTALL_PATH = 'C:\tools\vcpkg\installed'
       $env:PACKAGES = Get-Content -Path build_msvc\vcpkg-packages.txt
             Write-Host "vcpkg list: $env:PACKAGES"
-            if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) {
+            if(!(Test-Path -Path ($(VCPKG_INSTALL_PATH)))) {
                 cd c:\tools
                 dir
                 git clone https://github.com/microsoft/vcpkg.git
