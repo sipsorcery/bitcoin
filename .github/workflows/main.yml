@@ -53,7 +53,7 @@ jobs:
       run: python build_msvc\msvc-autogen.py
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
-    - name: vpkg integration
+    - name: vcpkg integration
       run: C:/vcpkg/vcpkg.exe integrate install
     - name: Build
       run: msbuild build_msvc\bitcoin.sln /m /v:n
