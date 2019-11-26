@@ -35,8 +35,8 @@ jobs:
         #.\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
         .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split()
         #cd "$env:APPVEYOR_BUILD_FOLDER"
+        .\vcpkg integrate install
         cd $env:GITHUB_WORKSPACE
-        "$env:VCPKG_INSTALL_PATH/vcpkg.exe" integrate install
     - name: Install prebuilt Qt libraries
       run: |
        if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) {
