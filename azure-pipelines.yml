@@ -1,9 +1,3 @@
-# Starter pipeline
-
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
@@ -14,6 +8,20 @@ steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
+- task: Cache@2
+  displayName: 'Cache vcpkg's artifacts'
+  inputs:
+    key: $(Build.SourcesDirectory)/build_msvc/vcpkg-packages.txt | "$(Agent.OS)"
+    path: '$(Build.BinariesDirectory)/vcpkg'
+
+- task: run-vcpkg@0
+  displayName: 'Run vcpkg'
+  inputs:
+    # Response file stored in source control, it provides the list of ports and triplet(s).
+    vcpkgArguments: --triplet x64-windows-static @$(Build.SourcesDirectory)/build_msvc/vcpkg-packages.txt
+    # Location of the vcpkg as submodule of the repository.
+    vcpkgDirectory: $(Build.SourcesDirectory)/vcpkg
+  
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
