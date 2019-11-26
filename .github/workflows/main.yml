@@ -15,14 +15,11 @@ jobs:
         PLATFORM: x64
     steps:
     - uses: actions/checkout@v1 
-      
-    - name: Set env var for cachepath
-      run: echo "::set-env name=cachepath::$($env:VCPKG_INSTALL_PATH)"  
-      
+           
     - uses: actions/cache@v1
       id: vcpkgcache
       with:
-       path: ${{ env.cachepath }}
+       path: C:/vcpkg/installed
        key: ${{ runner.os }}-vcpkg
         
     - name: Update vcpkg and install packages
