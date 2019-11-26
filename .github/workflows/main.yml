@@ -19,7 +19,7 @@ jobs:
       run: |
         $env:PACKAGES = Get-Content -Path "$env:GITHUB_WORKSPACE/build_msvc/vcpkg-packages.txt
         Write-Host "vcpkg list: $env:PACKAGES"
-        if(!(Test-Path -Path ("$env:VCPKG_INSTALL_PATH))) {
+        if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) {
           cd $env:VCPKG_INSTALLATION_ROOT
           #$env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
           git pull origin master
