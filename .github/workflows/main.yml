@@ -17,7 +17,7 @@ jobs:
         VCPKG_INSTALL_PATH: "$env:VCPKG_INSTALLATION_ROOT/installed"
         PLATFORM: x64
       run: |
-        $env:PACKAGES = Get-Content -Path "$env:GITHUB_WORKSPACE/build_msvc/vcpkg-packages.txt
+        $env:PACKAGES = Get-Content -Path "$env:GITHUB_WORKSPACE/build_msvc/vcpkg-packages.txt"
         Write-Host "vcpkg list: $env:PACKAGES"
     - name: Generate project files
       run: python build_msvc\msvc-autogen.py
