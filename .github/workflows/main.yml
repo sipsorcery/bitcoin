@@ -2,12 +2,13 @@ name: CI
 
 on:
   push:
-    branches:    
-      - actions_test
+#    branches:    
+#      - actions_test
 jobs:
   build:
     runs-on: windows-latest
     env:
+        PYTHONUTF8: 1
         QT_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/v1.4/Qt5.9.8_x64_static_vs2019.zip'
         QT_DOWNLOAD_HASH: 'f285cbb02bec3b3f3cc2621e3fa7d5edf0d6a66fa30c57859e583acda954ea80'
         QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
@@ -28,15 +29,9 @@ jobs:
         $env:PACKAGES = Get-Content -Path "$env:GITHUB_WORKSPACE/build_msvc/vcpkg-packages.txt"
         Write-Host "vcpkg list: $env:PACKAGES"
         cd $env:VCPKG_INSTALLATION_ROOT
-        #$env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
         git pull origin master
         .\bootstrap-vcpkg.bat
-        #Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
-        #.\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
-        .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split()
-        #cd "$env:APPVEYOR_BUILD_FOLDER"
-        .\vcpkg integrate install
-        cd $env:GITHUB_WORKSPACE
+        .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
     - name: Install prebuilt Qt libraries
       run: |
        if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) {
@@ -59,20 +54,24 @@ jobs:
       run: python build_msvc\msvc-autogen.py
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
+    - name: vcpkg integration
+      run: C:/vcpkg/vcpkg.exe integrate install
     - name: Build
-      run: msbuild build_msvc\bitcoin.sln /m /v:n
-#    - name: Run test_bticoin
-#      shell: cmd
-#      run: src\test_bitcoin.exe -k stdout -e stdout 2> NUL
+      run: msbuild build_msvc\bitcoin.sln /m /v:n /p:Configuration=Release
+    - name: Run test_bticoin
+      shell: cmd
+      run: src\test_bitcoin.exe -k stdout -e stdout 2> NUL
     - name: Run bench_bitcoin
       shell: cmd
       run: src\bench_bitcoin.exe -evals=1 -scaling=0 > NUL
-#    - name: bitcoin-util-test
-#      run: python test\util\bitcoin-util-test.py
-#    - name: rpcauth-test
-#      shell: cmd
-#      run: python test\util\rpcauth-test.py
+    - name: bitcoin-util-test
+      run: python test\util\bitcoin-util-test.py
+    - name: rpcauth-test
+      shell: cmd
+      run: python test\util\rpcauth-test.py
 #    - name: test_runner
 #      shell: cmd
-#      run: python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation
-      
+#      run: | 
+#        set PYTHONUTF8=1     
+#        python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation,wallet_multiwallet
+# bump8
