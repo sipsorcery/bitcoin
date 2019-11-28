@@ -69,9 +69,7 @@ jobs:
     - name: rpcauth-test
       shell: cmd
       run: python test\util\rpcauth-test.py
-#    - name: test_runner
-#      shell: cmd
-#      run: | 
-#        set PYTHONUTF8=1     
-#        python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation,wallet_multiwallet
+    - name: test_runner
+      shell: cmd
+      run: cmd /V /C "set PYTHONUTF8=1&& python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation,wallet_multiwallet"
 # bump8
