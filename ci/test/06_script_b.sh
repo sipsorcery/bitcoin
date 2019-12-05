@@ -6,8 +6,6 @@
 
 export LC_ALL=C.UTF-8
 
-cd "build/bitcoin-$HOST" || (echo "could not enter distdir build/bitcoin-$HOST"; exit 1)
-
 if [ -n "$QEMU_USER_CMD" ]; then
   BEGIN_FOLD wrap-qemu
   echo "Prepare to run functional tests for HOST=$HOST"
@@ -29,8 +27,8 @@ fi
 
 if [ "$RUN_UNIT_TESTS" = "true" ]; then
   BEGIN_FOLD unit-tests
-  bash -c "while sleep 500; do echo .; done" &  # Print dots in case the unit tests take a long time to run
-  DOCKER_EXEC LD_LIBRARY_PATH=$BASE_BUILD_DIR/depends/$HOST/lib make $MAKEJOBS check VERBOSE=1
+  bash -c "${CI_WAIT}" &  # Print dots in case the unit tests take a long time to run
+  DOCKER_EXEC LD_LIBRARY_PATH=$DEPENDS_DIR/$HOST/lib make $MAKEJOBS check VERBOSE=1
   END_FOLD
 fi
 
@@ -45,5 +43,3 @@ if [ "$RUN_FUZZ_TESTS" = "true" ]; then
   DOCKER_EXEC test/fuzz/test_runner.py -l DEBUG ${DIR_FUZZ_IN}
   END_FOLD
 fi
-
-cd ${BASE_BUILD_DIR} || (echo "could not enter travis build dir $BASE_BUILD_DIR"; exit 1)

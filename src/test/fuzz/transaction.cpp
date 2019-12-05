@@ -42,13 +42,8 @@ void test_one_input(const std::vector<uint8_t>& buffer)
         return;
     }
 
-    CValidationState state_with_dupe_check;
-    const bool valid_with_dupe_check = CheckTransaction(tx, state_with_dupe_check, /* fCheckDuplicateInputs= */ true);
-    CValidationState state_without_dupe_check;
-    const bool valid_without_dupe_check = CheckTransaction(tx, state_without_dupe_check, /* fCheckDuplicateInputs= */ false);
-    if (valid_with_dupe_check) {
-        assert(valid_without_dupe_check);
-    }
+    TxValidationState state_with_dupe_check;
+    (void)CheckTransaction(tx, state_with_dupe_check);
 
     const CFeeRate dust_relay_fee{DUST_RELAY_TX_FEE};
     std::string reason;

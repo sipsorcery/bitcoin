@@ -4,13 +4,11 @@
 
 #include <qt/bantablemodel.h>
 
+#include <interfaces/node.h>
+#include <net_types.h> // For banmap_t
 #include <qt/clientmodel.h>
 
-#include <interfaces/node.h>
-#include <sync.h>
-#include <util/time.h>
-
-#include <algorithm>
+#include <utility>
 
 #include <QDebug>
 #include <QList>

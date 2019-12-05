@@ -35,7 +35,6 @@
  *   that fast seeding includes, but additionally:
  *   - OS entropy (/dev/urandom, getrandom(), ...). The application will terminate if
  *     this entropy source fails.
- *   - Bytes from OpenSSL's RNG (which itself may be seeded from various sources)
  *   - Another high-precision timestamp (indirectly committing to a benchmark of all the
  *     previous sources).
  *   These entropy sources are slower, but designed to make sure the RNG state contains
@@ -52,7 +51,6 @@
  * sources used in the 'slow' seeder are included, but also:
  * - 256 bits from the hardware RNG (rdseed or rdrand) when available.
  * - (On Windows) Performance monitoring data from the OS.
- * - (On Windows) Through OpenSSL, the screen contents.
  * - Strengthen the entropy for 100 ms using repeated SHA512.
  *
  * When mixing in new entropy, H = SHA512(entropy || old_rng_state) is computed, and
@@ -85,11 +83,19 @@ uint256 GetRandHash() noexcept;
 void GetStrongRandBytes(unsigned char* buf, int num) noexcept;
 
 /**
- * Sleep for 1ms, gather entropy from various sources, and feed them to the PRNG state.
+ * Gather entropy from various expensive sources, and feed them to the PRNG state.
  *
  * Thread-safe.
  */
-void RandAddSeedSleep();
+void RandAddPeriodic() noexcept;
+
+/**
+ * Gathers entropy from the low bits of the time at which events occur. Should
+ * be called with a uint32_t describing the event at the time an event occurs.
+ *
+ * Thread-safe.
+ */
+void RandAddEvent(const uint32_t event_info) noexcept;
 
 /**
  * Fast randomness source. This is seeded once with secure random data, but
@@ -166,6 +172,7 @@ public:
     /** Generate a random integer in the range [0..range). */
     uint64_t randrange(uint64_t range) noexcept
     {
+        assert(range);
         --range;
         int bits = CountBits(range);
         while (true) {

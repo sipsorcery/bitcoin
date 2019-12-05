@@ -5,11 +5,13 @@
 #ifndef BITCOIN_QT_RECENTREQUESTSTABLEMODEL_H
 #define BITCOIN_QT_RECENTREQUESTSTABLEMODEL_H
 
-#include <qt/walletmodel.h>
+#include <qt/sendcoinsrecipient.h>
 
 #include <QAbstractTableModel>
 #include <QStringList>
 #include <QDateTime>
+
+class WalletModel;
 
 class RecentRequestEntry
 {
@@ -43,7 +45,7 @@ class RecentRequestEntryLessThan
 public:
     RecentRequestEntryLessThan(int nColumn, Qt::SortOrder fOrder):
         column(nColumn), order(fOrder) {}
-    bool operator()(RecentRequestEntry &left, RecentRequestEntry &right) const;
+    bool operator()(const RecentRequestEntry& left, const RecentRequestEntry& right) const;
 
 private:
     int column;
