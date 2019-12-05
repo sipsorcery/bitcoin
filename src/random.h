@@ -87,7 +87,7 @@ void GetStrongRandBytes(unsigned char* buf, int num) noexcept;
  *
  * Thread-safe.
  */
-void RandAddPeriodic();
+void RandAddPeriodic() noexcept;
 
 /**
  * Gathers entropy from the low bits of the time at which events occur. Should
@@ -95,7 +95,7 @@ void RandAddPeriodic();
  *
  * Thread-safe.
  */
-void RandAddEvent(const uint32_t event_info);
+void RandAddEvent(const uint32_t event_info) noexcept;
 
 /**
  * Fast randomness source. This is seeded once with secure random data, but
