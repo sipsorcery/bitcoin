@@ -1,9 +1,9 @@
-name: CI
+name: bitcoin-ci
 
 on:
   push:
-    branches:    
-      - master
+    #branches:    
+    #  - master
 jobs:
   build:
     runs-on: windows-latest
