@@ -72,9 +72,9 @@ jobs:
     - name: test_runner
       shell: cmd
       run: |
-       chcp 65001
-       #set PYTHONIOENCODING=utf-8
-       set PYTHONUTF8=1
-       set
-       python test\functional\test_runner.py --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation,wallet_multiwallet"
+       REM chcp 65001
+       REM set PYTHONIOENCODING=utf-8
+       REM set PYTHONUTF8=1
+       REM set
+       python test\functional\test_runner.py --ansi --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation,wallet_multiwallet"
 # bump8
