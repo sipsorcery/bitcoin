@@ -72,5 +72,5 @@ jobs:
     - name: test_runner
       shell: cmd
       run: |
-       python test\functional\test_runner.py --ansi --ci --quiet --failfast --exclude feature_fee_estimation,wallet_multiwallet"
+       python test\functional\test_runner.py --ansi --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation,wallet_multiwallet"
 # bump8
