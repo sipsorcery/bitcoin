@@ -2,8 +2,8 @@ name: CI
 
 on:
   push:
-#    branches:    
-#      - actions_test
+    branches:    
+      - master
 jobs:
   build:
     runs-on: windows-latest
