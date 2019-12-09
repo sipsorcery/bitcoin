@@ -1,4 +1,4 @@
-name: bitcoin-core-ci
+name: bitcoin-core-ci-2
 
 on:
   push:
