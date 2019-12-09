@@ -2,6 +2,8 @@ name: bitcoin-core-ci-2
 
 on:
   push:
+    branch:
+      master
 jobs:
   build:
     runs-on: windows-latest
