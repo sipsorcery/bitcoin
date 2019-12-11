@@ -15,7 +15,11 @@ jobs:
         VCPKG_INSTALL_PATH: "$env:VCPKG_INSTALLATION_ROOT/installed"
         PLATFORM: x64
     steps:
-    - uses: actions/checkout@v1 
+    - uses: actions/checkout@v1
+    
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.7'  # Needed for PEP 540
            
     - uses: actions/cache@v1
       id: vcpkgcache
@@ -72,5 +76,4 @@ jobs:
     - name: test_runner
       shell: cmd
       run: |
-       python test\functional\test_runner.py --ansi --ci --quiet --failfast --exclude feature_fee_estimation,wallet_multiwallet"
-# bump8
+       python test\functional\test_runner.py --ansi --ci --quiet --failfast --exclude feature_fee_estimation
