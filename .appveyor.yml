@@ -38,6 +38,7 @@ install:
           Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
           .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
           cd "$env:APPVEYOR_BUILD_FOLDER"
+          Exit-AppveyorBuild;
       }
       else {
         Write-Host "required vcpkg packages already installed."
