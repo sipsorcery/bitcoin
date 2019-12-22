@@ -24,7 +24,7 @@ jobs:
     - uses: actions/cache@v1
       id: jobversion
       with:
-       path: C:/jobversion/$JOB_VERSION
+       path: C:/jobversion/${{ env.JOB_VERSION }}
        key: ${{ runner.os }}-jobversion
 
     - name: Make job version directory
