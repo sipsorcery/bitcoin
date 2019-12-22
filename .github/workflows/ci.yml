@@ -12,7 +12,7 @@ jobs:
         QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
         VCPKG_INSTALL_PATH: "$env:VCPKG_INSTALLATION_ROOT/installed"
         PLATFORM: x64
-        JOB_VERSION: 1
+        JOB_VERSION: 2
     steps:
     - uses: actions/checkout@v1
 
@@ -27,18 +27,19 @@ jobs:
        path: C:/jobversion/${{ env.JOB_VERSION }}
        key: jobversion
 
-    - name: Make job version directory
-      if: steps.jobversioncache.outputs.cache-hit != 'true'
-      shell: cmd
-      run: mkdir C:\jobversion\%JOB_VERSION%
-
     - uses: actions/cache@v1
       id: vcpkgcache
-      if: steps.jobversioncache.outputs.cache-hit == 'true'
       with:
        path: C:/vcpkg/installed
        key: ${{ runner.os }}-vcpkg
 
+    - name: Make job version directory
+      if: steps.jobversioncache.outputs.cache-hit != 'true'
+      shell: cmd
+      run: |
+        mkdir C:\jobversion\%JOB_VERSION%
+        rmdir /q /s c:\vcpkg\installed
+       
     - name: Update vcpkg and install packages
       if: steps.vcpkgcache.outputs.cache-hit != 'true' || steps.jobversioncache.outputs.cache-hit != 'true'
       run: |
