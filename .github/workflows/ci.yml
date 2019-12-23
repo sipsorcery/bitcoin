@@ -79,7 +79,7 @@ jobs:
     - name: rpcauth-test
       shell: cmd
       run: python test\util\rpcauth-test.py
-#    - name: test_runner
-#      shell: cmd
-#      run: |
-#       python test\functional\test_runner.py --ansi --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation
+    - name: test_runner
+      shell: cmd
+      run: |
+       python test\functional\test_runner.py --ansi --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation
