@@ -12,7 +12,6 @@ jobs:
         QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
         VCPKG_INSTALL_PATH: "$env:VCPKG_INSTALLATION_ROOT/installed"
         PLATFORM: x64
-        JOB_VERSION: 1 # Bump the JOB_VERSION number any time the cached vcpkg dependencies need to be re-installed.
     steps:
     - uses: actions/checkout@v1
 
@@ -20,28 +19,27 @@ jobs:
       with:
         python-version: '3.7'  # Needed for PEP 540
 
+    - name: Setup MSBuild.exe
+      uses: warrenbuckley/Setup-MSBuild@v1
+
+    - name: Check MSBuild.exe
+      run: MSBuild.exe -version | Out-File -FilePath $env:GITHUB_WORKSPACE\MSBuild_version
+
     - uses: actions/cache@v1
       id: vcpkgcache
       with:
        path: C:/vcpkg/installed
-       key: ${{ runner.os }}-vcpkg
-      
+       key: ${{ runner.os }}-vcpkg-${{ hashFiles('MSBuild_version') }}
+
     - name: Update vcpkg and install packages
+      if: steps.vcpkgcache.outputs.cache-hit != 'true'
       run: |
-        if(!(Test-Path -Path ("c:/vcpkg/installed/jobversion/$env:JOB_VERSION"))) {
-          Write-Host "vckpg install out of date with job version, reinstalling"
-          rm "c:/vcpkg/installed" -r -fo -ErrorAction Ignore
-          $env:PACKAGES = Get-Content -Path "$env:GITHUB_WORKSPACE/build_msvc/vcpkg-packages.txt"
-          Write-Host "vcpkg list: $env:PACKAGES"
-          cd $env:VCPKG_INSTALLATION_ROOT
-          git pull origin master
-          .\bootstrap-vcpkg.bat
-          .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
-          mkdir "c:/vcpkg/installed/jobversion/$env:JOB_VERSION"
-        }
-        else {
-          Write-Host "vckpg install up to date."
-        }
+        $env:PACKAGES = Get-Content -Path "$env:GITHUB_WORKSPACE/build_msvc/vcpkg-packages.txt"
+        Write-Host "vcpkg list: $env:PACKAGES"
+        cd $env:VCPKG_INSTALLATION_ROOT
+        git pull origin master
+        .\bootstrap-vcpkg.bat
+        .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
     - name: Install prebuilt Qt libraries
       run: |
        if(!(Test-Path -Path ($env:QT_LOCAL_PATH))) {
@@ -62,8 +60,6 @@ jobs:
         }
     - name: Generate project files
       run: python build_msvc\msvc-autogen.py
-    - name: Setup MSBuild.exe
-      uses: warrenbuckley/Setup-MSBuild@v1
     - name: vcpkg integration
       run: C:/vcpkg/vcpkg.exe integrate install
     - name: Build
