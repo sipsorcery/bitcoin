@@ -12,7 +12,7 @@ jobs:
         QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
         VCPKG_INSTALL_PATH: "$env:VCPKG_INSTALLATION_ROOT/installed"
         PLATFORM: x64
-        JOB_VERSION: 5
+        JOB_VERSION: 6
     steps:
     - uses: actions/checkout@v1
 
@@ -20,7 +20,7 @@ jobs:
       with:
         python-version: '3.7'  # Needed for PEP 540
 
-    # Bump the JOB_VERSION number anytime the cached vcpkg dependencies need to be re-installed.
+    # Bump the JOB_VERSION number any time the cached vcpkg dependencies need to be re-installed.
     - uses: actions/cache@v1
       id: jobversioncache
       with:
