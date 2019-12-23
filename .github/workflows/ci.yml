@@ -12,20 +12,13 @@ jobs:
         QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
         VCPKG_INSTALL_PATH: "$env:VCPKG_INSTALLATION_ROOT/installed"
         PLATFORM: x64
-        JOB_VERSION: 1
+        JOB_VERSION: 1 # Bump the JOB_VERSION number any time the cached vcpkg dependencies need to be re-installed.
     steps:
     - uses: actions/checkout@v1
 
     - uses: actions/setup-python@v1
       with:
         python-version: '3.7'  # Needed for PEP 540
-
-    # Bump the JOB_VERSION number any time the cached vcpkg dependencies need to be re-installed.
-    - uses: actions/cache@v1
-      id: jobversioncache
-      with:
-       path: C:/jobversion
-       key: jobversion
 
     - uses: actions/cache@v1
       id: vcpkgcache
@@ -35,16 +28,16 @@ jobs:
       
     - name: Update vcpkg and install packages
       run: |
-        if(!(Test-Path -Path ("c:/jobversion/$env:JOB_VERSION"))) {
+        if(!(Test-Path -Path ("c:/vcpkg/installed/jobversion/$env:JOB_VERSION"))) {
           Write-Host "vckpg install out of date with job version, reinstalling"
-          rm "c:/jobversion/$env:JOB_VERSION" -r -fo
+          rm "c:/vcpkg/installled" -r -fo
           $env:PACKAGES = Get-Content -Path "$env:GITHUB_WORKSPACE/build_msvc/vcpkg-packages.txt"
           Write-Host "vcpkg list: $env:PACKAGES"
           cd $env:VCPKG_INSTALLATION_ROOT
           git pull origin master
           .\bootstrap-vcpkg.bat
           .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
-          mkdir "c:/jobversion/$env:JOB_VERSION"
+          mkdir "c:/vcpkg/installed/jobversion/$env:JOB_VERSION"
         }
         else {
           Write-Host "vckpg install up to date."
