@@ -30,14 +30,17 @@ install:
       $env:PACKAGES = Get-Content -Path build_msvc\vcpkg-packages.txt
       Write-Host "vcpkg list: $env:PACKAGES"
       if(!(Test-Path -Path ($env:VCPKG_INSTALL_PATH))) {
+          Write-Host "building vcpkg dependencies."
           cd c:\tools\vcpkg
           $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
-          git pull origin master | out-null
+          git config --local advice.detachedHead false
+          git pull origin master > $null
           git checkout $env:VCPKG_COMMIT_ID
-          .\bootstrap-vcpkg.bat
+          .\bootstrap-vcpkg.bat > $null
           Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
           .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
           cd "$env:APPVEYOR_BUILD_FOLDER"
+          Write-Host "exit appveyor build."
           Exit-AppveyorBuild;
       }
       else {
