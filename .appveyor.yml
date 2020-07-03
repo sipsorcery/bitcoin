@@ -41,7 +41,7 @@ install:
           .\vcpkg install --triplet $env:PLATFORM-windows-static $env:PACKAGES.split() > $null
           cd "$env:APPVEYOR_BUILD_FOLDER"
           Write-Host "exit appveyor build."
-          Exit-AppveyorBuild;
+          Exit-AppveyorBuild
       }
       else {
         Write-Host "required vcpkg packages already installed."
