@@ -1,6 +1,6 @@
 version: '{branch}.{build}'
 skip_tags: true
-image: Previous Visual Studio 2019
+image: Visual Studio 2019
 configuration: Release
 platform: x64
 clone_depth: 5
@@ -23,7 +23,7 @@ install:
       $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
       git pull origin master > $null
       git -c advice.detachedHead=false checkout $env:VCPKG_COMMIT_ID
-      .\bootstrap-vcpkg.bat > $null
+#      .\bootstrap-vcpkg.bat > $null
       cd "$env:APPVEYOR_BUILD_FOLDER"
 before_build:
 # Powershell block below is to download and extract the Qt static libraries. The pseudo code is:
