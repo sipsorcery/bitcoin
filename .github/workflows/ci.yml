@@ -1,0 +1,89 @@
+name: bitcoin-core-ci
+
+on:
+  push:
+jobs:
+  build:
+    runs-on: windows-latest
+    env:
+        PYTHONUTF8: 1
+        QT_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/qt598x64_vs2019_v1681/qt598_x64_vs2019_1681.zip'
+        QT_DOWNLOAD_HASH: '00cf7327818c07d74e0b1a4464ffe987c2728b00d49d4bf333065892af0515c3'
+        QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
+        VCPKG_DEPS_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/vcpkg_vs2019_v1681/vcpkg_installed_vs2019_1681.zip'
+        VCPKG_DEPS_DOWNLOAD_HASH: 'e94161b23f9ac0622ffce5754218f8f08fc6bf6a73450e770d29ad2e18459637'
+        VCPKG_DEPS_LOCAL_PATH: 'build_msvc\vcpkg_installed'
+        PLATFORM: x64
+        JOB_VERSION: 1
+    steps:
+    - uses: actions/checkout@v1
+
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.7'  # Needed for PEP 540
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+      #with:
+      #  vs-version: '[16.8.2,16.8.2]'
+
+    - name: Check MSBuild.exe
+      run: MSBuild.exe -version
+    
+    - name: Update vcpkg and install packages
+      if: steps.vcpkgcache.outputs.cache-hit != 'true'
+      run: |
+        cd $env:VCPKG_INSTALLATION_ROOT
+        git pull origin master
+        .\bootstrap-vcpkg.bat
+        .\vcpkg integrate install
+    
+    - name: Install prebuilt Qt libraries
+      run: |
+        Write-Host "Downloading Qt binaries.";
+        Invoke-WebRequest -Uri $env:QT_DOWNLOAD_URL -Out qtdownload.zip;
+        Write-Host "Qt binaries successfully downloaded, checking hash against $env:QT_DOWNLOAD_HASH...";
+        if((Get-FileHash qtdownload.zip).Hash -eq $env:QT_DOWNLOAD_HASH) {
+          Expand-Archive qtdownload.zip -DestinationPath $env:QT_LOCAL_PATH;
+          Write-Host "Qt binary download matched the expected hash.";
+        }
+        else {
+          Write-Host "ERROR: Qt binary download did not match the expected hash.";
+          exit 1
+        }
+        
+    - name: Install prebuilt vcpkg dependencies
+      run: |
+       Write-Host "Downloading vcpkg dependencies.";
+       Invoke-WebRequest -Uri $env:VCPKG_DEPS_DOWNLOAD_URL -Out vcpkg-deps.zip;
+       Write-Host "vcpkg dependencies successfully downloaded, checking hash against $env:VCPKG_DEPS_DOWNLOAD_HASH...";
+       if((Get-FileHash vcpkg-deps.zip).Hash -eq $env:VCPKG_DEPS_DOWNLOAD_HASH) {
+         Write-Host "vcpkg dependencies download matched the expected hash.";
+         Write-Host "Extracting to $env:GITHUB_WORKSPACE\$env:VCPKG_DEPS_LOCAL_PATH...";
+         Expand-Archive vcpkg-deps.zip -DestinationPath "$env:GITHUB_WORKSPACE\$env:VCPKG_DEPS_LOCAL_PATH";
+       }
+       else {
+         Write-Host "ERROR: vcpkg dependencies download did not match the expected hash.";
+         exit 1
+       }    
+        
+    - name: Generate project files
+      run: python build_msvc\msvc-autogen.py
+
+    - name: Build
+      run: msbuild build_msvc\bitcoin.sln /m /v:n /p:Configuration=Release
+    #- name: Run test_bitcoin
+    #  shell: cmd
+    #  run: src\test_bitcoin.exe -k stdout -e stdout 2> NUL
+    #- name: Run bench_bitcoin
+    #  shell: cmd
+    #  run: src\bench_bitcoin.exe -evals=1 -scaling=0 > NUL
+    #- name: bitcoin-util-test
+    #  run: python test\util\bitcoin-util-test.py
+    #- name: rpcauth-test
+    #  shell: cmd
+    #  run: python test\util\rpcauth-test.py
+    #- name: test_runner
+    #  shell: cmd
+    #  run: |
+    #   python test\functional\test_runner.py --ansi --ci --quiet --combinedlogslen=4000 --failfast --exclude feature_fee_estimation
