@@ -10,10 +10,8 @@ environment:
   QT_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/qt598x64_vs2019_v1681/qt598_x64_vs2019_1681.zip'
   QT_DOWNLOAD_HASH: '00cf7327818c07d74e0b1a4464ffe987c2728b00d49d4bf333065892af0515c3'
   QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
-  VCPKG_DEPS_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/vcpkg_vs2019_v1681/vcpkg_installed_vs2019_1681.zip'
-  VCPKG_DEPS_DOWNLOAD_HASH: 'e94161b23f9ac0622ffce5754218f8f08fc6bf6a73450e770d29ad2e18459637'
-  VCPKG_DEPS_LOCAL_PATH: 'build_msvc\vcpkg_installed'
-  VCPKG_COMMIT_ID: '40230b8e3f6368dcb398d649331be878ca1e9007'
+  VCPKG_TAG: '2020.11-1'
+  VCPKG_BINARY_SOURCES: 'nuget,https://nuget.pkg.github.com/sipsorcery/index.json'
 install:
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
@@ -24,8 +22,9 @@ install:
       cd c:\tools\vcpkg
       $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
       git pull origin master > $null
-      git -c advice.detachedHead=false checkout $env:VCPKG_COMMIT_ID
+      git -c advice.detachedHead=false checkout $env:VCPKG_TAG
       .\bootstrap-vcpkg.bat > $null
+      vcpkg integrate install
       Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
       cd "$env:APPVEYOR_BUILD_FOLDER"
 before_build:
@@ -44,19 +43,6 @@ before_build:
       else {
         Write-Host "ERROR: Qt binary download did not match the expected hash.";
         Exit-AppveyorBuild;
-      }
-- ps: |
-      Write-Host "Downloading vcpkg dependencies.";
-      Invoke-WebRequest -Uri $env:VCPKG_DEPS_DOWNLOAD_URL -Out vcpkg-deps.zip;
-      Write-Host "vcpkg dependencies successfully downloaded, checking hash against $env:VCPKG_DEPS_DOWNLOAD_HASH...";
-      if((Get-FileHash vcpkg-deps.zip).Hash -eq $env:VCPKG_DEPS_DOWNLOAD_HASH) {
-        Write-Host "vcpkg dependencies download matched the expected hash."
-        Write-Host "Extracting to $env:APPVEYOR_BUILD_FOLDER\$env:VCPKG_DEPS_LOCAL_PATH...";
-        Expand-Archive vcpkg-deps.zip -DestinationPath "$env:APPVEYOR_BUILD_FOLDER\$env:VCPKG_DEPS_LOCAL_PATH";
-        dir "$env:APPVEYOR_BUILD_FOLDER\$env:VCPKG_DEPS_LOCAL_PATH"
-      }
-      else {
-        Write-Host "ERROR: vcpkg dependencies download did not match the expected hash.";
       }
 - cmd: python build_msvc\msvc-autogen.py
 build_script:
