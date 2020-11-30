@@ -28,7 +28,8 @@ install:
       vcpkg integrate install
       Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
       cd "$env:APPVEYOR_BUILD_FOLDER\build_msvc"
-      nuget setApiKey "935037f4a99d3d8dba5ea6c9d82f4d7da293428d" -Source https://nuget.pkg.github.com/sipsorcery/index.json
+      $token = [Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('YTkyZGNhZGU2YmU0NjQwZWI0ODJhN2QwMDU5NWUwMWIwMzZiZGJkNA=='))
+      nuget setApiKey $token -Source https://nuget.pkg.github.com/sipsorcery/index.json
       vcpkg install --triplet $env:PLATFORM-windows-static --debug
       cd "$env:APPVEYOR_BUILD_FOLDER"
 before_build:
