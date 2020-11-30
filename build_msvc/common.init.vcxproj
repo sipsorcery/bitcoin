@@ -78,6 +78,7 @@
     <Link>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <OptimizeReferences>false</OptimizeReferences>
+	  <GenerateDebugInformation>false</GenerateDebugInformation>
 	  <AdditionalOptions>/LTCG:OFF</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
