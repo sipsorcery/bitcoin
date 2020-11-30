@@ -10,6 +10,7 @@ environment:
   QT_DOWNLOAD_URL: 'https://github.com/sipsorcery/qt_win_binary/releases/download/qt598x64_vs2019_v1681/qt598_x64_vs2019_1681.zip'
   QT_DOWNLOAD_HASH: '00cf7327818c07d74e0b1a4464ffe987c2728b00d49d4bf333065892af0515c3'
   QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
+  VCPKG_FEATURE_FLAGS: 'manifests,binarycaching'
   VCPKG_TAG: '2020.11-1'
   VCPKG_BINARY_SOURCES: 'nuget,https://nuget.pkg.github.com/sipsorcery/index.json'
 install:
