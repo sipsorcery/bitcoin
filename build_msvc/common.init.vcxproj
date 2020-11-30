@@ -76,7 +76,7 @@
 	  <AdditionalOptions>/Od</AdditionalOptions>
     </ClCompile>
     <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <OptimizeReferences>false</OptimizeReferences>
 	  <AdditionalOptions>/LTCG:OFF</AdditionalOptions>
     </Link>
