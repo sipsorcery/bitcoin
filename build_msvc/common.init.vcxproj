@@ -73,7 +73,7 @@
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
 	  <DebugInformationFormat>None</DebugInformationFormat>
-	  <AdditionalOptions>/Od</AdditionalOptions>
+	  <AdditionalOptions>/FS /Od</AdditionalOptions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
