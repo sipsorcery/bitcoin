@@ -11,7 +11,7 @@ environment:
   QT_DOWNLOAD_HASH: '00cf7327818c07d74e0b1a4464ffe987c2728b00d49d4bf333065892af0515c3'
   QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
   VCPKG_INSTALL_PATH: 'C:\tools\vcpkg\installed'
-  VCPKG_COMMIT_ID: '40230b8e3f6368dcb398d649331be878ca1e9007'
+  VCPKG_TAG: '2020.11-1'
 install:
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
@@ -19,10 +19,11 @@ install:
 #    a. Checkout the vcpkg source (including port files) for the specific checkout and build the vcpkg binary,
 #    b. Install the missing packages using the vcpkg manifest.
 - ps: |
+      Write-Host "VCPKG_BINARY_SOURCES: $env:VCPKG_BINARY_SOURCES."
       cd c:\tools\vcpkg
       $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
       git pull origin master > $null
-      git -c advice.detachedHead=false checkout $env:VCPKG_COMMIT_ID
+      git -c advice.detachedHead=false checkout $env:VCPKG_TAG
       .\bootstrap-vcpkg.bat > $null
       Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
       cd "$env:APPVEYOR_BUILD_FOLDER"
