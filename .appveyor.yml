@@ -32,7 +32,7 @@ install:
       git -c advice.detachedHead=false checkout $env:VCPKG_TAG
       .\bootstrap-vcpkg.bat
       Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
-      nuget setApiKey x -Source $env:VCPKG_NUGET_REPOSITORY -ConfigFile $env:APPVEYOR_BUILD_FOLDER\nuget.config
+      nuget setApiKey x -Source $env:VCPKG_NUGET_REPOSITORY
       cd "$env:APPVEYOR_BUILD_FOLDER\build_msvc"
       vcpkg install --triplet x64-windows-static --debug
       cd "$env:APPVEYOR_BUILD_FOLDER"
