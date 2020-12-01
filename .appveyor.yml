@@ -13,7 +13,7 @@ environment:
   VCPKG_TAG: '2020.11-1'
 # VCPKG_BINARY_SOURCES: 'nuget,$env:APPVEYOR_BUILD_FOLDER\build_msvc\nuget.config,readwrite'
   VCPKG_NUGET_REPOSITORY: 'https://aaronrc.pkgs.visualstudio.com/bitcoin/_packaging/vcpkg-deps/nuget/v3/index.json'
-  VCPKG_BINARY_SOURCES: 'nuget,$env:VCPKG_NUGET_REPOSITORY,readwrite'
+  VCPKG_BINARY_SOURCES: 'nuget,https://aaronrc.pkgs.visualstudio.com/bitcoin/_packaging/vcpkg-deps/nuget/v3/index.json,readwrite'
   VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: 
     secure: vcQ+C4CA8OTwWtyLHsFyaR6QOHdfXhuzclzEtKUgURTa4c9nP+nuB9DiMUz881r1KPVpdG31yGQ60qdP34v7l4ojBvQLX3EXbAubAwTYuvKe+vOqZ6yAcuYRdjyTdt4uhcb14vgdKBIEQJmY5OmlQwELYMbaj6RfQB8nrCl5tA2IqJtnGwLUUzIy6aMY6r3GAkWxcCFRZ8ECPy4nkqUFzsT82JQC+p/UZjyQzxA+4AGHLwufosP9++qS6QC4BrceBkJq9MOCvjP0omB9/HYZx7GYRfPPk6x1Vgx48MVgtW0=
 install:
