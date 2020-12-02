@@ -11,7 +11,6 @@ environment:
   QT_DOWNLOAD_HASH: '00cf7327818c07d74e0b1a4464ffe987c2728b00d49d4bf333065892af0515c3'
   QT_LOCAL_PATH: 'C:\Qt5.9.8_x64_static_vs2019'
   VCPKG_TAG: '2020.11-1'
-  VCPKG_BINARY_SOURCES: 'nuget,https://aaronrc.pkgs.visualstudio.com/bitcoin/_packaging/vcpkg-deps/nuget/v3/index.json,read'
 install:
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
@@ -19,9 +18,6 @@ install:
 #    a. Checkout the vcpkg source (including port files) for the specific checkout and build the vcpkg binary,
 #    b. Install the missing packages using the vcpkg manifest.
 - ps: |
-      Write-Host "VCPKG_TAG: $env:VCPKG_TAG."
-      Write-Host "VCPKG_BINARY_SOURCES: $env:VCPKG_BINARY_SOURCES."
-      Write-Host "VCPKG_NUGET_REPOSITORY: $env:VCPKG_NUGET_REPOSITORY."
       cd c:\tools\vcpkg
       $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
       git pull origin master > $null
@@ -48,7 +44,7 @@ before_build:
       }
 - cmd: python build_msvc\msvc-autogen.py
 build_script:
-- cmd: msbuild /p:TrackFileAccess=false build_msvc\bitcoin.sln /m /v:q
+- cmd: msbuild build_msvc\bitcoin.sln /m /v:q
 after_build:
 #- 7z a bitcoin-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\build_msvc\%platform%\%configuration%\*.exe
 test_script:
