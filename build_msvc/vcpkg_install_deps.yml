@@ -1,0 +1,25 @@
+version: '{branch}.{build}'
+skip_tags: true
+image: Visual Studio 2019
+configuration: Release
+platform: x64
+clone_depth: 5
+environment:
+  VCPKG_TAG: '2020.11-1'
+  VCPKG_NUGET_REPOSITORY: 'https://aaronrc.pkgs.visualstudio.com/bitcoin/_packaging/vcpkg-deps/nuget/v3/index.json'
+  VCPKG_BINARY_SOURCES: 'nuget,https://aaronrc.pkgs.visualstudio.com/bitcoin/_packaging/vcpkg-deps/nuget/v3/index.json,readwrite'
+  VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: 
+    secure: vcQ+C4CA8OTwWtyLHsFyaR6QOHdfXhuzclzEtKUgURTa4c9nP+nuB9DiMUz881r1KPVpdG31yGQ60qdP34v7l4ojBvQLX3EXbAubAwTYuvKe+vOqZ6yAcuYRdjyTdt4uhcb14vgdKBIEQJmY5OmlQwELYMbaj6RfQB8nrCl5tA2IqJtnGwLUUzIy6aMY6r3GAkWxcCFRZ8ECPy4nkqUFzsT82JQC+p/UZjyQzxA+4AGHLwufosP9++qS6QC4BrceBkJq9MOCvjP0omB9/HYZx7GYRfPPk6x1Vgx48MVgtW0=
+build_script:
+- ps: |
+      Write-Host "VCPKG_TAG: $env:VCPKG_TAG."
+      Write-Host "VCPKG_BINARY_SOURCES: $env:VCPKG_BINARY_SOURCES."
+      Write-Host "VCPKG_NUGET_REPOSITORY: $env:VCPKG_NUGET_REPOSITORY."
+      cd c:\tools\vcpkg
+      $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
+      git -c advice.detachedHead=false checkout $env:VCPKG_TAG
+      git pull origin $env:VCPKG_TAG
+      .\bootstrap-vcpkg.bat
+      nuget setApiKey x -Source $env:VCPKG_NUGET_REPOSITORY
+      cd "$env:APPVEYOR_BUILD_FOLDER\build_msvc"
+      vcpkg install --triplet x64-windows-static --debug
