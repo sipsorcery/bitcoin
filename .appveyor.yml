@@ -14,15 +14,17 @@ environment:
 install:
 # Disable zmq test for now since python zmq library on Windows would cause Access violation sometimes.
 # - cmd: pip install zmq
-# Powershell block below is to install the c++ dependencies via vcpkg. The pseudo code is:
+# The powershell block below is to set up vcpkg to install the c++ dependencies. The pseudo code is:
 #    a. Checkout the vcpkg source (including port files) for the specific checkout and build the vcpkg binary,
-#    b. Install the missing packages using the vcpkg manifest.
+#    b. Append a setting to a vcpkg config file to only do release builds of dependencies (skipping deubg builds saves ~5 mins).
+# Note originally this block also installed the dependencies using 'vcpkg install' but that is now done as part of
+# the msbuild command in order to take advantage of vcpkg mainfests, and optionally vcpkg binary caching.
 - ps: |
       cd c:\tools\vcpkg
       $env:GIT_REDIRECT_STDERR = '2>&1' # git is writing non-errors to STDERR when doing git pull. Send to STDOUT instead.
-      git pull origin master > $null
       git -c advice.detachedHead=false checkout $env:VCPKG_TAG
-      .\bootstrap-vcpkg.bat
+      git pull origin $env:VCPKG_TAG
+      .\bootstrap-vcpkg.bat > $null
       Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
       cd "$env:APPVEYOR_BUILD_FOLDER"
 before_build:
