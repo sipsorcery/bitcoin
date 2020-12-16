@@ -25,6 +25,8 @@ install:
       git -c advice.detachedHead=false checkout $env:VCPKG_TAG
       .\bootstrap-vcpkg.bat > $null
       Add-Content "C:\tools\vcpkg\triplets\$env:PLATFORM-windows-static.cmake" "set(VCPKG_BUILD_TYPE release)"
+      cd "$env:APPVEYOR_BUILD_FOLDER/build_msvc"
+      vcpkg install --triplet $env:PLATFORM-windows-static --debug
       cd "$env:APPVEYOR_BUILD_FOLDER"
 before_build:
 # Powershell block below is to download and extract the Qt static libraries. The pseudo code is:
@@ -45,7 +47,7 @@ before_build:
       }
 - cmd: python build_msvc\msvc-autogen.py
 build_script:
-- cmd: msbuild /p:TrackFileAccess=false build_msvc\bitcoin.sln /m /v:q /nologo
+- cmd: msbuild /p:TrackFileAccess=false build_msvc\bitcoin.sln /m /nologo
 after_build:
 #- 7z a bitcoin-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\build_msvc\%platform%\%configuration%\*.exe
 test_script:
